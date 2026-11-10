@@ -1,2 +1,2 @@
-# MeloTutorr
+# MeloTutor
 MeloTutor – Swahili Tutoring Platform
