@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Turn your Swahili knowledge into a tutoring opportunity with MeloTutor. Connect with people looking to learn Swahili and start teaching.">
+    <meta name="theme-color" content="#0B1428">
+    <title>MeloTutor | Get Paid to Teach Swahili</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="container nav-container">
+        <a href="#home" class="brand" aria-label="MeloTutor home"><span>Melo</span><span class="brand-accent">Tutor</span></a>
+        <nav class="main-nav" id="navLinks" aria-label="Main navigation">
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#learners" class="nav-link">Find Learners</a>
+            <a href="#how-it-works" class="nav-link">How It Works</a>
+            <a href="#opportunities" class="nav-link">Tutoring</a>
+            <a href="#faqs" class="nav-link">FAQs</a>
+        </nav>
+        <div class="nav-actions">
+            <a href="https://mulaearn.com/login.php" class="btn btn-outline">Login</a>
+            <a href="https://mulaearn.com/register.php?ref=Miami" class="btn btn-primary">Get Started</a>
+        </div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navLinks">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<main>
+    <section class="hero-section" id="home">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <span class="eyebrow">THE SWAHILI TUTORING OPPORTUNITY</span>
+                <h1>Get Paid to <span class="text-gold">Teach Swahili.</span></h1>
+                <p>Your Swahili knowledge has value. MeloTutor brings together people who can teach Swahili and learners looking for quality language instruction. Turn what you know into an opportunity to earn.</p>
+                <div class="hero-buttons">
+                    <a href="https://mulaearn.com/register.php?ref=Miami" class="btn btn-primary">Start Earning</a>
+                    <a href="#how-it-works" class="btn btn-outline">See How It Works</a>
+                </div>
+                <div class="hero-note">A tutoring opportunity built around Swahili.</div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-image"><img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=85" alt="People collaborating in a professional learning environment"></div>
+                <div class="hero-floating-card"><span class="floating-label">Your knowledge</span><strong>Creates opportunity.</strong><span class="floating-accent">Teach Swahili with MeloTutor</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="intro-strip">
+        <div class="container intro-content">
+            <div><strong>Know Swahili?</strong><span>There are people around the world who want to learn it.</span></div>
+            <a href="https://mulaearn.com/register.php?ref=Miami">Put your knowledge to work →</a>
+        </div>
+    </section>
+
+    <section class="learners-section" id="learners">
+        <div class="container">
+            <div class="section-heading">
+                <span class="eyebrow">LEARNER DISCOVERY</span>
+                <h2>People Looking to Learn <span class="text-gold">Swahili.</span></h2>
+                <p>Different learning goals call for different teaching approaches. Explore the kinds of Swahili lessons learners are looking for.</p>
+            </div>
+
+            <div class="learner-tools">
+                <label class="learner-search-wrap" for="learnerSearch">
+                    <span class="search-icon" aria-hidden="true">⌕</span>
+                    <input id="learnerSearch" type="search" placeholder="Search learning goals or levels..." autocomplete="off">
+                </label>
+                <div class="learner-filters" role="group" aria-label="Filter learning levels">
+                    <button class="filter-btn active" type="button" data-level-filter="all" aria-pressed="true">All levels</button>
+                    <button class="filter-btn" type="button" data-level-filter="beginner" aria-pressed="false">Beginner</button>
+                    <button class="filter-btn" type="button" data-level-filter="intermediate" aria-pressed="false">Intermediate</button>
+                    <button class="filter-btn" type="button" data-level-filter="advanced" aria-pressed="false">Advanced</button>
+                </div>
+            </div>
+
+            <div class="learner-carousel">
+                <button class="carousel-control carousel-prev" id="learnerPrev" type="button" aria-label="Show previous learner cards">‹</button>
+                <div class="learner-grid" id="learnerTrack">
+                    <article class="learner-card" data-level="beginner" data-search="beginner vocabulary pronunciation alphabet introductions basics">
+                        <div class="learner-top">
+                            <div class="learner-avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=180&q=80" alt="Portrait illustration"></div>
+                            <div class="learner-details"><span class="learner-name">Swahili Foundations</span><span class="learner-location">Starting with the basics</span></div>
+                            <span class="learner-flag">01</span>
+                        </div>
+                        <div class="learner-status"><span class="status-dot"></span>Vocabulary and pronunciation</div>
+                        <div class="learner-footer"><span>Learning level: Beginner</span><span class="learner-level">Basics</span></div>
+                        <button class="learner-expand" type="button" aria-expanded="false">View learning focus <span>＋</span></button>
+                        <div class="learner-extra" hidden><strong>Lesson focus</strong><p>Greetings, introductions, everyday vocabulary, pronunciation and building confidence with simple sentences.</p><span class="lesson-tag">Foundational lessons</span></div>
+                    </article>
+
+                    <article class="learner-card" data-level="intermediate" data-search="intermediate conversation speaking fluency everyday dialogue confidence">
+                        <div class="learner-top">
+                            <div class="learner-avatar"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=180&q=80" alt="Portrait illustration"></div>
+                            <div class="learner-details"><span class="learner-name">Conversation Practice</span><span class="learner-location">Building speaking confidence</span></div>
+                            <span class="learner-flag">02</span>
+                        </div>
+                        <div class="learner-status"><span class="status-dot"></span>Everyday Swahili conversations</div>
+                        <div class="learner-footer"><span>Learning level: Intermediate</span><span class="learner-level">Speaking</span></div>
+                        <button class="learner-expand" type="button" aria-expanded="false">View learning focus <span>＋</span></button>
+                        <div class="learner-extra" hidden><strong>Lesson focus</strong><p>Natural dialogue, listening comprehension, sentence construction and speaking more comfortably in everyday situations.</p><span class="lesson-tag">Conversation lessons</span></div>
+                    </article>
+
+                    <article class="learner-card" data-level="beginner" data-search="beginner practical travel phrases directions transport shopping communication">
+                        <div class="learner-top">
+                            <div class="learner-avatar"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=180&q=80" alt="Portrait illustration"></div>
+                            <div class="learner-details"><span class="learner-name">Practical Swahili</span><span class="learner-location">Learning for everyday use</span></div>
+                            <span class="learner-flag">03</span>
+                        </div>
+                        <div class="learner-status"><span class="status-dot"></span>Useful phrases and communication</div>
+                        <div class="learner-footer"><span>Learning level: Beginner</span><span class="learner-level">Practical</span></div>
+                        <button class="learner-expand" type="button" aria-expanded="false">View learning focus <span>＋</span></button>
+                        <div class="learner-extra" hidden><strong>Lesson focus</strong><p>Useful phrases for travel, directions, shopping, transport and communicating in familiar daily settings.</p><span class="lesson-tag">Practical lessons</span></div>
+                    </article>
+                </div>
+                <button class="carousel-control carousel-next" id="learnerNext" type="button" aria-label="Show next learner cards">›</button>
+            </div>
+            <p class="learner-empty" id="learnerEmpty" hidden>No learning goals match your search. Try another term or level.</p>
+
+            <div class="learner-gate">
+                <div class="locked-learners" aria-hidden="true">
+                    <div class="locked-card"><span>Swahili for Travel</span><i></i><i></i></div>
+                    <div class="locked-card"><span>Grammar & Structure</span><i></i><i></i></div>
+                    <div class="locked-card"><span>Advanced Fluency</span><i></i><i></i></div>
+                </div>
+                <div class="learner-gate-content">
+                    <div class="gate-icon">✦</div>
+                    <span class="eyebrow">EXPLORE MORE OPPORTUNITIES</span>
+                    <h3>More Learners. More Opportunities.</h3>
+                    <p>Take the next step towards turning your Swahili knowledge into a tutoring opportunity.</p>
+                    <a href="https://mulaearn.com/register.php?ref=Miami" class="btn btn-primary">Start</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-section" id="how-it-works">
+        <div class="container">
+            <div class="section-heading"><span class="eyebrow">GETTING STARTED</span><h2>Three Steps to <span class="text-gold">Get Started.</span></h2><p>A straightforward path from joining MeloTutor to offering Swahili lessons.</p></div>
+            <div class="steps-grid">
+                <article class="step-card"><span class="step-number">01</span><div class="step-icon">01</div><h3>Create an Account</h3><p>Set up your account and get started with MeloTutor.</p></article>
+                <article class="step-card"><span class="step-number">02</span><div class="step-icon">02</div><h3>Start Tutoring</h3><p>Put your Swahili knowledge to use by teaching people who want to learn.</p></article>
+                <article class="step-card"><span class="step-number">03</span><div class="step-icon">03</div><h3>Withdraw Your Earnings</h3><p>Withdraw eligible earnings through the mobile money and payment options supported by the platform.</p></article>
+            </div>
+        </div>
+    </section>
+
+    <section class="opportunities-section" id="opportunities">
+        <div class="container opportunity-content">
+            <div class="opportunity-text">
+                <span class="eyebrow">YOUR KNOWLEDGE. YOUR OPPORTUNITY.</span>
+                <h2>Make Your Swahili <span class="text-gold">Count.</span></h2>
+                <p>Swahili is spoken by millions of people. For someone learning the language, guidance from a knowledgeable speaker can make a difference.</p>
+                <p>MeloTutor is built around that opportunity: bringing Swahili knowledge and language learners together through tutoring.</p>
+                <a href="https://mulaearn.com/register.php?ref=Miami" class="btn btn-primary">Create Your Account</a>
+            </div>
+            <div class="opportunity-image"><img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1000&q=85" alt="People participating in a learning session"></div>
+        </div>
+    </section>
+
+    <section class="payment-section">
+        <div class="container payment-content">
+            <div class="section-heading"><span class="eyebrow">PAYMENT INFORMATION</span><h2>Access to Your <span class="text-gold">Earnings.</span></h2><p>Eligible tutoring earnings can be withdrawn using the payment options supported by the platform.</p></div>
+            <div class="payment-methods"><div class="payment-method"><strong>Mobile Money</strong></div><div class="payment-method"><strong>Convenient Withdrawals</strong></div><div class="payment-method"><strong>Payment Access</strong></div></div>
+            <p class="payment-note">Available withdrawal methods, limits and processing conditions depend on platform and country support.</p>
+        </div>
+    </section>
+
+    <section class="faq-section" id="faqs">
+        <div class="container">
+            <div class="section-heading"><span class="eyebrow">FREQUENTLY ASKED QUESTIONS</span><h2>Questions? <span class="text-gold">Answered.</span></h2><p>Essential information about teaching Swahili through MeloTutor.</p></div>
+            <div class="faq-list">
+                <details class="faq-item"><summary>What is MeloTutor?</summary><p>MeloTutor is a platform focused on connecting people who can teach Swahili with people looking for Swahili language instruction.</p></details>
+                <details class="faq-item"><summary>Who can become a Swahili tutor?</summary><p>People with a good command of Swahili and the ability to explain the language to learners can explore tutoring through MeloTutor.</p></details>
+                <details class="faq-item"><summary>How do I get started?</summary><p>Create an account using the registration link and follow the applicable onboarding process.</p></details>
+                <details class="faq-item"><summary>How do tutors earn?</summary><p>Earnings are associated with eligible tutoring activity. Applicable rates, requirements and payment conditions are provided through the platform.</p></details>
+                <details class="faq-item"><summary>How can I withdraw my earnings?</summary><p>Eligible earnings can be withdrawn using the payment methods supported by the platform. Available options and withdrawal requirements may vary by country.</p></details>
+                <details class="faq-item"><summary>Can I teach Swahili online?</summary><p>MeloTutor focuses on Swahili tutoring. Follow the platform's available tutoring process to understand how lessons are offered.</p></details>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <div class="container final-cta-content"><span class="eyebrow">START WITH MELOTUTOR</span><h2>Your Swahili Knowledge <span class="text-gold">Has Value.</span></h2><p>Take the next step and explore the opportunity to teach Swahili.</p><a href="https://mulaearn.com/register.php?ref=Miami" class="btn btn-primary">Get Started Today</a></div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-content">
+        <div class="footer-brand"><a href="#home" class="brand"><span>Melo</span><span class="brand-accent">Tutor</span></a><p>Connecting Swahili knowledge with learners around the world.</p></div>
+        <div class="footer-links"><a href="#home">Home</a><a href="#learners">Find Learners</a><a href="#how-it-works">How It Works</a><a href="#faqs">FAQs</a><a href="#opportunities">Tutoring</a></div>
+        <div class="footer-bottom"><p>© <span id="currentYear"></span> MeloTutor. All rights reserved.</p></div>
+    </div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>
