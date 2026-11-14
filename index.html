@@ -1,2887 +1,1258 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MeloTutor connects Swahili tutors with people looking for language lessons. Explore tutoring opportunities and become a verified tutor.">
-    <meta name="theme-color" content="#060B16">
-    <title>MeloTutor | Swahili Tutoring Platform</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        /* =========================================
-           MELOTUTOR — FINTECH OBSIDIAN & GOLD EDITION
-        ========================================= */
-        :root {
-            --white: #ffffff;
-            --grey: #e5e5e5;
-            --muted: #94a3b8;
-            --muted-strong: #cbd5e1;
-            --gold: #fca311;
-            --gold-bright: #ffb732;
-            --gold-dim: rgba(252, 163, 17, 0.14);
-            --gold-border: rgba(252, 163, 17, 0.34);
-            --emerald: #10b981;
-            --emerald-dim: rgba(16, 185, 129, 0.14);
-            --bg-void: #060b16;
-            --navy-dark: #0b1428;
-            --navy: #111d36;
-            --navy-light: #182746;
-            --surface-glass: rgba(17, 29, 54, 0.68);
-            --border-hairline: rgba(255, 255, 255, 0.08);
-            --border-strong: rgba(255, 255, 255, 0.16);
-            --black: #05080f;
-            --font-heading: 'Manrope', sans-serif;
-            --font-body: 'DM Sans', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            --container: 1220px;
-            --radius: 16px;
-            --radius-sm: 10px;
-            --transition: 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-            --tabular: tabular-nums;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 136px;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background-color: var(--bg-void);
-            color: var(--white);
-            line-height: 1.65;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        button, input {
-            font: inherit;
-        }
-
-        img {
-            display: block;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        [hidden] {
-            display: none !important;
-        }
-
-        .container {
-            width: min(92%, var(--container));
-            margin: 0 auto;
-        }
-
-        .text-gold {
-            color: var(--gold);
-        }
-
-        .mono {
-            font-family: var(--font-mono);
-            font-variant-numeric: var(--tabular);
-        }
-
-        /* PILL EYEBROW BADGE */
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--gold);
-            background: rgba(252, 163, 17, 0.08);
-            border: 1px solid rgba(252, 163, 17, 0.24);
-            padding: 6px 14px;
-            border-radius: 999px;
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            font-weight: 600;
-            letter-spacing: 1.4px;
-            text-transform: uppercase;
-            margin-bottom: 18px;
-        }
-
-        .eyebrow::before {
-            content: "";
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--gold);
-            box-shadow: 0 0 8px var(--gold);
-        }
-
-        /* BUTTONS */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            min-height: 48px;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-family: var(--font-heading);
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            transition: var(--transition);
-            border: 1px solid transparent;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #ffb32c 0%, #fca311 100%);
-            color: var(--black);
-            box-shadow: 0 8px 24px rgba(252, 163, 17, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.45);
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #ffc14d 0%, #fca311 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(252, 163, 17, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-        }
-
-        .btn-outline {
-            color: var(--white);
-            border-color: var(--border-strong);
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(8px);
-        }
-
-        .btn-outline:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            background: rgba(252, 163, 17, 0.06);
-            transform: translateY(-1px);
-        }
-
-        .btn svg {
-            width: 16px;
-            height: 16px;
-            transition: transform 0.2s ease;
-        }
-
-        .btn:hover svg {
-            transform: translateX(3px);
-        }
-
-        /* =========================================
-           LARGE STYLISH DESKTOP HEADER (FINTECH)
-        ========================================= */
-        .site-header {
-            width: 100%;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: rgba(6, 11, 22, 0.86);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-bottom: 1px solid var(--border-hairline);
-            transition: background 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .site-header.scrolled {
-            background: rgba(6, 11, 22, 0.96);
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
-        }
-
-        /* Top Live Telemetry Strip */
-        .header-telemetry {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(11, 20, 40, 0.65);
-            font-size: 0.74rem;
-            color: var(--muted);
-        }
-
-        .telemetry-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            min-height: 38px;
-        }
-
-        .telemetry-group {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .telemetry-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            letter-spacing: 0.02em;
-            color: var(--muted-strong);
-        }
-
-        .live-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--emerald);
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.55);
-            animation: emerald-pulse 2s infinite;
-        }
-
-        @keyframes emerald-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.55); }
-            70% { box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-
-        .telemetry-divider {
-            width: 1px;
-            height: 13px;
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .telemetry-ticker {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--muted-strong);
-            overflow: hidden;
-            max-width: 460px;
-        }
-
-        .ticker-tag {
-            background: var(--gold-dim);
-            color: var(--gold);
-            border: 1px solid rgba(252, 163, 17, 0.25);
-            padding: 1px 7px;
-            border-radius: 4px;
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            flex-shrink: 0;
-        }
-
-        .ticker-text {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .ticker-text.updating {
-            opacity: 0;
-            transform: translateY(-4px);
-        }
-
-        /* Main Large Desktop Nav Tier */
-        .nav-container {
-            min-height: 92px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 28px;
-            padding: 14px 0;
-            transition: min-height 0.25s ease;
-        }
-
-        .site-header.scrolled .nav-container {
-            min-height: 78px;
-        }
-
-        /* Brand Logo — Scoped cleanly so Footer never breaks */
-        .brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 13px;
-            font-family: var(--font-heading);
-            font-size: 1.95rem;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            line-height: 1;
-            flex-shrink: 0;
-        }
-
-        .brand-mark {
-            width: 42px;
-            height: 42px;
-            border-radius: 11px;
-            background: linear-gradient(145deg, rgba(252, 163, 17, 0.22), rgba(252, 163, 17, 0.05));
-            border: 1px solid rgba(252, 163, 17, 0.45);
-            display: grid;
-            place-items: center;
-            box-shadow: 0 6px 20px rgba(252, 163, 17, 0.16);
-            transition: transform 0.25s ease;
-        }
-
-        .brand:hover .brand-mark {
-            transform: rotate(-4deg) scale(1.04);
-        }
-
-        .brand-wordmark {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .brand-title {
-            display: flex;
-            align-items: center;
-            font-size: 1.9rem;
-            letter-spacing: -0.045em;
-        }
-
-        .brand-accent {
-            color: var(--gold);
-        }
-
-        .brand-sub {
-            font-family: var(--font-mono);
-            font-size: 0.62rem;
-            font-weight: 600;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-top: 3px;
-        }
-
-        /* Center Fintech Pill Navigation */
-        .main-nav {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.025);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .nav-link {
-            padding: 9px 15px;
-            border-radius: 8px;
-            font-family: var(--font-heading);
-            font-size: 0.86rem;
-            font-weight: 600;
-            color: #cbd5e1;
-            transition: var(--transition);
-            white-space: nowrap;
-        }
-
-        .nav-link:hover {
-            color: var(--white);
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .nav-link.active {
-            color: var(--gold);
-            background: rgba(252, 163, 17, 0.12);
-            box-shadow: inset 0 0 0 1px rgba(252, 163, 17, 0.25);
-        }
-
-        /* Header Actions */
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-
-        .nav-actions .btn {
-            min-height: 44px;
-            padding: 10px 18px;
-            font-size: 0.85rem;
-        }
-
-        .menu-toggle {
-            display: none;
-            width: 44px;
-            height: 44px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 10px;
-            cursor: pointer;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
-            flex-shrink: 0;
-        }
-
-        .menu-toggle span {
-            display: block;
-            width: 20px;
-            height: 2px;
-            background: var(--white);
-            border-radius: 2px;
-            transition: var(--transition);
-        }
-
-        /* =========================================
-           HERO SECTION — FINTECH GRID & TELEMETRY
-        ========================================= */
-        .hero-section {
-            position: relative;
-            padding: 76px 0 96px;
-            background:
-                radial-gradient(circle at 50% 0%, rgba(252, 163, 17, 0.13), transparent 46%),
-                radial-gradient(circle at 85% 40%, rgba(56, 189, 248, 0.06), transparent 36%),
-                linear-gradient(180deg, #070d1b 0%, #0b1428 100%);
-            overflow: hidden;
-        }
-
-        /* Subtle fintech architectural grid overlay */
-        .hero-section::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 56px 56px;
-            mask-image: radial-gradient(ellipse at center, black 35%, transparent 78%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 78%);
-            pointer-events: none;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: 1fr;
-            align-items: center;
-            gap: 44px;
-            text-align: center;
-        }
-
-        .hero-text {
-            max-width: 880px;
-            margin: 0 auto;
-        }
-
-        .hero-text h1 {
-            font-family: var(--font-heading);
-            font-size: clamp(2.85rem, 5.8vw, 5.15rem);
-            line-height: 1.08;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            margin-bottom: 24px;
-        }
-
-        .hero-text p {
-            color: #cbd5e1;
-            max-width: 690px;
-            margin: 0 auto;
-            font-size: 1.06rem;
-            line-height: 1.82;
-        }
-
-        .hero-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 14px;
-            margin-top: 34px;
-        }
-
-        .hero-note {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 24px;
-            font-family: var(--font-mono);
-            font-size: 0.78rem;
-            color: var(--muted);
-        }
-
-        /* Hero Visual Showcase + Live Telemetry Overlay */
-        .hero-visual {
-            position: relative;
-            width: min(100%, 920px);
-            margin: 4px auto 0;
-            padding: 10px;
-            border-radius: 22px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02));
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 32px 90px rgba(0, 0, 0, 0.55);
-        }
-
-        .hero-image {
-            position: relative;
-            height: 390px;
-            overflow: hidden;
-            border-radius: 15px;
-        }
-
-        .hero-image::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(6, 11, 22, 0.08) 40%, rgba(6, 11, 22, 0.72) 100%);
-            pointer-events: none;
-        }
-
-        .hero-image img {
-            height: 100%;
-            transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .hero-visual:hover .hero-image img {
-            transform: scale(1.03);
-        }
-
-        /* Floating Fintech Glass Card (Left) */
-        .hero-floating-card {
-            position: absolute;
-            bottom: -18px;
-            left: 24px;
-            z-index: 3;
-            background: rgba(11, 20, 40, 0.92);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            color: var(--white);
-            padding: 18px 22px;
-            border-radius: 14px;
-            border: 1px solid rgba(252, 163, 17, 0.38);
-            min-width: 265px;
-            text-align: left;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
-        }
-
-        .floating-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 6px;
-        }
-
-        .floating-label {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--muted);
-        }
-
-        .floating-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 2px 8px;
-            border-radius: 999px;
-            background: var(--emerald-dim);
-            color: #34d399;
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            font-weight: 700;
-        }
-
-        .hero-floating-card strong {
-            display: block;
-            font-family: var(--font-heading);
-            font-size: 1.08rem;
-            font-weight: 800;
-            margin: 2px 0 4px;
-        }
-
-        .floating-accent {
-            display: block;
-            font-size: 0.78rem;
-            color: var(--gold);
-            font-weight: 600;
-        }
-
-        /* Floating Live Session Metrics Pill (Right) */
-        .hero-telemetry-widget {
-            position: absolute;
-            bottom: -18px;
-            right: 24px;
-            z-index: 3;
-            background: rgba(11, 20, 40, 0.92);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 16px 20px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            text-align: left;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
-        }
-
-        .widget-stat span {
-            display: block;
-            font-family: var(--font-mono);
-            font-size: 0.66rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--muted);
-        }
-
-        .widget-stat strong {
-            display: block;
-            font-family: var(--font-mono);
-            font-size: 1.02rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-top: 2px;
-        }
-
-        .widget-divider {
-            width: 1px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        /* =========================================
-           INTRO STRIP (ALIGNED GOLD BAR)
-        ========================================= */
-        .intro-strip {
-            background: linear-gradient(90deg, #f59e0b 0%, #fca311 50%, #ffb732 100%);
-            color: var(--black);
-            padding: 20px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.35);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-        }
-
-        .intro-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .intro-copy {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: baseline;
-            gap: 6px 12px;
-        }
-
-        .intro-copy strong {
-            font-family: var(--font-heading);
-            font-size: 1.08rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-        }
-
-        .intro-copy span {
-            font-size: 0.94rem;
-            font-weight: 500;
-            color: rgba(5, 8, 15, 0.85);
-        }
-
-        .intro-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-family: var(--font-heading);
-            font-size: 0.88rem;
-            font-weight: 800;
-            padding: 8px 16px;
-            border-radius: 8px;
-            background: rgba(5, 8, 15, 0.1);
-            white-space: nowrap;
-            transition: var(--transition);
-        }
-
-        .intro-cta:hover {
-            background: rgba(5, 8, 15, 0.18);
-            transform: translateX(2px);
-        }
-
-        /* =========================================
-           SECTION HEADINGS (CONSISTENT RHYTHM)
-        ========================================= */
-        .section-heading {
-            max-width: 720px;
-            margin: 0 auto 52px;
-            text-align: center;
-        }
-
-        .section-heading h2 {
-            font-family: var(--font-heading);
-            font-size: clamp(2.05rem, 4vw, 2.95rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.18;
-            margin-bottom: 16px;
-        }
-
-        .section-heading p {
-            color: var(--muted);
-            font-size: 1rem;
-            line-height: 1.75;
-            max-width: 620px;
-            margin: 0 auto;
-        }
-
-        /* =========================================
-           LEARNER DISCOVERY SECTION
-        ========================================= */
-        .learners-section {
-            padding: 104px 0;
-            background: #091122;
-            border-bottom: 1px solid var(--border-hairline);
-        }
-
-        /* Live Request Feed Banner */
-        .live-feed-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            padding: 12px 18px;
-            margin-bottom: 24px;
-            border-radius: 12px;
-            background: rgba(17, 29, 54, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .live-feed-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 0;
-        }
-
-        .live-feed-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            background: var(--emerald-dim);
-            border: 1px solid rgba(16, 185, 129, 0.28);
-            color: #34d399;
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            flex-shrink: 0;
-        }
-
-        .live-feed-message {
-            font-size: 0.85rem;
-            color: var(--muted-strong);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            transition: opacity 0.25s ease;
-        }
-
-        .live-feed-meta {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            color: var(--muted);
-            flex-shrink: 0;
-        }
-              /* Filter & Search Bar */
-        .learner-tools {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 18px;
-            margin-bottom: 28px;
-        }
-
-        .learner-search-wrap {
-            position: relative;
-            display: flex;
-            align-items: center;
-            flex: 1;
-            max-width: 410px;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 15px;
-            color: #64748b;
-            display: grid;
-            place-items: center;
-            pointer-events: none;
-        }
-
-        .learner-search-wrap input {
-            width: 100%;
-            height: 48px;
-            padding: 0 16px 0 44px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 10px;
-            background: #060b16;
-            color: var(--white);
-            font-size: 0.9rem;
-            outline: none;
-            transition: var(--transition);
-        }
-
-        .learner-search-wrap input::placeholder {
-            color: #64748b;
-        }
-
-        .learner-search-wrap input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(252, 163, 17, 0.14);
-        }
-
-        .learner-filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .filter-btn {
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.03);
-            color: #cbd5e1;
-            padding: 9px 16px;
-            border-radius: 999px;
-            font-family: var(--font-heading);
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .filter-btn:hover {
-            border-color: rgba(252, 163, 17, 0.5);
-            color: var(--white);
-        }
-
-        .filter-btn.active {
-            background: var(--gold);
-            border-color: var(--gold);
-            color: var(--black);
-            box-shadow: 0 4px 16px rgba(252, 163, 17, 0.25);
-        }
-
-        /* Learner Cards Grid — Equal Height & Crisp Fintech Glass */
-        .learner-carousel {
-            position: relative;
-        }
-
-        .learner-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 22px;
-            align-items: stretch;
-        }
-
-        .learner-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 26px;
-            border-radius: var(--radius);
-            background: linear-gradient(160deg, #13203b 0%, #0d1629 100%);
-            color: var(--white);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
-            transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
-            animation: card-enter 0.45s both;
-        }
-
-        .learner-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 22px 48px rgba(0, 0, 0, 0.42);
-            border-color: rgba(252, 163, 17, 0.45);
-        }
-
-        .learner-card:nth-child(2) { animation-delay: 0.06s; }
-        .learner-card:nth-child(3) { animation-delay: 0.12s; }
-        .learner-card:nth-child(4) { animation-delay: 0.18s; }
-
-        @keyframes card-enter {
-            from { opacity: 0; transform: translateY(14px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .learner-top {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .learner-avatar {
-            width: 56px;
-            height: 56px;
-            flex-shrink: 0;
-            border-radius: 14px;
-            overflow: hidden;
-            border: 1px solid rgba(252, 163, 17, 0.35);
-            background: #1a2947;
-        }
-
-        .learner-avatar img {
-            height: 100%;
-        }
-
-        .learner-details {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .learner-name {
-            display: block;
-            font-family: var(--font-heading);
-            font-size: 1.05rem;
-            font-weight: 800;
-            letter-spacing: -0.01em;
-            color: var(--white);
-        }
-
-        .learner-location {
-            display: block;
-            font-size: 0.82rem;
-            color: var(--muted);
-            margin-top: 2px;
-        }
-
-        .learner-flag {
-            font-family: var(--font-mono);
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--gold);
-            background: rgba(252, 163, 17, 0.1);
-            border: 1px solid rgba(252, 163, 17, 0.24);
-            padding: 5px 10px;
-            border-radius: 8px;
-            letter-spacing: 0.06em;
-        }
-
-        .learner-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
-            padding: 12px 14px;
-            background: rgba(6, 11, 22, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            font-size: 0.84rem;
-            color: #e2e8f0;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--gold);
-            flex-shrink: 0;
-            box-shadow: 0 0 0 0 rgba(252, 163, 17, 0.45);
-            animation: dot-pulse 2.2s infinite;
-        }
-
-        @keyframes dot-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(252, 163, 17, 0.45); }
-            70% { box-shadow: 0 0 0 7px rgba(252, 163, 17, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(252, 163, 17, 0); }
-        }
-
-        .learner-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-top: 16px;
-            font-size: 0.8rem;
-            color: var(--muted);
-        }
-
-        .learner-level {
-            font-family: var(--font-mono);
-            color: var(--gold);
-            background: rgba(252, 163, 17, 0.1);
-            border: 1px solid rgba(252, 163, 17, 0.22);
-            padding: 4px 10px;
-            border-radius: 999px;
-            font-size: 0.72rem;
-            font-weight: 700;
-        }
-
-        .learner-expand {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 18px;
-            padding: 13px 0 0;
-            border: 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            background: transparent;
-            color: var(--gold);
-            font-family: var(--font-heading);
-            font-size: 0.82rem;
-            font-weight: 700;
-            text-align: left;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-
-        .learner-expand:hover {
-            color: var(--gold-bright);
-        }
-
-        .learner-expand span {
-            font-family: var(--font-mono);
-            font-size: 1.05rem;
-        }
-
-        .learner-extra {
-            padding-top: 14px;
-            color: #cbd5e1;
-            font-size: 0.84rem;
-            line-height: 1.72;
-            animation: reveal 0.25s ease;
-        }
-
-        .learner-extra strong {
-            display: block;
-            color: var(--white);
-            font-family: var(--font-heading);
-            font-size: 0.82rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 5px;
-        }
-
-        .learner-extra p {
-            margin-bottom: 12px;
-        }
-
-        .lesson-tag {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 6px;
-            background: rgba(252, 163, 17, 0.12);
-            border: 1px solid rgba(252, 163, 17, 0.25);
-            color: var(--gold);
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .learner-card.expanded {
-            border-color: rgba(252, 163, 17, 0.55);
-        }
-
-        .learner-empty {
-            margin: 28px 0;
-            padding: 28px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed rgba(255, 255, 255, 0.14);
-            text-align: center;
-            color: var(--muted-strong);
-            font-size: 0.92rem;
-        }
-
-        @keyframes reveal {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .carousel-control {
-            display: none;
-            width: 40px;
-            height: 40px;
-            position: absolute;
-            top: 50%;
-            z-index: 4;
-            transform: translateY(-50%);
-            border: 1px solid rgba(252, 163, 17, 0.55);
-            border-radius: 50%;
-            background: #060b16;
-            color: var(--gold);
-            font-size: 1.45rem;
-            line-height: 1;
-            cursor: pointer;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-        }
-
-        .carousel-control:disabled {
-            opacity: 0.3;
-            cursor: default;
-        }
-
-        .carousel-prev { left: -12px; }
-        .carousel-next { right: -12px; }
-
-        /* Locked Opportunity Vault Gate */
-        .learner-gate {
-            position: relative;
-            min-height: 290px;
-            margin-top: 36px;
-            border: 1px solid rgba(252, 163, 17, 0.28);
-            border-radius: 18px;
-            overflow: hidden;
-            background: #060b16;
-        }
-
-        .locked-learners {
-            position: absolute;
-            inset: 0;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 28px;
-            filter: blur(5px);
-            opacity: 0.5;
-            transform: scale(1.02);
-            pointer-events: none;
-        }
-
-        .locked-card {
-            padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            background: linear-gradient(145deg, #162440, #0c1424);
-            color: #dce2ec;
-        }
-
-        .locked-card span {
-            display: block;
-            font-family: var(--font-heading);
-            font-weight: 800;
-            margin: 10px 0 18px;
-        }
-
-        .locked-card i {
-            display: block;
-            height: 8px;
-            width: 85%;
-            margin: 12px 0;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.16);
-        }
-
-        .locked-card i:last-child {
-            width: 55%;
-        }
-
-        .learner-gate::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center, rgba(6, 11, 22, 0.88) 35%, rgba(6, 11, 22, 0.62) 100%);
-        }
-
-        .learner-gate-content {
-            position: relative;
-            z-index: 2;
-            max-width: 540px;
-            margin: 0 auto;
-            padding: 46px 24px;
-            text-align: center;
-        }
-
-        .gate-icon {
-            width: 46px;
-            height: 46px;
-            display: grid;
-            place-items: center;
-            margin: 0 auto 16px;
-            border: 1px solid rgba(252, 163, 17, 0.45);
-            border-radius: 12px;
-            color: var(--gold);
-            background: rgba(252, 163, 17, 0.12);
-            font-size: 1.2rem;
-            box-shadow: 0 8px 24px rgba(252, 163, 17, 0.18);
-        }
-
-        .learner-gate-content .eyebrow {
-            margin-bottom: 12px;
-        }
-
-        .learner-gate-content h3 {
-            font-family: var(--font-heading);
-            font-size: clamp(1.45rem, 3vw, 1.9rem);
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-bottom: 10px;
-        }
-
-        .learner-gate-content p {
-            color: var(--muted-strong);
-            font-size: 0.92rem;
-            margin: 0 auto 24px;
-            max-width: 450px;
-        }
-
-        /* =========================================
-           HOW IT WORKS (PROCESS ARCHITECTURE)
-        ========================================= */
-        .how-section {
-            padding: 104px 0;
-            background: var(--bg-void);
-            border-bottom: 1px solid var(--border-hairline);
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            align-items: stretch;
-        }
-
-        .step-card {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            padding: 36px 30px;
-            min-height: 260px;
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-radius: var(--radius);
-            background: linear-gradient(160deg, #111d36 0%, #0a1224 100%);
-            overflow: hidden;
-            transition: var(--transition);
-        }
-
-        .step-card:hover {
-            border-color: rgba(252, 163, 17, 0.48);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 44px rgba(0, 0, 0, 0.38);
-        }
-
-        .step-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 26px;
-        }
-
-        .step-icon {
-            width: 50px;
-            height: 50px;
-            display: grid;
-            place-items: center;
-            border-radius: 12px;
-            background: rgba(252, 163, 17, 0.12);
-            border: 1px solid rgba(252, 163, 17, 0.3);
-            color: var(--gold);
-            font-family: var(--font-mono);
-            font-size: 0.95rem;
-            font-weight: 700;
-        }
-
-        .step-tag {
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        .step-card h3 {
-            font-family: var(--font-heading);
-            font-size: 1.18rem;
-            font-weight: 800;
-            letter-spacing: -0.01em;
-            margin-bottom: 12px;
-        }
-
-        .step-card p {
-            color: var(--muted);
-            font-size: 0.92rem;
-            line-height: 1.78;
-        }
-
-        /* =========================================
-           TUTOR STANDARDS (COMPLIANCE MATRIX)
-        ========================================= */
-        .standards-section {
-            padding: 104px 0;
-            background: #091122;
-            border-bottom: 1px solid var(--border-hairline);
-        }
-
-        .standards-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 20px;
-            max-width: 1040px;
-            margin: 0 auto;
-            align-items: stretch;
-        }
-
-        .standard-card {
-            display: flex;
-            flex-direction: column;
-            padding: 28px 30px;
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-left: 3px solid var(--gold);
-            border-radius: 14px;
-            background: linear-gradient(160deg, #121f3a 0%, #0b1428 100%);
-            transition: var(--transition);
-        }
-
-        .standard-card:hover {
-            border-color: rgba(252, 163, 17, 0.35);
-            border-left-color: var(--gold);
-            transform: translateY(-2px);
-        }
-
-        .standard-card .standard-number {
-            display: inline-block;
-            color: var(--gold);
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            margin-bottom: 10px;
-        }
-
-        .standard-card h3 {
-            font-family: var(--font-heading);
-            font-size: 1.08rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .standard-card p {
-            color: var(--muted-strong);
-            font-size: 0.89rem;
-            line-height: 1.78;
-        }
-
-        .standards-note {
-            max-width: 1040px;
-            margin: 26px auto 0;
-            padding: 18px 24px;
-            border: 1px solid rgba(252, 163, 17, 0.28);
-            border-radius: 12px;
-            color: var(--muted-strong);
-            font-size: 0.88rem;
-            line-height: 1.75;
-            background: rgba(252, 163, 17, 0.055);
-        }
-
-        .standards-note strong {
-            color: var(--gold);
-                                            }
-              /* =========================================
-           OPPORTUNITIES / ABOUT SECTION
-        ========================================= */
-        .opportunities-section {
-            padding: 104px 0;
-            background: var(--bg-void);
-            border-bottom: 1px solid var(--border-hairline);
-        }
-
-        .opportunity-content {
-            display: grid;
-            grid-template-columns: 1.05fr 0.95fr;
-            align-items: center;
-            gap: 64px;
-        }
-
-        .opportunity-text h2 {
-            font-family: var(--font-heading);
-            font-size: clamp(2.15rem, 4vw, 3.05rem);
-            font-weight: 800;
-            line-height: 1.18;
-            letter-spacing: -0.03em;
-            margin-bottom: 22px;
-        }
-
-        .opportunity-text p {
-            color: #cbd5e1;
-            font-size: 0.98rem;
-            line-height: 1.85;
-            margin-bottom: 18px;
-        }
-
-        .opportunity-text .btn {
-            margin-top: 14px;
-        }
-
-        .opportunity-image {
-            position: relative;
-            height: 410px;
-            overflow: hidden;
-            border-radius: 18px;
-            border: 1px solid rgba(252, 163, 17, 0.32);
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-        }
-
-        .opportunity-image img {
-            height: 100%;
-            transition: transform 0.6s ease;
-        }
-
-        .opportunity-image:hover img {
-            transform: scale(1.04);
-        }
-
-        /* =========================================
-           PAYMENT, INTERACTIVE ESTIMATOR & JOINING FEE
-        ========================================= */
-        .payment-section {
-            padding: 104px 0;
-            background: #091122;
-            border-bottom: 1px solid var(--border-hairline);
-        }
-
-        .payment-content {
-            text-align: center;
-        }
-
-        .payment-content .section-heading {
-            margin-bottom: 40px;
-        }
-
-        .payment-methods {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 18px;
-            max-width: 820px;
-            margin: 0 auto;
-        }
-
-        .payment-method {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 22px 24px;
-            border-radius: 14px;
-            background: linear-gradient(160deg, #13203b 0%, #0c1426 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--white);
-            font-family: var(--font-heading);
-            font-size: 0.98rem;
-            transition: var(--transition);
-        }
-
-        .payment-method:hover {
-            border-color: var(--gold);
-            transform: translateY(-2px);
-        }
-
-        .payment-method span {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        /* Interactive Fintech Session Estimator Card */
-        .estimator-box {
-            max-width: 820px;
-            margin: 32px auto 0;
-            padding: 28px 32px;
-            text-align: left;
-            border-radius: 16px;
-            background: linear-gradient(160deg, #111d36 0%, #091122 100%);
-            border: 1px solid rgba(255, 255, 255, 0.11);
-            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32);
-        }
-
-        .estimator-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-
-        .estimator-title {
-            font-family: var(--font-heading);
-            font-size: 1.08rem;
-            font-weight: 800;
-        }
-
-        .estimator-badge {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--muted-strong);
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 4px 10px;
-            border-radius: 6px;
-        }
-
-        .estimator-controls {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            align-items: center;
-            gap: 28px;
-        }
-
-        .slider-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 12px;
-        }
-
-        .slider-header label {
-            font-size: 0.86rem;
-            color: var(--muted-strong);
-        }
-
-        .slider-value {
-            font-family: var(--font-mono);
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--gold);
-        }
-
-        input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 7px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.12);
-            outline: none;
-            cursor: pointer;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--gold);
-            border: 3px solid #060b16;
-            box-shadow: 0 0 12px rgba(252, 163, 17, 0.6);
-            cursor: pointer;
-        }
-
-        input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--gold);
-            border: 3px solid #060b16;
-            box-shadow: 0 0 12px rgba(252, 163, 17, 0.6);
-            cursor: pointer;
-        }
-
-        .estimator-output {
-            padding: 16px 20px;
-            border-radius: 12px;
-            background: rgba(6, 11, 22, 0.72);
-            border: 1px solid rgba(252, 163, 17, 0.25);
-        }
-
-        .estimator-output span {
-            display: block;
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--muted);
-        }
-
-        .estimator-output strong {
-            display: block;
-            font-family: var(--font-mono);
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--gold);
-            margin-top: 4px;
-        }
-
-        .estimator-disclaimer {
-            margin-top: 14px;
-            font-size: 0.76rem;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        /* Joining Fee Card */
-        .joining-fee {
-            max-width: 820px;
-            margin: 26px auto 0;
-            padding: 30px 32px;
-            text-align: left;
-            border: 1px solid rgba(252, 163, 17, 0.38);
-            border-radius: 16px;
-            background: linear-gradient(145deg, #162440 0%, #0d1629 100%);
-        }
-
-        .joining-fee .eyebrow {
-            margin-bottom: 12px;
-        }
-
-        .joining-fee h3 {
-            font-family: var(--font-heading);
-            font-size: 1.32rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .joining-fee p {
-            color: var(--muted-strong);
-            font-size: 0.9rem;
-            line-height: 1.8;
-        }
-
-        .payment-note {
-            max-width: 720px;
-            margin: 24px auto 0;
-            color: var(--muted);
-            font-size: 0.8rem;
-        }
-
-        /* =========================================
-           FAQ ACCORDION
-        ========================================= */
-        .faq-section {
-            padding: 104px 0;
-            background: var(--bg-void);
-        }
-
-        .faq-list {
-            max-width: 860px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-radius: 12px;
-            background: #0e182e;
-            overflow: hidden;
-            transition: var(--transition);
-        }
-
-        .faq-item:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .faq-item[open] {
-            border-color: rgba(252, 163, 17, 0.45);
-            background: #121f3a;
-        }
-
-        .faq-item summary {
-            position: relative;
-            padding: 21px 56px 21px 24px;
-            cursor: pointer;
-            list-style: none;
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 0.98rem;
-            line-height: 1.45;
-        }
-
-        .faq-item summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .faq-item summary::after {
-            content: '+';
-            position: absolute;
-            right: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gold);
-            font-family: var(--font-mono);
-            font-size: 1.4rem;
-            font-weight: 500;
-        }
-
-        .faq-item[open] summary::after {
-            content: '−';
-        }
-
-        .faq-item p {
-            padding: 0 24px 22px;
-            color: var(--muted-strong);
-            font-size: 0.9rem;
-            line-height: 1.82;
-        }
-
-        /* =========================================
-           FINAL CTA & FOOTER
-        ========================================= */
-        .final-cta {
-            padding: 104px 0;
-            text-align: center;
-            background:
-                radial-gradient(circle at 50% 100%, rgba(252, 163, 17, 0.16), transparent 55%),
-                linear-gradient(180deg, #0b1428 0%, #060b16 100%);
-            border-top: 1px solid var(--border-hairline);
-        }
-
-        .final-cta-content {
-            max-width: 760px;
-        }
-
-        .final-cta h2 {
-            font-family: var(--font-heading);
-            font-size: clamp(2.1rem, 4.5vw, 3.35rem);
-            font-weight: 800;
-            line-height: 1.18;
-            letter-spacing: -0.035em;
-            margin-bottom: 18px;
-        }
-
-        .final-cta p {
-            color: var(--muted-strong);
-            font-size: 1.02rem;
-            margin-bottom: 30px;
-        }
-
-        .site-footer {
-            padding: 64px 0 32px;
-            background: #040811;
-            border-top: 1px solid var(--border-hairline);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            align-items: start;
-            gap: 36px;
-        }
-
-        .footer-brand .brand {
-            font-size: 1.7rem;
-        }
-
-        .footer-brand p {
-            max-width: 360px;
-            margin-top: 14px;
-            color: var(--muted);
-            font-size: 0.88rem;
-            line-height: 1.7;
-        }
-
-        .footer-links {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 24px;
-            padding-top: 8px;
-        }
-
-        .footer-links a {
-            color: var(--muted-strong);
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--gold);
-        }
-
-        .footer-bottom {
-            grid-column: 1 / -1;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.07);
-            color: #64748b;
-            font-size: 0.8rem;
-        }
-
-        /* REDIRECT STATUS TOAST */
-        .redirect-notice {
-            position: fixed;
-            left: 50%;
-            bottom: 24px;
-            z-index: 2000;
-            transform: translate(-50%, 20px);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 13px 20px;
-            border: 1px solid rgba(252, 163, 17, 0.45);
-            border-radius: 12px;
-            background: rgba(11, 20, 40, 0.96);
-            backdrop-filter: blur(14px);
-            color: var(--white);
-            font-size: 0.86rem;
-            font-weight: 500;
-            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-            max-width: calc(100% - 32px);
-        }
-
-        .redirect-notice.visible {
-            opacity: 1;
-            transform: translate(-50%, 0);
-        }
-
-        /* =========================================
-           RESPONSIVE BREAKPOINTS
-        ========================================= */
-        @media (max-width: 1120px) {
-            .main-nav {
-                gap: 2px;
-                padding: 4px;
-            }
-            .nav-link {
-                padding: 8px 11px;
-                font-size: 0.82rem;
-            }
-            .telemetry-ticker {
-                max-width: 310px;
-            }
-        }
-
-        @media (max-width: 960px) {
-            .header-telemetry {
-                display: none;
-            }
-            .nav-container {
-                min-height: 76px;
-                padding: 10px 0;
-            }
-            .site-header.scrolled .nav-container {
-                min-height: 72px;
-            }
-            .brand-title {
-                font-size: 1.65rem;
-            }
-            .brand-sub {
-                display: none;
-            }
-            .brand-mark {
-                width: 38px;
-                height: 38px;
-            }
-            .main-nav {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                padding: 16px 4%;
-                border-radius: 0;
-                background: #080e1d;
-                border: 0;
-                border-top: 1px solid rgba(255, 255, 255, 0.08);
-                border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-                flex-direction: column;
-                align-items: stretch;
-                gap: 4px;
-                box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
-            }
-            .main-nav.open {
-                display: flex;
-            }
-            .nav-link {
-                width: 100%;
-                padding: 13px 14px;
-                font-size: 0.94rem;
-            }
-            .menu-toggle {
-                display: flex;
-            }
-            .menu-toggle.active span:nth-child(1) {
-                transform: translateY(7px) rotate(45deg);
-            }
-            .menu-toggle.active span:nth-child(2) {
-                opacity: 0;
-            }
-            .menu-toggle.active span:nth-child(3) {
-                transform: translateY(-7px) rotate(-45deg);
-            }
-            .opportunity-content {
-                grid-template-columns: 1fr;
-                gap: 36px;
-            }
-            .steps-grid {
-                grid-template-columns: 1fr;
-            }
-            .estimator-controls {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-            .footer-links {
-                justify-content: flex-start;
-            }
-        }
-
-        @media (max-width: 780px) {
-            .hero-image {
-                height: 300px;
-            }
-            .hero-floating-card {
-                position: static;
-                margin-top: 12px;
-                width: 100%;
-            }
-            .hero-telemetry-widget {
-                position: static;
-                margin-top: 10px;
-                width: 100%;
-                justify-content: space-between;
-            }
-            .learner-tools {
-                align-items: stretch;
-                flex-direction: column;
-            }
-            .learner-search-wrap {
-                max-width: none;
-            }
-            .learner-filters {
-                overflow-x: auto;
-                flex-wrap: nowrap;
-                padding-bottom: 4px;
-            }
-            .filter-btn {
-                white-space: nowrap;
-            }
-            .learner-carousel {
-                padding: 0 6px;
-            }
-            .learner-grid {
-                display: flex;
-                gap: 16px;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                scroll-behavior: smooth;
-                padding: 4px 2px 18px;
-                scrollbar-width: thin;
-                scrollbar-color: rgba(252, 163, 17, 0.55) transparent;
-            }
-            .learner-card {
-                flex: 0 0 min(86%, 380px);
-                scroll-snap-align: start;
-            }
-            .carousel-control {
-                display: grid;
-                place-items: center;
-            }
-            .standards-grid,
-            .payment-methods {
-                grid-template-columns: 1fr;
-            }
-            .live-feed-meta {
-                display: none;
-            }
-        }
-
-        @media (max-width: 560px) {
-            .nav-actions .btn-outline {
-                display: none;
-            }
-            .nav-actions .btn-primary {
-                min-height: 40px;
-                padding: 8px 13px;
-                font-size: 0.78rem;
-            }
-            .hero-section {
-                padding: 56px 0 72px;
-            }
-            .hero-buttons {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .intro-content {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-            .learners-section,
-            .how-section,
-            .standards-section,
-            .opportunities-section,
-            .payment-section,
-            .faq-section,
-            .final-cta {
-                padding: 76px 0;
-            }
-            .locked-learners {
-                grid-template-columns: 1fr;
-                padding: 16px;
-            }
-            .locked-card:nth-child(2),
-            .locked-card:nth-child(3) {
-                display: none;
-            }
-        }
-
-        a:focus-visible,
-        button:focus-visible,
-        summary:focus-visible,
-        input:focus-visible {
-            outline: 2px solid var(--gold);
-            outline-offset: 3px;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                scroll-behavior: auto !important;
-                transition-duration: 0.01ms !important;
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MeloTutor connects fluent Swahili speakers with global learners. Browse open student requests, inspect session briefs, and apply to become a verified tutor.">
+<meta name="theme-color" content="#0b1322">
+<title>MeloTutor | Swahili Tutoring Network &amp; Open Requests</title>
+<style>
+:root{
+  --bg:#0b1322;--bg2:#070d18;--card:#111c30;--card2:#16233c;--line:rgba(252,163,17,.22);--line2:rgba(255,255,255,.09);
+  --gold:#fca311;--gold2:#ffb732;--text:#ffffff;--muted:#9aa6b8;--muted2:#cbd5e1;
+  --green:#10b981;--amber:#fca311;--blue:#60a5fa;--r:18px;
+}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{background:radial-gradient(circle at 88% -8%,rgba(252,163,17,.12),transparent 38%),radial-gradient(circle at 10% 35%,rgba(252,163,17,.04),transparent 35%),var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.5}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+
+/* TOP BAR */
+.top{position:sticky;top:0;z-index:30;background:rgba(11,19,34,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:center;gap:12px;height:66px}
+.brand{font-weight:800;font-size:21px;letter-spacing:-.8px;display:flex;align-items:center;gap:9px;flex-shrink:0}
+.brand-mark{width:32px;height:32px;border-radius:9px;background:var(--gold);color:#0b1322;font-weight:900;font-size:15px;display:grid;place-items:center}
+.brand span.accent{color:var(--gold)}
+.cohort-tag{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(252,163,17,.35);background:rgba(252,163,17,.1);border-radius:99px;padding:4px 10px;white-space:nowrap}
+.tabs{display:flex;gap:4px;margin-left:auto;overflow-x:auto;min-width:0;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a,.tabs button{padding:8px 12px;border-radius:10px;color:var(--muted);font-size:13px;font-weight:600;white-space:nowrap;transition:all .15s;background:none;border:0}
+.tabs a:hover,.tabs button:hover{background:rgba(252,163,17,.12);color:var(--gold2)}
+.nav-right{display:flex;align-items:center;gap:8px;margin-left:8px;flex-shrink:0}
+.shortlist-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03);font-size:12px;font-weight:700;color:var(--text);transition:all .15s}
+.shortlist-btn:hover{border-color:rgba(252,163,17,.5);background:rgba(252,163,17,.1)}
+.badge-count{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;padding:0 5px;border-radius:99px;background:var(--gold);color:#0b1322;font-size:11px;font-weight:800}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:11px;padding:12px 18px;font-weight:800;font-size:13px;background:var(--gold);color:#0b1322;transition:filter .15s,transform .1s;white-space:nowrap}
+.btn:hover:not(:disabled){background:var(--gold2)}
+.btn:active:not(:disabled){transform:scale(.99)}
+.btn.sm{padding:9px 13px;font-size:12px;border-radius:9px}
+.btn.ghost{background:rgba(255,255,255,.03);border:1px solid var(--line2);color:var(--text)}
+.btn.ghost:hover{border-color:var(--gold);color:var(--gold2);background:rgba(252,163,17,.08)}
+.btn.subtle{background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.35);color:#6ee7b7}
+
+/* SECTIONS */
+main{padding:28px 0 84px}
+section{margin-bottom:46px}
+.eyebrow{font-size:10px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);display:inline-block}
+h1{font-size:clamp(26px,4.4vw,42px);line-height:1.12;letter-spacing:-1.1px;margin:8px 0 12px}
+h2{font-size:clamp(20px,3vw,26px);letter-spacing:-.5px;margin-top:4px}
+.sub{color:var(--muted2);font-size:14px;max-width:620px}
+
+/* HERO */
+.hero-grid{display:grid;grid-template-columns:1.18fr .82fr;gap:22px;align-items:center;padding-top:6px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.proof-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line2);max-width:520px}
+.proof-row strong{display:block;font-size:20px;color:var(--gold);letter-spacing:-.5px}
+.proof-row span{font-size:11px;color:var(--muted)}
+.hero-card{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--card);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.hero-img{height:330px;position:relative}
+.hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,19,34,.1) 35%,rgba(11,19,34,.94) 100%)}
+.hero-overlay{position:absolute;bottom:16px;left:16px;right:16px;z-index:2}
+.hero-overlay .tag{background:rgba(252,163,17,.2);border:1px solid rgba(252,163,17,.45);color:var(--gold2);margin-bottom:8px;display:inline-block}
+.hero-overlay h3{font-size:17px;margin-bottom:3px}
+.hero-overlay p{font-size:12px;color:var(--muted2)}
+
+/* CARDS */
+.card{background:linear-gradient(150deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.label{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.6px;text-transform:uppercase}
+
+/* SEARCH & FILTER BAR */
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.toolbar{background:linear-gradient(150deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:16px;display:flex;flex-direction:column;gap:12px}
+.toolbar-top{display:flex;gap:10px;flex-wrap:wrap}
+.search-box{position:relative;flex:1;min-width:220px}
+.search-box input{width:100%;background:rgba(7,13,24,.8);border:1px solid var(--line2);border-radius:11px;padding:10px 14px 10px 36px;font-size:13px;color:var(--text)}
+.search-box input:focus{border-color:var(--gold)}
+.search-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none}
+.sort-select{background:rgba(7,13,24,.8);border:1px solid var(--line2);border-radius:11px;padding:10px 12px;font-size:13px;color:var(--text)}
+.filters{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.filters::-webkit-scrollbar{display:none}
+.fchip{border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--muted);border-radius:99px;padding:7px 13px;font-size:12px;font-weight:600;white-space:nowrap;transition:all .15s}
+.fchip:hover{color:var(--gold2);border-color:rgba(252,163,17,.45)}
+.fchip.on{background:var(--gold);color:#0b1322;border-color:var(--gold);font-weight:800}
+.status-bar{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-bottom:14px}
+
+/* LEARNER CARDS */
+.learner-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.learner{display:flex;flex-direction:column;gap:13px;padding:18px;transition:border-color .2s,transform .2s;position:relative}
+.learner:hover{border-color:rgba(252,163,17,.5);transform:translateY(-2px)}
+.l-top{display:flex;align-items:center;gap:11px}
+.av-img{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1.5px solid rgba(252,163,17,.45);background:#1b2c48}
+.l-id{min-width:0;flex:1}
+.l-id strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.l-id small{color:var(--muted);font-size:11px;display:block}
+.save-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted2);display:grid;place-items:center;flex-shrink:0;transition:all .15s}
+.save-btn:hover{border-color:var(--gold);color:var(--gold2)}
+.save-btn.saved{background:rgba(252,163,17,.2);border-color:var(--gold);color:var(--gold2)}
+.tag-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tag{font-size:10px;font-weight:700;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.07);color:#e2e8f0;white-space:nowrap}
+.code-tag{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;color:var(--muted)}
+.goal{font-size:13px;color:#d0d9e6;line-height:1.5}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:11px;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);color:#cbd5e1}
+.l-pay{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid rgba(255,255,255,.07);padding-top:13px;margin-top:auto}
+.amount{font-size:21px;font-weight:800;letter-spacing:-.6px;color:var(--gold)}
+.amount small{font-size:11px;font-weight:600;color:var(--muted)}
+.slots-left{font-size:11px;color:#34d399;font-weight:600}
+.empty{text-align:center;color:var(--muted);padding:32px 20px;font-size:13px}
+
+/* EXPAND BANNER */
+.expand-banner{margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:linear-gradient(135deg,rgba(252,163,17,.12),rgba(17,28,48,.96));border:1px solid rgba(252,163,17,.35)}
+.expand-banner h3{font-size:17px;margin:4px 0}
+.expand-banner p{font-size:13px;color:var(--muted2);max-width:560px}
+
+/* HOW IT WORKS + COMPACT STANDARDS */
+.steps-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.step-card{padding:18px}
+.step-num{font-size:22px;font-weight:800;color:var(--gold);letter-spacing:-.5px;margin-bottom:8px}
+.step-card h3{font-size:15px;margin-bottom:6px}
+.step-card p{font-size:12.5px;color:var(--muted2);line-height:1.55}
+
+.standards-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.std-card{padding:16px 18px;border-left:3px solid var(--gold)}
+.std-card h3{font-size:14px;margin-bottom:4px;color:var(--gold)}
+.std-card p{font-size:12.5px;color:var(--muted2);line-height:1.55}
+
+/* ONBOARDING & EARNINGS PLANNER */
+.onboard-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+.fee-box{border:1px solid rgba(252,163,17,.38);background:linear-gradient(155deg,#172642,#0f182a)}
+.fee-price{font-size:30px;font-weight:800;color:var(--gold);letter-spacing:-1px;margin:8px 0}
+.fee-list{display:grid;gap:8px;margin:14px 0 18px;font-size:13px;color:var(--muted2)}
+.fee-list div{display:flex;align-items:flex-start;gap:8px}
+.fee-list span{color:#34d399;font-weight:800}
+.planner-box{display:flex;flex-direction:column;justify-content:space-between}
+.range-wrap{margin:16px 0}
+.range-head{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px}
+input[type="range"]{width:100%;accent-color:var(--gold);cursor:pointer}
+.est-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:rgba(7,13,24,.65);border:1px solid var(--line2);border-radius:12px;padding:12px}
+.est-grid strong{display:block;font-size:20px;color:var(--gold);margin-top:2px}
+
+/* FLOATING BOTTOM-LEFT BUBBLES (SUPPORT & FAQ) */
+.float-dock{position:fixed;bottom:16px;left:16px;z-index:45;display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+.bubble-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(145deg,#172642,#0e1729);border:1px solid rgba(252,163,17,.45);color:var(--text);padding:7px 14px 7px 7px;border-radius:999px;font-size:12.5px;font-weight:700;box-shadow:0 12px 30px rgba(0,0,0,.55);transition:transform .15s,border-color .15s}
+.bubble-btn:hover{transform:translateY(-2px);border-color:var(--gold)}
+.cartoon-av{width:34px;height:34px;border-radius:50%;background:var(--gold);display:grid;place-items:center;overflow:hidden;flex-shrink:0;border:1.5px solid #fff}
+.faq-icon-av{width:34px;height:34px;border-radius:50%;background:rgba(252,163,17,.16);border:1px solid rgba(252,163,17,.45);color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:14px;flex-shrink:0}
+
+.support-popover{background:linear-gradient(155deg,#172642,#0e1729);border:1px solid rgba(252,163,17,.45);border-radius:16px;padding:14px;width:250px;box-shadow:0 18px 45px rgba(0,0,0,.65);margin-bottom:4px}
+.support-popover h4{font-size:13px;color:var(--gold);margin-bottom:3px}
+.support-popover p{font-size:11.5px;color:var(--muted2);margin-bottom:10px}
+.sup-choice{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line2);font-size:12.5px;font-weight:700;margin-bottom:7px;transition:all .15s}
+.sup-choice:last-child{margin-bottom:0}
+.sup-choice:hover{border-color:var(--gold);background:rgba(252,163,17,.1);color:var(--gold2)}
+
+/* FAQ & TERMS MODAL ACCORDIONS */
+details.acc{background:rgba(7,13,24,.65);border:1px solid var(--line2);border-radius:12px;margin-bottom:9px;overflow:hidden}
+details.acc summary{padding:13px 15px;font-weight:700;font-size:13px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary::after{content:"+";color:var(--gold);font-size:17px;font-weight:400}
+details.acc[open] summary::after{content:"−"}
+details.acc .acc-body{padding:0 15px 14px;font-size:12.5px;color:var(--muted2);line-height:1.6;border-top:1px solid rgba(255,255,255,.05);padding-top:10px}
+
+.terms-doc{display:grid;gap:14px;font-size:13px;color:var(--muted2);line-height:1.65}
+.terms-doc h4{color:var(--gold);font-size:13.5px;margin-bottom:3px}
+
+/* MODAL & DRAWER */
+.backdrop{position:fixed;inset:0;background:rgba(5,10,20,.84);backdrop-filter:blur(7px);display:grid;place-items:center;padding:14px;z-index:50}
+.modal{background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid rgba(252,163,17,.38);border-radius:20px;max-width:540px;width:100%;max-height:90vh;overflow-y:auto;padding:22px;box-shadow:0 26px 70px rgba(0,0,0,.65);position:relative}
+.m-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+.m-close{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:50%;width:32px;height:32px;display:grid;place-items:center;color:var(--muted2);font-size:16px;flex-shrink:0}
+.m-close:hover{color:#fff;border-color:var(--gold)}
+.m-tabs{display:flex;gap:14px;border-bottom:1px solid var(--line2);padding-bottom:10px;margin-bottom:16px}
+.m-tab{background:none;border:0;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);padding-bottom:4px}
+.m-tab.on{color:var(--gold);border-bottom:2px solid var(--gold)}
+.m-learner{display:flex;align-items:center;gap:12px;background:rgba(7,13,24,.6);border:1px solid var(--line2);border-radius:12px;padding:12px;margin-bottom:14px}
+.m-list{display:grid;gap:7px;margin:10px 0 16px;font-size:12.5px;color:var(--muted2)}
+.m-list li{display:flex;gap:8px;list-style:none}
+.m-list li::before{content:"✓";color:#34d399;font-weight:800}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11.5px;color:var(--muted2);margin-bottom:5px;font-weight:600}
+.field input,.field select,.field textarea{width:100%;background:rgba(7,13,24,.85);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;color:var(--text)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.handoff-box{background:rgba(252,163,17,.1);border:1px solid rgba(252,163,17,.4);border-radius:14px;padding:16px;margin:14px 0}
+.handoff-box h4{color:var(--gold);font-size:14px;margin-bottom:6px}
+.handoff-box p{font-size:12.5px;color:var(--text);line-height:1.6;margin-bottom:12px}
+
+/* DRAWER */
+.drawer-bg{position:fixed;inset:0;background:rgba(5,10,20,.78);backdrop-filter:blur(5px);display:flex;justify-content:flex-end;z-index:50}
+.drawer{background:var(--card);border-left:1px solid var(--line);width:100%;max-width:400px;height:100%;display:flex;flex-direction:column;padding:20px}
+.drawer-list{flex:1;overflow-y:auto;display:grid;gap:10px;align-content:start;margin:14px 0}
+.d-item{display:flex;align-items:center;gap:10px;background:rgba(7,13,24,.65);border:1px solid var(--line2);border-radius:12px;padding:10px}
+
+/* CONCIERGE NUDGE & TOAST */
+.nudge{position:fixed;bottom:16px;right:16px;max-width:340px;background:linear-gradient(155deg,#172642,#0e1729);border:1px solid rgba(252,163,17,.5);border-radius:16px;padding:16px;box-shadow:0 20px 50px rgba(0,0,0,.6);z-index:40;transform:translateY(130%);opacity:0;transition:all .3s ease}
+.nudge.show{transform:translateY(0);opacity:1}
+.nudge-close{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.07);border:0;border-radius:50%;width:24px;height:24px;color:var(--muted2);font-size:12px}
+.toast{position:fixed;top:76px;left:50%;transform:translate(-50%,-130%);background:var(--card2);border:1px solid var(--gold);color:var(--text);padding:10px 18px;border-radius:99px;font-size:12.5px;font-weight:600;box-shadow:0 12px 32px rgba(0,0,0,.55);z-index:60;opacity:0;transition:all .25s}
+.toast.show{transform:translate(-50%,0);opacity:1}
+
+footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var(--line2)}
+.foot-in{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.foot-links{display:flex;gap:16px;flex-wrap:wrap}
+.foot-links a,.foot-links button{background:none;border:0;padding:0;color:inherit;font:inherit}
+.foot-links a:hover,.foot-links button:hover{color:var(--gold)}
+.bottom-strip{background:var(--bg2);border-top:1px solid var(--line2);text-align:center;padding:11px 14px 16px;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+.bottom-strip strong{color:var(--gold)}
+
+/* RESPONSIVE */
+@media(max-width:920px){
+  .hero-grid,.onboard-grid{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .learner-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:640px){
+  .wrap{padding:0 14px}
+  .cohort-tag,.shortlist-label{display:none}
+  .learner-grid,.steps-grid,.standards-grid,.row2{grid-template-columns:1fr}
+  .hero-img{height:240px}
+  .card{padding:16px}
+  .std-card{padding:13px 15px}
+  .step-card{padding:15px}
+  .proof-row strong{font-size:17px}
+  .nudge{left:14px;right:14px;max-width:none;bottom:116px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
 </head>
 <body>
 
-<div class="redirect-notice" id="redirectNotice" role="status" aria-live="polite"></div>
-
-<!-- LARGE DESKTOP FINTECH HEADER -->
-<header class="site-header" id="siteHeader">
-    <!-- Top Live Platform Status & Telemetry Bar -->
-    <div class="header-telemetry">
-        <div class="container telemetry-inner">
-            <div class="telemetry-group">
-                <span class="telemetry-pill">
-                    <span class="live-dot" aria-hidden="true"></span>
-                    PLATFORM ACTIVE
-                </span>
-                <span class="telemetry-divider" aria-hidden="true"></span>
-                <span class="telemetry-pill">SESSION MIN: 60 MINS</span>
-                <span class="telemetry-divider" aria-hidden="true"></span>
-                <span class="telemetry-pill">PAYOUTS: MOBILE MONEY</span>
-            </div>
-                        <div class="telemetry-ticker" aria-live="polite">
-                <span class="ticker-tag">LIVE</span>
-                <span class="ticker-text" id="headerTickerText">Beginner request posted • Greetings &amp; Pronunciation</span>
-            </div>
-
-            <div class="telemetry-group">
-                <span class="telemetry-pill" id="liveEatClock">EAT --:--:--</span>
-            </div>
-        </div>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#top">
+      <span class="brand-mark">M</span>
+      <span>Melo<span class="accent">Tutor</span></span>
+    </a>
+    <span class="cohort-tag">2026 Cohort</span>
+    <nav class="tabs" aria-label="Primary sections">
+      <a href="#learners">Learner Requests</a>
+      <a href="#process">How It Works</a>
+      <a href="#standards">Standards</a>
+      <a href="#onboarding">Become a Tutor</a>
+      <button type="button" id="navTermsBtn">Terms &amp; Conditions</button>
+    </nav>
+    <div class="nav-right">
+      <button type="button" class="shortlist-btn" id="openDrawerBtn" aria-label="Saved learner requests">
+        <span>★</span>
+        <span class="shortlist-label">Shortlist</span>
+        <span class="badge-count" id="savedCount">0</span>
+      </button>
+      <a class="btn sm" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer">Become a Tutor</a>
     </div>
-
-    <!-- Main Generous Desktop Navigation Tier -->
-    <div class="container nav-container">
-        <a href="#home" class="brand" aria-label="MeloTutor home">
-            <span class="brand-mark" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                    <path d="M4 17V7L9.5 13L15 7V17" stroke="#FCA311" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M18.5 7H21.5M20 7V17" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
-                </svg>
-            </span>
-            <span class="brand-wordmark">
-                <span class="brand-title"><span>Melo</span><span class="brand-accent">Tutor</span></span>
-                <span class="brand-sub">Swahili Instruction Network</span>
-            </span>
-        </a>
-
-        <nav class="main-nav" id="navLinks" aria-label="Main navigation">
-            <a href="#home" class="nav-link active">Home</a>
-            <a href="#learners" class="nav-link">Find Learners</a>
-            <a href="#how-it-works" class="nav-link">The Process</a>
-            <a href="#tutor-standards" class="nav-link">Standards</a>
-            <a href="#opportunities" class="nav-link">About</a>
-            <a href="#faqs" class="nav-link">FAQs</a>
-        </nav>
-
-        <div class="nav-actions">
-            <a href="https://mulaearn.com/login.php" data-mulaearn="login" class="btn btn-outline">Tutor Login</a>
-            <a href="https://mulaearn.com/register.php?ref=Miami" data-mulaearn="register" class="btn btn-primary">
-                <span>Be a Tutor</span>
-                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                    <path d="M4.167 10h11.666m0 0L10.833 5m5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </a>
-        </div>
-
-        <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navLinks">
-            <span></span><span></span><span></span>
-        </button>
-    </div>
+  </div>
 </header>
 
-<main>
-    <!-- HERO SECTION -->
-    <section class="hero-section" id="home">
-        <div class="container hero-content">
-            <div class="hero-text">
-                <span class="eyebrow">THE SWAHILI TUTORING OPPORTUNITY</span>
-                <h1>Teach Swahili. <span class="text-gold">Make Your Knowledge Count.</span></h1>
-                <p>MeloTutor connects people with a strong command of Swahili to learners looking for clear, practical language instruction. Explore learner requests, share your knowledge and provide lessons that help people communicate with confidence.</p>
-                <div class="hero-buttons">
-                    <a href="https://mulaearn.com/register.php?ref=Miami" data-mulaearn="register" class="btn btn-primary">
-                        <span>Be a Verified Tutor</span>
-                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                            <path d="M4.167 10h11.666m0 0L10.833 5m5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
-                    <a href="#learners" class="btn btn-outline">Explore Learner Requests</a>
-                </div>
-                <div class="hero-note">
-                    <span class="live-dot" aria-hidden="true"></span>
-                    <span>A dedicated space for structured Swahili tutoring.</span>
-                </div>
-            </div>
+<main class="wrap" id="top">
 
-            <div class="hero-visual">
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=85" alt="People collaborating in a professional learning environment">
-                </div>
-
-                <div class="hero-floating-card">
-                    <div class="floating-header">
-                        <span class="floating-label">Your knowledge</span>
-                        <span class="floating-badge">● VERIFIED</span>
-                    </div>
-                    <strong>Supports real learning.</strong>
-                    <span class="floating-accent">Swahili tutoring with MeloTutor</span>
-                </div>
-
-                <div class="hero-telemetry-widget" aria-label="Session specifications">
-                    <div class="widget-stat">
-                        <span>Standard Session</span>
-                        <strong>60 MIN</strong>
-                    </div>
-                    <div class="widget-divider" aria-hidden="true"></div>
-                    <div class="widget-stat">
-                        <span>Focus Tracks</span>
-                        <strong>4 LEVELS</strong>
-                    </div>
-                    <div class="widget-divider" aria-hidden="true"></div>
-                    <div class="widget-stat">
-                        <span>Settlement</span>
-                        <strong class="text-gold">MOBILE MONEY</strong>
-                    </div>
-                </div>
-            </div>
+  <!-- HERO -->
+  <section>
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">The Swahili Tutoring Opportunity</div>
+        <h1>Get Paid to <span style="color:var(--gold)">Teach Swahili.</span></h1>
+        <p class="sub">Your Swahili knowledge has value. Browse open learner requests across beginner, conversational, and business Swahili, reserve your preferred slots, and apply to join our verified tutor network.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#learners">Explore Learner Requests</a>
+          <a class="btn ghost" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer">Apply as a Tutor →</a>
         </div>
-    </section>
-
-    <!-- INTRO STRIP -->
-    <section class="intro-strip">
-        <div class="container intro-content">
-            <div class="intro-copy">
-                <strong>Know Swahili?</strong>
-                <span>There are people around the world who want to learn it.</span>
-            </div>
-            <a href="https://mulaearn.com/register.php?ref=Miami" data-mulaearn="register" class="intro-cta">Explore tutor registration →</a>
+        <div class="proof-row">
+          <div><strong>Daily</strong><span>New learner briefs</span></div>
+          <div><strong>$16–$28</strong><span>Per 60-min session</span></div>
+          <div><strong>Mobile Money</strong><span>Direct payouts</span></div>
         </div>
-    </section>
+      </div>
 
-    <!-- LEARNER DISCOVERY -->
-    <section class="learners-section" id="learners">
-        <div class="container">
-            <div class="section-heading">
-                <span class="eyebrow">LEARNER DISCOVERY</span>
-                <h2>People Looking to Learn <span class="text-gold">Swahili.</span></h2>
-                <p>Different learning goals call for different teaching approaches. Explore the kinds of Swahili lessons learners are looking for.</p>
-            </div>
-
-            <!-- Live Activity Pulse Bar -->
-            <div class="live-feed-bar" role="region" aria-label="Live learner request activity">
-                <div class="live-feed-left">
-                    <span class="live-feed-badge">
-                        <span class="live-dot" aria-hidden="true"></span>
-                        LIVE FEED
-                    </span>
-                    <span class="live-feed-message" id="liveFeedMessage">Learner Track #01: Swahili Foundations — Vocabulary and pronunciation</span>
-                </div>
-                <span class="live-feed-meta" id="liveFeedTime">Updated just now</span>
-            </div>
-
-            <div class="learner-tools">
-                <label class="learner-search-wrap" for="learnerSearch">
-                    <span class="search-icon" aria-hidden="true">
-                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
-                            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
-                            <path d="M20 20L16.5 16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </span>
-                    <input id="learnerSearch" type="search" placeholder="Search learning goals or levels..." autocomplete="off">
-                </label>
-
-                <div class="learner-filters" role="group" aria-label="Filter learning levels">
-                    <button class="filter-btn active" type="button" data-level-filter="all" aria-pressed="true">All levels</button>
-                    <button class="filter-btn" type="button" data-level-filter="beginner" aria-pressed="false">Beginner</button>
-                    <button class="filter-btn" type="button" data-level-filter="intermediate" aria-pressed="false">Intermediate</button>
-                    <button class="filter-btn" type="button" data-level-filter="advanced" aria-pressed="false">Advanced</button>
-                </div>
-            </div>
-
-            <div class="learner-carousel">
-                <button class="carousel-control carousel-prev" id="learnerPrev" type="button" aria-label="Show previous learner cards">‹</button>
-                <div class="learner-grid" id="learnerTrack">
-                    <!-- Card 01: Beginner -->
-                    <article class="learner-card" data-level="beginner" data-search="beginner vocabulary pronunciation alphabet introductions basics foundations">
-                        <div>
-                            <div class="learner-top">
-                                <div class="learner-avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=180&q=80" alt="Learner profile illustration"></div>
-                                <div class="learner-details">
-                                    <span class="learner-name">Swahili Foundations</span>
-                                    <span class="learner-location">Starting with the basics</span>
-                                </div>
-                                <span class="learner-flag">01</span>
-                            </div>
-                            <div class="learner-status"><span class="status-dot"></span>Vocabulary and pronunciation</div>
-                            <div class="learner-footer">
-                                <span>Learning level: Beginner</span>
-                                <span class="learner-level">Basics</span>
-                            </div>
-                        </div>
-                        <div>
-                            <button class="learner-expand" type="button" aria-expanded="false">View learning focus <span>＋</span></button>
-                            <div class="learner-extra" hidden>
-                                <strong>Lesson focus</strong>
-                                <p>Greetings, introductions, everyday vocabulary, pronunciation and building confidence with simple sentences.</p>
-                                <span class="lesson-tag">Foundational lessons</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Card 02: Intermediate -->
-                    <article class="learner-card" data-level="intermediate" data-search="intermediate conversation speaking fluency everyday dialogue confidence">
-                        <div>
-                            <div class="learner-top">
-                                <div class="learner-avatar"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=180&q=80" alt="Learner profile illustration"></div>
-                                <div class="learner-details">
-                                    <span class="learner-name">Conversation Practice</span>
-                                    <span class="learner-location">Building speaking confidence</span>
-                                </div>
-                                <span class="learner-flag">02</span>
-                            </div>
-                            <div class="learner-status"><span class="status-dot"></span>Everyday Swahili conversations</div>
-                            <div class="learner-footer">
-                                <span>Learning level: Intermediate</span>
-                                <span class="learner-level">Speaking</span>
-                            </div>
-                        </div>
-                        <div>
-                            <button class="learner-expand" type="button" aria-expanded="false">View learning focus <span>＋</span></button>
-                            <div class="learner-extra" hidden>
-                                <strong>Lesson focus</strong>
-                                <p>Natural dialogue, listening comprehension, sentence construction and speaking more comfortably in everyday situations.</p>
-                                <span class="lesson-tag">Conversation lessons</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Card 03: Beginner -->
-                    <article class="learner-card" data-level="beginner" data-search="beginner practical travel phrases directions transport shopping communication">
-                        <div>
-                            <div class="learner-top">
-                                <div class="learner-avatar"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=180&q=80" alt="Learner profile illustration"></div>
-                                <div class="learner-details">
-                                    <span class="learner-name">Practical Swahili</span>
-                                    <span class="learner-location">Learning for everyday use</span>
-                                </div>
-                                <span class="learner-flag">03</span>
-                            </div>
-                            <div class="learner-status"><span class="status-dot"></span>Useful phrases and communication</div>
-                            <div class="learner-footer">
-                                <span>Learning level: Beginner</span>
-                                <span class="learner-level">Practical</span>
-                            </div>
-                        </div>
-                        <div>
-                            <button class="learner-expand" type="button" aria-expanded="false">View learning focus <span>＋</span></button>
-                            <div class="learner-extra" hidden>
-                                <strong>Lesson focus</strong>
-                                <p>Useful phrases for travel, directions, shopping, transport and communicating in familiar daily settings.</p>
-                                <span class="lesson-tag">Practical lessons</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Card 04: Advanced (Fixes empty state when Advanced filter is selected) -->
-                    <article class="learner-card" data-level="advanced" data-search="advanced grammar structure formal professional fluency idioms business">
-                        <div>
-                            <div class="learner-top">
-                                <div class="learner-avatar"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=180&q=80" alt="Learner profile illustration"></div>
-                                <div class="learner-details">
-                                    <span class="learner-name">Grammar &amp; Fluency</span>
-                                    <span class="learner-location">Refining formal &amp; nuanced expression</span>
-                                </div>
-                                <span class="learner-flag">04</span>
-                            </div>
-                            <div class="learner-status"><span class="status-dot"></span>Complex grammar, idioms &amp; formal Swahili</div>
-                            <div class="learner-footer">
-                                <span>Learning level: Advanced</span>
-                                <span class="learner-level">Fluency</span>
-                            </div>
-                        </div>
-                        <div>
-                            <button class="learner-expand" type="button" aria-expanded="false">View learning focus <span>＋</span></button>
-                            <div class="learner-extra" hidden>
-                                <strong>Lesson focus</strong>
-                                <p>Noun classes, verb extensions, formal communication, nuanced idioms and structured discussion for experienced learners.</p>
-                                <span class="lesson-tag">Advanced lessons</span>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <button class="carousel-control carousel-next" id="learnerNext" type="button" aria-label="Show next learner cards">›</button>
-            </div>
-
-            <p class="learner-empty" id="learnerEmpty" hidden>No learning goals match your search. Try another term or level.</p>
-
-            <!-- Gated Vault Preview -->
-            <div class="learner-gate">
-                <div class="locked-learners" aria-hidden="true">
-                    <div class="locked-card"><span>Swahili for Travel</span><i></i><i></i></div>
-                    <div class="locked-card"><span>Grammar &amp; Structure</span><i></i><i></i></div>
-                    <div class="locked-card"><span>Advanced Fluency</span><i></i><i></i></div>
-                </div>
-                <div class="learner-gate-content">
-                    <div class="gate-icon">✦</div>
-                    <span class="eyebrow">EXPLORE MORE OPPORTUNITIES</span>
-                    <h3>More Learners. More Opportunities.</h3>
-                    <p>Take the next step towards turning your Swahili knowledge into a tutoring opportunity.</p>
-                    <a href="https://mulaearn.com/register.php?ref=Miami" data-mulaearn="register" class="btn btn-primary">
-                        <span>View Tutor Access</span>
-                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                            <path d="M4.167 10h11.666m0 0L10.833 5m5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
+      <div class="hero-card">
+        <div class="hero-img">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=900&q=85" alt="Swahili language tutor preparing structured lesson notes">
+          <div class="hero-overlay">
+            <span class="tag">Featured Brief · #MT-204</span>
+            <h3>Conversational &amp; Business Swahili</h3>
+            <p>1-on-1 structured sessions · Flexible EAT scheduling</p>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- HOW IT WORKS -->
-    <section class="how-section" id="how-it-works">
-        <div class="container">
-            <div class="section-heading">
-                <span class="eyebrow">THE MELOTUTOR PROCESS</span>
-                <h2>How <span class="text-gold">MeloTutor Works.</span></h2>
-                <p>A simple process focused on connecting Swahili tutors with people who want to learn.</p>
-            </div>
-            <div class="steps-grid">
-                <article class="step-card">
-                    <div class="step-header">
-                        <div class="step-icon">01</div>
-                        <span class="step-tag">STEP ONE</span>
-                    </div>
-                    <h3>Create Your Account</h3>
-                    <p>Register and complete the account setup required to access the platform.</p>
-                </article>
-                <article class="step-card">
-                    <div class="step-header">
-                        <div class="step-icon">02</div>
-                        <span class="step-tag">STEP TWO</span>
-                    </div>
-                    <h3>Explore Learner Requests</h3>
-                    <p>Review available learning needs and identify requests that match your strengths and availability.</p>
-                </article>
-                <article class="step-card">
-                    <div class="step-header">
-                        <div class="step-icon">03</div>
-                        <span class="step-tag">STEP THREE</span>
-                    </div>
-                    <h3>Teach and Get Paid</h3>
-                    <p>Provide agreed tutoring services and receive payment for eligible completed lessons under the platform terms.</p>
-                </article>
-            </div>
+  <!-- LEARNER REQUESTS CATALOGUE -->
+  <section id="learners">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">Open Student Catalogue</div>
+        <h2>Learners looking for Swahili tutors</h2>
+        <p class="sub">Inspect each student’s learning objective, schedule, and session payout. Select <strong>View Brief &amp; Apply</strong> to reserve a slot.</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="toolbar-top">
+        <div class="search-box">
+          <span class="search-ico">⌕</span>
+          <input type="search" id="searchInput" placeholder="Search by country, topic (travel, grammar, business), or level..." aria-label="Search learner requests">
         </div>
-    </section>
+        <select id="sortSelect" class="sort-select" aria-label="Sort requests">
+          <option value="featured">Featured order</option>
+          <option value="payout-desc">Highest payout ($)</option>
+          <option value="slots-asc">Fewest slots left</option>
+        </select>
+      </div>
+      <div class="filters" id="levelFilters" role="tablist">
+        <button type="button" class="fchip on" data-level="all">All levels</button>
+        <button type="button" class="fchip" data-level="beginner">Beginner</button>
+        <button type="button" class="fchip" data-level="intermediate">Intermediate</button>
+        <button type="button" class="fchip" data-level="advanced">Advanced</button>
+        <button type="button" class="fchip" data-level="business">Business &amp; NGO</button>
+      </div>
+    </div>
 
-    <!-- TUTOR STANDARDS -->
-    <section class="standards-section" id="tutor-standards">
-        <div class="container">
-            <div class="section-heading">
-                <span class="eyebrow">TUTOR EXPECTATIONS</span>
-                <h2>Professional <span class="text-gold">Tutoring Standards.</span></h2>
-                <p>Every tutor is expected to meet these basic standards when accepting and completing a MeloTutor task.</p>
-            </div>
-            <div class="standards-grid">
-                <article class="standard-card">
-                    <span class="standard-number">REQUIREMENT 01</span>
-                    <h3>Prepare and Teach with Confidence</h3>
-                    <p>Have a strong command of Swahili and prepare for each lesson in advance. Review the learner's stated goals, plan how you will use the session and be ready to explain concepts clearly.</p>
-                </article>
-                <article class="standard-card">
-                    <span class="standard-number">REQUIREMENT 02</span>
-                    <h3>Complete the Full Session</h3>
-                    <p>Each accepted tutoring task has a minimum duration of 60 minutes. Stay engaged for the agreed session and complete the required lesson. Tasks left unfinished may be marked incomplete and will not qualify for payment.</p>
-                </article>
-                <article class="standard-card">
-                    <span class="standard-number">REQUIREMENT 03</span>
-                    <h3>Be Punctual and Accountable</h3>
-                    <p>Join on time and give the learner your full attention. Avoid unnecessary delays, repeated lateness or leaving a session early. If an unavoidable issue arises, communicate it promptly through the appropriate platform channel.</p>
-                </article>
-                <article class="standard-card">
-                    <span class="standard-number">REQUIREMENT 04</span>
-                    <h3>Use a Stable Internet Connection</h3>
-                    <p>When logged in and especially during a tutoring session, make sure you are in an area with a stable network connection. Choose a suitable environment so interruptions do not affect the lesson.</p>
-                </article>
-            </div>
-            <div class="standards-note">
-                <strong>Completion and payment:</strong> Payment applies to eligible tutoring tasks completed in line with the task instructions and platform terms. An unfinished or unverified task may be recorded as incomplete and is not payable.
-            </div>
+    <div class="status-bar">
+      <span id="resultCount">Showing active learner requests · Updated daily</span>
+      <button type="button" id="resetBtn" class="btn ghost sm" hidden>Reset filters</button>
+    </div>
+
+    <div class="learner-grid" id="learnerGrid"></div>
+    <div class="card empty" id="learnerEmpty" hidden>No learner requests match your search. Clear filters to view all open requests.</div>
+
+    <!-- High-intent conversion banner -->
+    <div class="card expand-banner">
+      <div>
+        <div class="eyebrow">Expanded Tutor Feed</div>
+        <h3>Want priority access to newly posted student requests?</h3>
+        <p>New international learners post Swahili tutoring requests daily. Complete your tutor application on Mulaearn to unlock full booking access and claim reserved slots.</p>
+      </div>
+      <a class="btn" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer">Apply on Mulaearn →</a>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="process">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">Editorial Workflow</div>
+        <h2>How tutoring works on MeloTutor</h2>
+      </div>
+    </div>
+    <div class="steps-grid">
+      <div class="card step-card">
+        <div class="step-num">01</div>
+        <h3>Inspect &amp; Shortlist</h3>
+        <p>Review open student profiles, learning goals, and EAT session schedules. Bookmark your preferred requests.</p>
+      </div>
+      <div class="card step-card">
+        <div class="step-num">02</div>
+        <h3>Reserve a Slot</h3>
+        <p>Enter your name, email, and preferred start date on any brief to place a provisional hold on that learner.</p>
+      </div>
+      <div class="card step-card">
+        <div class="step-num">03</div>
+        <h3>Complete Application</h3>
+        <p>Finish your tutor registration on Mulaearn so your reserved learners and saved shortlist sync to your profile.</p>
+      </div>
+      <div class="card step-card">
+        <div class="step-num">04</div>
+        <h3>Teach &amp; Withdraw</h3>
+        <p>Deliver structured 60-minute Swahili sessions and withdraw cleared earnings via M-Pesa or bank transfer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPACT TUTOR STANDARDS -->
+  <section id="standards">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">Quality &amp; Reliability</div>
+        <h2>Tutor standards &amp; expectations</h2>
+      </div>
+    </div>
+    <div class="standards-grid">
+      <div class="card std-card">
+        <h3>01 · Structured Lesson Prep</h3>
+        <p>Review the learner's stated goal beforehand and prepare clear vocabulary, pronunciation, or dialogue exercises.</p>
+      </div>
+      <div class="card std-card">
+        <h3>02 · Full 60-Minute Commitment</h3>
+        <p>Standard sessions run a minimum of 60 minutes. Leaving early or incomplete tasks do not qualify for payout.</p>
+      </div>
+      <div class="card std-card">
+        <h3>03 · Punctuality &amp; Communication</h3>
+        <p>Join on time and notify learners promptly through official channels if an unavoidable schedule conflict arises.</p>
+      </div>
+      <div class="card std-card">
+        <h3>04 · Stable Network &amp; Quiet Space</h3>
+        <p>Conduct lessons from a quiet environment with reliable internet so audio and video remain clear throughout.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONBOARDING & EARNINGS PLANNER -->
+  <section id="onboarding">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">Tutor Onboarding</div>
+        <h2>Registration &amp; weekly earnings planner</h2>
+      </div>
+    </div>
+    <div class="onboard-grid">
+      <div class="card fee-box">
+        <div class="eyebrow">Verified Tutor Onboarding</div>
+        <div class="fee-price">KSh 500 <span style="font-size:13px;font-weight:500;color:var(--muted)">one-time registration</span></div>
+        <p style="font-size:13px;color:var(--muted2)">Covers profile verification, onboarding into the MeloTutor instruction network, and full access to the student request board via our partner portal Mulaearn.</p>
+        <div class="fee-list">
+          <div><span>✓</span> Access all open beginner, intermediate &amp; business learner briefs</div>
+          <div><span>✓</span> Sync your provisionally reserved slots &amp; saved shortlist</div>
+          <div><span>✓</span> Withdraw eligible session payouts via M-Pesa or bank</div>
         </div>
-    </section>
-
-    <!-- OPPORTUNITIES / ABOUT -->
-    <section class="opportunities-section" id="opportunities">
-        <div class="container opportunity-content">
-            <div class="opportunity-text">
-                <span class="eyebrow">YOUR KNOWLEDGE. YOUR OPPORTUNITY.</span>
-                <h2>Make Your Swahili <span class="text-gold">Count.</span></h2>
-                <p>Swahili is spoken by millions of people. For someone learning the language, guidance from a knowledgeable speaker can make a difference.</p>
-                <p>MeloTutor is built around that opportunity: bringing Swahili knowledge and language learners together through tutoring.</p>
-                <a href="https://mulaearn.com/register.php?ref=Miami" data-mulaearn="register" class="btn btn-primary">
-                    <span>Apply to Become a Tutor</span>
-                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                        <path d="M4.167 10h11.666m0 0L10.833 5m5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </a>
-            </div>
-            <div class="opportunity-image">
-                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1000&q=85" alt="People participating in a learning session">
-            </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer">Become a Tutor Now →</a>
+          <a class="btn ghost" href="https://mulaearn.com/login.php" target="_blank" rel="noopener noreferrer">Tutor Login</a>
         </div>
-    </section>
+      </div>
 
-    <!-- PAYMENT & ACCOUNT REGISTRATION -->
-    <section class="payment-section">
-        <div class="container payment-content">
-            <div class="section-heading">
-                <span class="eyebrow">PAYMENT INFORMATION</span>
-                <h2>Access to Your <span class="text-gold">Earnings.</span></h2>
-                <p>Eligible tutoring earnings can be withdrawn using the payment options supported by the platform.</p>
+      <div class="card planner-box">
+        <div>
+          <div class="eyebrow">Schedule Estimator</div>
+          <h3 style="font-size:17px;margin:6px 0">Plan your weekly tutoring hours</h3>
+          <p style="font-size:12.5px;color:var(--muted)">Slide to estimate weekly hours and illustrative payout based on an average $20/hr Swahili session rate.</p>
+          <div class="range-wrap">
+            <div class="range-head">
+              <span>Sessions per week (60 mins each)</span>
+              <strong id="sessLabel" style="color:var(--gold)">6 sessions</strong>
             </div>
-
-            <div class="payment-methods">
-                <div class="payment-method">
-                    <span>RAIL 01</span>
-                    <strong>Mobile Money</strong>
-                </div>
-                <div class="payment-method">
-                    <span>RAIL 02</span>
-                    <strong>Convenient Withdrawals</strong>
-                </div>
-                <div class="payment-method">
-                    <span>RAIL 03</span>
-                    <strong>Payment Access</strong>
-                </div>
-            </div>
-
-            <!-- Interactive Session Commitment Planner -->
-            <div class="estimator-box" aria-label="Session time and commitment planner">
-                <div class="estimator-top">
-                    <span class="estimator-title">Weekly Session Commitment Planner</span>
-                    <span class="estimator-badge">60 MIN PER SESSION</span>
-                </div>
-                <div class="estimator-controls">
-                    <div>
-                        <div class="slider-header">
-                            <label for="sessionSlider">Completed 60-minute sessions per week</label>
-                            <span class="slider-value" id="sessionCountDisplay">5 sessions / wk</span>
-                        </div>
-                        <input type="range" id="sessionSlider" min="1" max="20" value="5">
-                    </div>
-                    <div class="estimator-output">
-                        <span>Weekly Instruction Time</span>
-                        <strong id="sessionHoursDisplay">5.0 hrs / wk</strong>
-                    </div>
-                </div>
-                <p class="estimator-disclaimer">
-                    Illustrative schedule planner only. Session availability and applicable task rates are shown inside the platform and depend on learner demand and completed, verified 60-minute sessions.
-                </p>
-            </div>
-
-            <div class="joining-fee">
-                <span class="eyebrow">ACCOUNT REGISTRATION</span>
-                <h3>One-time joining fee: <span class="text-gold mono">KSh 500</span></h3>
-                <p>The one-time KSh 500 payment is the platform requirement for registering and activating your tutor account, which gives you access to MeloTutor. It does not purchase learner bookings or guarantee income; tutors earn through eligible tutoring services they provide.</p>
-            </div>
-
-            <p class="payment-note">Available withdrawal methods, limits and processing conditions depend on platform and country support. Review the joining terms before making payment.</p>
+            <input type="range" id="sessRange" min="1" max="20" value="6" aria-label="Sessions per week">
+          </div>
         </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="faq-section" id="faqs">
-        <div class="container">
-            <div class="section-heading">
-                <span class="eyebrow">FREQUENTLY ASKED QUESTIONS</span>
-                <h2>Questions? <span class="text-gold">Answered.</span></h2>
-                <p>Essential information about teaching Swahili through MeloTutor.</p>
-            </div>
-            <div class="faq-list">
-                <details class="faq-item">
-                    <summary>What is MeloTutor?</summary>
-                    <p>MeloTutor is a platform focused on connecting people who can teach Swahili with people looking for Swahili language instruction.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>What do I need to get started?</summary>
-                    <p>You need a strong command of Swahili, a phone or computer, a stable internet connection and the ability to prepare and deliver structured lessons. Each accepted tutoring task has a minimum duration of 60 minutes. Tutors are expected to be punctual, complete the full session and follow the task instructions. Unfinished or unverified tasks may be marked incomplete and will not qualify for payment. Review the full tutor standards before accepting a task.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>What are the community guidelines?</summary>
-                    <p>Treat learners and other tutors with respect. Keep communication professional and relevant to the lesson, respect privacy, and do not share personal or session information without permission. Do not harass, discriminate against, threaten or mislead anyone. Attend accepted sessions on time, follow the agreed lesson scope and use the platform channels for tutoring-related communication. Reports of misconduct or repeated failure to meet task commitments may be reviewed under the platform rules.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>Is there a registration fee?</summary>
-                    <p>Yes. The one-time KSh 500 payment is required to register and activate your tutor account and access MeloTutor. It does not buy learner bookings or guarantee income. Earnings come from eligible tutoring services you provide. Review the applicable terms before paying.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>How do tutors receive payment?</summary>
-                    <p>Tutors receive payment for eligible tutoring services completed under the platform terms. Rates, payment conditions and available withdrawal methods are shown through the platform.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>How can I withdraw my earnings?</summary>
-                    <p>Eligible earnings can be withdrawn using the payment methods supported by the platform. Available options and withdrawal requirements may vary by country.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>Does registration guarantee tutoring work?</summary>
-                    <p>No. Registration gives you access to the platform process, but it does not guarantee learner requests, bookings or income. Opportunities depend on learner demand, your suitability and the arrangements agreed for each lesson.</p>
-                </details>
-            </div>
+        <div>
+          <div class="est-grid">
+            <div><span class="label">Weekly Time</span><strong id="hrsOut">6.0 hrs</strong></div>
+            <div><span class="label">Illustrative Gross</span><strong id="usdOut">$120 / wk</strong></div>
+          </div>
+          <p style="font-size:11px;color:var(--muted);margin-top:10px">Illustrative estimate only. Actual earnings depend on accepted learner briefs and completed, verified sessions.</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- FINAL CTA -->
-    <section class="final-cta">
-        <div class="container final-cta-content">
-            <span class="eyebrow">TEACH WITH MELOTUTOR</span>
-            <h2>Your Swahili Knowledge <span class="text-gold">Has Value.</span></h2>
-            <p>Review the requirements and explore available Swahili tutoring opportunities.</p>
-            <a href="https://mulaearn.com/register.php?ref=Miami" data-mulaearn="register" class="btn btn-primary">
-                <span>Become a MeloTutor Tutor</span>
-                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                    <path d="M4.167 10h11.666m0 0L10.833 5m5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </a>
-        </div>
-    </section>
 </main>
 
-<!-- FOOTER -->
-<footer class="site-footer">
-    <div class="container footer-content">
-        <div class="footer-brand">
-            <a href="#home" class="brand" aria-label="MeloTutor home">
-                <span class="brand-mark" aria-hidden="true">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M4 17V7L9.5 13L15 7V17" stroke="#FCA311" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M18.5 7H21.5M20 7V17" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
-                    </svg>
-                </span>
-                <span class="brand-title"><span>Melo</span><span class="brand-accent">Tutor</span></span>
-            </a>
-            <p>Connecting Swahili knowledge with learners around the world.</p>
-        </div>
-        <div class="footer-links">
-            <a href="#home">Home</a>
-            <a href="#learners">Find Learners</a>
-            <a href="#how-it-works">The Process</a>
-            <a href="#tutor-standards">Tutor Standards</a>
-            <a href="#faqs">FAQs</a>
-            <a href="#opportunities">About MeloTutor</a>
-        </div>
-        <div class="footer-bottom">
-            <p>© <span id="currentYear"></span> MeloTutor. All rights reserved.</p>
-            <p class="mono">SWAHILI TUTORING PLATFORM</p>
-        </div>
+<footer>
+  <div class="wrap foot-in">
+    <div>
+      <strong style="color:var(--text)">Melo<span style="color:var(--gold)">Tutor</span></strong> · Swahili Instruction Network · © <span id="year">2026</span>
     </div>
+    <div class="foot-links">
+      <a href="#learners">Learner Requests</a>
+      <a href="#standards">Tutor Standards</a>
+      <button type="button" id="footerFaqBtn">FAQs</button>
+      <button type="button" id="footerTermsBtn">Terms &amp; Conditions</button>
+      <button type="button" id="footerSupportBtn">Contact Support</button>
+    </div>
+  </div>
 </footer>
 
+<div class="bottom-strip">
+  <strong>2026 Q4 Tutor Cohort Open</strong> · Accepting Fluent Swahili Instructors for Global 1-on-1 Sessions
+</div>
+
+<!-- BOTTOM-LEFT FLOATING BUBBLES: FAQS & CONTACT SUPPORT (PRO CARTOON AVATAR) -->
+<div class="float-dock" id="floatDock">
+  <!-- Support Choice Popover (Hidden until tapped) -->
+  <div class="support-popover" id="supportPopover" hidden>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <h4>Tutor Support Desk</h4>
+      <button type="button" id="closeSupportPop" style="background:none;border:0;color:var(--muted);font-size:14px" aria-label="Close support options">✕</button>
+    </div>
+    <p>Choose your preferred channel to reach our onboarding team:</p>
+    <a class="sup-choice" href="https://wa.me/254105961022?text=Hello%20MeloTutor%20Support%2C%20I%20need%20help%20with%20my%20Swahili%20tutor%20application." target="_blank" rel="noopener noreferrer">
+      <span style="width:26px;height:26px;border-radius:50%;background:rgba(16,185,129,.18);color:#34d399;display:grid;place-items:center;font-size:13px">💬</span>
+      <span>Chat on WhatsApp</span>
+    </a>
+    <a class="sup-choice" href="mailto:climaxedray1@gmail.com?subject=MeloTutor%20Tutor%20Support">
+      <span style="width:26px;height:26px;border-radius:50%;background:rgba(252,163,17,.18);color:var(--gold);display:grid;place-items:center;font-size:13px">✉</span>
+      <span>Send an Email</span>
+    </a>
+  </div>
+
+  <!-- FAQs Bubble -->
+  <button type="button" class="bubble-btn" id="faqBubbleBtn" aria-label="Open Frequently Asked Questions">
+    <span class="faq-icon-av">?</span>
+    <span>FAQs</span>
+  </button>
+
+  <!-- Contact Support Bubble with Pro Cartoon Avatar -->
+  <button type="button" class="bubble-btn" id="supportBubbleBtn" aria-label="Contact Support">
+    <span class="cartoon-av" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="34" height="34" fill="none">
+        <rect width="64" height="64" fill="#fca311"/>
+        <!-- Shoulders / Blazer -->
+        <path d="M12 64C12 51 20 45 32 45C44 45 52 51 52 64" fill="#0b1322"/>
+        <path d="M27 45L32 54L37 45" fill="#ffffff"/>
+        <!-- Neck -->
+        <rect x="27" y="36" width="10" height="10" rx="4" fill="#8d5524"/>
+        <!-- Face -->
+        <path d="M20 24C20 16.5 25.4 12 32 12C38.6 12 44 16.5 44 24V28C44 35.2 38.6 40 32 40C25.4 40 20 35.2 20 28V24Z" fill="#a56734"/>
+        <!-- Hair -->
+        <path d="M19 24C19 14.5 24.5 10 32 10C39.5 10 45 14.5 45 24C44 19 40 16.5 32 16.5C24 16.5 20 19 19 24Z" fill="#111827"/>
+        <!-- Glasses -->
+        <rect x="22.5" y="23" width="8" height="6" rx="2" stroke="#0b1322" stroke-width="1.8" fill="rgba(255,255,255,0.15)"/>
+        <rect x="33.5" y="23" width="8" height="6" rx="2" stroke="#0b1322" stroke-width="1.8" fill="rgba(255,255,255,0.15)"/>
+        <path d="M30.5 25.5H33.5" stroke="#0b1322" stroke-width="1.8"/>
+        <!-- Eyes -->
+        <circle cx="26.5" cy="26" r="1.3" fill="#0b1322"/>
+        <circle cx="37.5" cy="26" r="1.3" fill="#0b1322"/>
+        <!-- Smile -->
+        <path d="M28 32.5C29.5 34.5 34.5 34.5 36 32.5" stroke="#0b1322" stroke-width="2" stroke-linecap="round"/>
+        <!-- Headset Mic -->
+        <path d="M19 25V29C19 32.5 22 35 26 35" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="26.5" cy="35" r="2" fill="#0b1322"/>
+      </svg>
+    </span>
+    <span>Contact Support</span>
+  </button>
+</div>
+
+<!-- LEARNER BRIEF & RESERVATION MODAL -->
+<div class="backdrop" id="briefModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <div class="m-head">
+      <div>
+        <span class="eyebrow" id="mCode">#MT-204</span>
+        <h2 id="mTitle" style="font-size:20px">Learner Request Brief</h2>
+      </div>
+      <button type="button" class="m-close" id="closeModalBtn" aria-label="Close modal">✕</button>
+    </div>
+
+    <div class="m-tabs">
+      <button type="button" class="m-tab on" id="tabBrief">01. Session Brief</button>
+      <button type="button" class="m-tab" id="tabReserve">02. Reserve &amp; Apply</button>
+    </div>
+
+    <!-- STEP 1: BRIEF -->
+    <div id="viewBrief">
+      <div class="m-learner">
+        <div class="av-img"><img id="mAvatar" src="" alt=""></div>
+        <div style="flex:1;min-width:0">
+          <strong id="mName" style="display:block;font-size:15px"></strong>
+          <small id="mMeta" style="color:var(--muted);font-size:12px"></small>
+        </div>
+        <div style="text-align:right">
+          <div class="amount" id="mPayout">$22</div>
+          <div class="slots-left" id="mSlots">2 slots left</div>
+        </div>
+      </div>
+
+      <div class="label">Learning Objective</div>
+      <p id="mGoal" style="font-size:13.5px;color:var(--muted2);margin:6px 0 14px"></p>
+
+      <div class="label">Session Deliverables &amp; Focus</div>
+      <ul class="m-list" id="mChecklist"></ul>
+
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <button type="button" class="btn ghost sm" id="mSaveBtn">★ Save to Shortlist</button>
+        <button type="button" class="btn sm" id="goReserveBtn" style="flex:1">Reserve Slot &amp; Apply →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: RESERVE FORM -->
+    <div id="viewReserve" hidden>
+      <p style="font-size:12.5px;color:var(--muted2);background:rgba(255,255,255,.04);border:1px solid var(--line2);padding:10px 12px;border-radius:10px;margin-bottom:14px">
+        <strong style="color:var(--gold)">Why we ask:</strong> Entering your name, email address, and preferred start date holds this learner request and links your saved shortlist when you complete your tutor application.
+      </p>
+      <form id="reserveForm">
+        <div class="row2">
+          <div class="field">
+            <label for="fName">Your Full Name *</label>
+            <input type="text" id="fName" required placeholder="Full name">
+          </div>
+          <div class="field">
+            <label for="fEmail">Email Address *</label>
+            <input type="email" id="fEmail" required placeholder="Email address" pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$" title="Please enter a valid email address (e.g. name@domain.com)">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="fDate">Preferred Start Date *</label>
+            <input type="date" id="fDate" required>
+          </div>
+          <div class="field">
+            <label for="fStrength">Swahili Teaching Specialty</label>
+            <select id="fStrength">
+              <option>Conversational &amp; Everyday Swahili</option>
+              <option>Beginner Foundations &amp; Pronunciation</option>
+              <option>Grammar, Noun Classes &amp; Composition</option>
+              <option>Business, NGO &amp; Diplomatic Swahili</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fNote">Brief Note on Your Swahili Background (Optional)</label>
+          <textarea id="fNote" rows="2" placeholder="Native speaker, teaching experience, or dialects spoken..."></textarea>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button type="button" class="btn ghost sm" id="backBriefBtn">← Back</button>
+          <button type="submit" class="btn sm" style="flex:1">Hold Slot &amp; Continue ✓</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- STEP 3: CONFIRMATION & HANDOFF -->
+    <div id="viewDone" hidden>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="width:34px;height:34px;border-radius:50%;background:rgba(16,185,129,.18);color:#34d399;display:grid;place-items:center;font-weight:800">✓</span>
+        <div>
+          <div class="eyebrow" id="dRef">Ref #MT-8821</div>
+          <h3 style="font-size:17px">Slot Held for <span id="dTutorName" style="color:var(--gold)"></span></h3>
+        </div>
+      </div>
+
+      <div class="handoff-box">
+        <h4>Final Step: Complete Your Tutor Application</h4>
+        <p>Your provisional hold on <strong id="dLearnerName"></strong> is now reserved. To lock in this learner, access the classroom tools, and receive session payouts, complete your tutor registration on <strong>Mulaearn</strong> now.</p>
+        <a class="btn sm" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer" style="width:100%">Complete Application on Mulaearn →</a>
+      </div>
+
+      <div style="font-size:12px;color:var(--muted);display:grid;gap:5px;background:rgba(7,13,24,.55);padding:12px;border-radius:10px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between"><span>Learner:</span><strong id="dSummaryLearner" style="color:var(--text)"></strong></div>
+        <div style="display:flex;justify-content:space-between"><span>Email Linked:</span><strong id="dSummaryEmail" style="color:var(--text)"></strong></div>
+        <div style="display:flex;justify-content:space-between"><span>Start Date:</span><strong id="dSummaryDate" style="color:var(--text)"></strong></div>
+      </div>
+
+      <button type="button" class="btn ghost sm" id="doneCloseBtn" style="width:100%">← Back to Open Requests</button>
+    </div>
+  </div>
+</div>
+
+<!-- FAQS MODAL (TRIGGERED BY FAQS BUBBLE) -->
+<div class="backdrop" id="faqModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="faqModalTitle">
+    <div class="m-head">
+      <div>
+        <span class="eyebrow">Tutor Help Center</span>
+        <h2 id="faqModalTitle" style="font-size:20px">Frequently Asked Questions</h2>
+      </div>
+      <button type="button" class="m-close" id="closeFaqModal" aria-label="Close FAQs">✕</button>
+    </div>
+
+    <details class="acc" open>
+      <summary>Why do I enter my name, email address, and date when reserving?</summary>
+      <div class="acc-body">Entering your details creates a provisional hold reference (<code style="color:var(--gold)">#MT-XXXX</code>) and links your saved shortlist to your profile. Once you complete your tutor application on <strong>Mulaearn</strong>, your reserved learner requests carry over so you can proceed immediately.</div>
+    </details>
+    <details class="acc">
+      <summary>Do I need to complete registration on Mulaearn to claim a slot?</summary>
+      <div class="acc-body">Yes. Reserving a learner on MeloTutor places a temporary hold on the slot. You must complete your tutor registration and sign in on <strong>Mulaearn</strong> to finalize the booking, conduct the session, and receive payouts.</div>
+    </details>
+    <details class="acc">
+      <summary>What does the one-time KSh 500 registration fee cover?</summary>
+      <div class="acc-body">The one-time KSh 500 fee covers tutor identity verification and onboarding access to the platform. It does not purchase guaranteed bookings or fixed income; tutors earn through eligible, completed 60-minute Swahili lessons.</div>
+    </details>
+    <details class="acc">
+      <summary>How and when do tutors get paid?</summary>
+      <div class="acc-body">Once a scheduled 60-minute lesson is completed and verified, the session payout is credited to your balance and can be withdrawn via M-Pesa or supported bank rails.</div>
+    </details>
+
+    <div style="margin-top:14px;display:flex;gap:10px">
+      <a class="btn sm" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer" style="flex:1">Apply to Become a Tutor →</a>
+    </div>
+  </div>
+</div>
+
+<!-- TERMS & CONDITIONS LEGAL MODAL -->
+<div class="backdrop" id="termsModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="termsModalTitle">
+    <div class="m-head">
+      <div>
+        <span class="eyebrow">Platform Governance</span>
+        <h2 id="termsModalTitle" style="font-size:20px">Terms &amp; Conditions</h2>
+      </div>
+      <button type="button" class="m-close" id="closeTermsModal" aria-label="Close Terms and Conditions">✕</button>
+    </div>
+
+    <div class="terms-doc">
+      <div>
+        <h4>1. Independent Tutor Status &amp; Eligibility</h4>
+        <p>Tutors registered through MeloTutor and Mulaearn operate as independent language instructors. Applicants must possess strong spoken and written fluency in Swahili, be at least 18 years of age, and submit accurate identity details during registration.</p>
+      </div>
+      <div>
+        <h4>2. Session Completion &amp; Payout Verification</h4>
+        <p>Tutor earnings are strictly tied to eligible, completed tutoring sessions of at least 60 minutes delivered in accordance with the learner’s brief. Missed sessions, unverified lessons, or sessions cut short without learner consent are marked incomplete and do not qualify for payout.</p>
+      </div>
+      <div>
+        <h4>3. Registration Fee &amp; Non-Guarantee Policy</h4>
+        <p>The one-time KSh 500 onboarding fee covers profile verification and access to the MeloTutor network and Mulaearn tutor workspace. Platform access does not guarantee a minimum volume of student bookings or fixed income; demand depends on learner schedules and tutor availability.</p>
+      </div>
+      <div>
+        <h4>4. Code of Conduct, Confidentiality &amp; Non-Circumvention</h4>
+        <p>Tutors must maintain professional conduct, respect learner privacy, and keep all student contact details confidential. Soliciting learners outside official platform channels or bypassing booking procedures is strictly prohibited and may result in permanent account suspension.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <button type="button" class="btn sm" id="acceptTermsBtn" style="width:100%">I Understand &amp; Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHORTLIST DRAWER -->
+<div class="drawer-bg" id="drawerBg" hidden>
+  <div class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--line2)">
+      <div>
+        <div class="eyebrow">Tutor Shortlist</div>
+        <h3 id="drawerTitle" style="font-size:18px">Saved Learner Requests</h3>
+      </div>
+      <button type="button" class="m-close" id="closeDrawerBtn" aria-label="Close shortlist">✕</button>
+    </div>
+
+    <div class="drawer-list" id="drawerList"></div>
+
+    <div style="border-top:1px solid var(--line2);padding-top:14px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px">
+        <span style="color:var(--muted)">Combined Session Value:</span>
+        <strong id="drawerTotal" style="color:var(--gold);font-size:16px">$0.00</strong>
+      </div>
+      <a class="btn sm" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer" style="width:100%">Apply &amp; Sync Shortlist →</a>
+    </div>
+  </div>
+</div>
+
+<!-- PERSONALIZED CONCIERGE URGENCY NUDGE -->
+<aside class="nudge" id="nudgeCard" aria-live="polite">
+  <button type="button" class="nudge-close" id="closeNudgeBtn" aria-label="Dismiss notice">✕</button>
+  <div class="eyebrow" style="margin-bottom:6px">Tutor Onboarding Notice</div>
+  <p id="nudgeText" style="font-size:12.5px;color:var(--text);line-height:1.55;margin-bottom:12px;padding-right:16px"></p>
+  <a class="btn sm" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer" style="width:100%">Apply to Become a Tutor →</a>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const siteHeader = document.getElementById("siteHeader");
-    const menuToggle = document.getElementById("menuToggle");
-    const mainNav = document.getElementById("navLinks");
-    const navLinks = document.querySelectorAll(".nav-link");
-    const currentYear = document.getElementById("currentYear");
-
-    // 1. Automatic Copyright Year
-    if (currentYear) currentYear.textContent = new Date().getFullYear();
-
-    // 2. Sticky Header Elevation on Scroll
-    window.addEventListener("scroll", () => {
-        if (!siteHeader) return;
-        siteHeader.classList.toggle("scrolled", window.scrollY > 24);
-    }, { passive: true });
-
-    // 3. Live EAT Clock in Header Telemetry Bar
-    const clockEl = document.getElementById("liveEatClock");
-    function updateClock() {
-        if (!clockEl) return;
-        try {
-            const now = new Date();
-            const eatTime = now.toLocaleTimeString("en-GB", {
-                timeZone: "Africa/Nairobi",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit"
-            });
-            clockEl.textContent = `EAT ${eatTime}`;
-        } catch (e) {
-            clockEl.textContent = "EAT LIVE";
-        }
+(function () {
+  var LEARNERS = [
+    {
+      id: 'LRN-204',
+      name: 'Elena Rostova',
+      country: 'Germany',
+      level: 'Beginner',
+      cat: 'beginner',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      goal: 'Conversational Swahili and polite greetings for an upcoming 3-month research stay in Dar es Salaam.',
+      schedule: 'Tue & Thu · 18:00 EAT',
+      duration: '60 mins',
+      payout: 22,
+      slots: 2,
+      checklist: [
+        'Introduce everyday greetings, polite expressions, and self-introductions.',
+        'Practice market, transport, and restaurant roleplay scenarios.',
+        'Provide clear pronunciation feedback on coastal Swahili phonetics.'
+      ]
+    },
+    {
+      id: 'LRN-209',
+      name: 'Marcus Vance',
+      country: 'United States',
+      level: 'Intermediate',
+      cat: 'intermediate',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+      goal: 'Workplace vocabulary, listening comprehension, and natural everyday idioms with East African colleagues.',
+      schedule: 'Mon & Wed · 16:00 EAT',
+      duration: '60 mins',
+      payout: 20,
+      slots: 3,
+      checklist: [
+        'Run 30 minutes of unscripted conversational dialogue on current topics.',
+        'Correct verb tense transitions and subject prefixes in real time.',
+        'Share 10 practical idiomatic expressions after each session.'
+      ]
+    },
+    {
+      id: 'LRN-212',
+      name: 'Sora Takahashi',
+      country: 'Japan',
+      level: 'Beginner',
+      cat: 'beginner',
+      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+      goal: 'Essential noun classes, numbers, and travel communication ahead of a wildlife conservation trip to Nairobi.',
+      schedule: 'Sat · 11:00 EAT',
+      duration: '60 mins',
+      payout: 21,
+      slots: 2,
+      checklist: [
+        'Teach M-WA and KI-VI noun class foundations with simple examples.',
+        'Drill numbers, time-telling (Swahili clock), and directions.',
+        'Prepare a printable 1-page travel phrase recap.'
+      ]
+    },
+    {
+      id: 'LRN-215',
+      name: 'Claire Dubois',
+      country: 'France',
+      level: 'Advanced',
+      cat: 'advanced',
+      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80',
+      goal: 'Debating East African economic news, formal speech structure, and nuanced Swahili composition.',
+      schedule: 'Wed · 19:30 EAT',
+      duration: '60 mins',
+      payout: 28,
+      slots: 1,
+      checklist: [
+        'Discuss one East African editorial article per session in fluent Swahili.',
+        'Refine formal register, passive/causative verb extensions, and proverbs.',
+        'Review short written summary paragraphs submitted by the learner.'
+      ]
+    },
+    {
+      id: 'LRN-218',
+      name: 'David Osei',
+      country: 'United Kingdom',
+      level: 'Intermediate',
+      cat: 'intermediate',
+      avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80',
+      goal: 'Moving from passive family understanding to confident, spontaneous speaking during visits to Mombasa.',
+      schedule: 'Tue & Sat · 14:00 EAT',
+      duration: '60 mins',
+      payout: 21,
+      slots: 3,
+      checklist: [
+        'Build active speaking confidence through storytelling and Q&A drills.',
+        'Expand family, community, and coastal cultural vocabulary.',
+        'Eliminate hesitation when switching between past, present, and future tenses.'
+      ]
+    },
+    {
+      id: 'LRN-221',
+      name: 'Hannah Lindqvist',
+      country: 'Sweden',
+      level: 'Business & NGO',
+      cat: 'business',
+      avatar: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=200&q=80',
+      goal: 'Community outreach vocabulary, formal meeting greetings, and field communication for NGO coordination.',
+      schedule: 'Thu · 17:00 EAT',
+      duration: '60 mins',
+      payout: 25,
+      slots: 2,
+      checklist: [
+        'Practice formal introductions and community stakeholder meeting etiquette.',
+        'Build health, education, and logistics terminology.',
+        'Simulate field interviews and Q&A sessions in clear Swahili.'
+      ]
+    },
+    {
+      id: 'LRN-224',
+      name: 'Mateo Silva',
+      country: 'Brazil',
+      level: 'Beginner',
+      cat: 'beginner',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+      goal: 'Structured step-by-step Swahili grammar from scratch with focus on clear pronunciation and listening.',
+      schedule: 'Fri · 18:30 EAT',
+      duration: '60 mins',
+      payout: 19,
+      slots: 4,
+      checklist: [
+        'Master Swahili vowel sounds, syllable stress, and personal pronouns.',
+        'Build basic sentence construction using everyday verbs.',
+        'Assign light 15-minute vocabulary review between weekly sessions.'
+      ]
+    },
+    {
+      id: 'LRN-227',
+      name: 'Dr. Priya Nair',
+      country: 'India',
+      level: 'Business & NGO',
+      cat: 'business',
+      avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=200&q=80',
+      goal: 'Patient consultation phrases and empathetic medical communication ahead of a clinical fellowship in Kenya.',
+      schedule: 'Mon & Thu · 19:00 EAT',
+      duration: '60 mins',
+      payout: 26,
+      slots: 2,
+      checklist: [
+        'Practice polite patient intake questions and symptom descriptions.',
+        'Focus on respectful forms of address for elders and families.',
+        'Roleplay clinic triage conversations at a natural pace.'
+      ]
+    },
+    {
+      id: 'LRN-230',
+      name: 'Lucas Lindholm',
+      country: 'Norway',
+      level: 'Advanced',
+      cat: 'advanced',
+      avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80',
+      goal: 'Polishing oral fluency, East African radio comprehension, and nuanced storytelling idioms.',
+      schedule: 'Sun · 15:00 EAT',
+      duration: '60 mins',
+      payout: 27,
+      slots: 2,
+      checklist: [
+        'Analyze audio clips and summarize key points in natural Swahili.',
+        'Refine complex relative clauses and conditional expressions.',
+        'Provide detailed vocabulary upgrades during open conversation.'
+      ]
     }
-    updateClock();
-    setInterval(updateClock, 1000);
+  ];
 
-    // 4. Live Telemetry Ticker & Learner Feed Cycling
-    const headerTicker = document.getElementById("headerTickerText");
-    const liveFeedMessage = document.getElementById("liveFeedMessage");
-    const liveFeedTime = document.getElementById("liveFeedTime");
+  var state = {
+    level: 'all',
+    query: '',
+    sort: 'featured',
+    saved: new Set(),
+    holds: new Map(),
+    activeId: null,
+    tutorName: '',
+    nudgeDismissed: false
+  };
 
-    const liveUpdates = [
-        {
-            short: "Beginner request • Greetings & Pronunciation",
-            full: "Learner Track #01: Swahili Foundations — Vocabulary and pronunciation",
-            time: "Active track"
-        },
-        {
-            short: "Intermediate request • Everyday Swahili dialogue",
-            full: "Learner Track #02: Conversation Practice — Everyday Swahili conversations",
-            time: "High demand"
-        },
-        {
-            short: "Beginner request • Travel & daily phrases",
-            full: "Learner Track #03: Practical Swahili — Useful phrases and communication",
-            time: "Active track"
-        },
-        {
-            short: "Advanced request • Grammar, idioms & formal Swahili",
-            full: "Learner Track #04: Grammar & Fluency — Complex grammar, idioms & formal Swahili",
-            time: "Verified track"
-        }
-    ];
+  function $(s) { return document.querySelector(s); }
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
 
-    let updateIndex = 0;
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var toastTimer;
+  function showToast(msg) {
+    var t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3200);
+  }
 
-    if (!prefersReducedMotion) {
-        setInterval(() => {
-            updateIndex = (updateIndex + 1) % liveUpdates.length;
-            const item = liveUpdates[updateIndex];
+  var nudgeTimer;
+  function scheduleNudge(ms) {
+    if (state.nudgeDismissed) return;
+    if (state.saved.size === 0 && state.holds.size === 0) return;
+    clearTimeout(nudgeTimer);
+    nudgeTimer = setTimeout(function () {
+      if (state.nudgeDismissed) return;
+      var txt = $('#nudgeText');
+      if (state.tutorName) {
+        txt.innerHTML = 'Hi <strong style="color:var(--gold)">' + esc(state.tutorName) + '</strong>, complete your tutor application on Mulaearn so your reserved learner slot stays locked in.';
+      } else if (state.holds.size > 0) {
+        txt.innerHTML = 'Your provisional learner hold is active — finish your tutor application on <strong style="color:var(--gold)">Mulaearn</strong> before the slot reopens.';
+      } else {
+        var n = state.saved.size;
+        txt.innerHTML = 'You have <strong style="color:var(--gold)">' + n + ' shortlisted ' + (n === 1 ? 'request' : 'requests') + '</strong> waiting — apply on Mulaearn now to claim your preferred learners.';
+      }
+      $('#nudgeCard').classList.add('show');
+    }, ms || 11000);
+  }
 
-            if (headerTicker) {
-                headerTicker.classList.add("updating");
-                setTimeout(() => {
-                    headerTicker.textContent = item.short;
-                    headerTicker.classList.remove("updating");
-                }, 220);
-            }
-
-            if (liveFeedMessage && liveFeedTime) {
-                liveFeedMessage.style.opacity = "0";
-                setTimeout(() => {
-                    liveFeedMessage.textContent = item.full;
-                    liveFeedTime.textContent = item.time;
-                    liveFeedMessage.style.opacity = "1";
-                }, 220);
-            }
-        }, 4600);
-    }
-
-    // 5. Mobile Navigation Drawer
-    function closeMenu() {
-        if (!mainNav || !menuToggle) return;
-        mainNav.classList.remove("open");
-        menuToggle.classList.remove("active");
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.setAttribute("aria-label", "Open navigation menu");
-    }
-
-    if (menuToggle && mainNav) {
-        menuToggle.addEventListener("click", () => {
-            const isOpen = mainNav.classList.toggle("open");
-            menuToggle.classList.toggle("active", isOpen);
-            menuToggle.setAttribute("aria-expanded", String(isOpen));
-            menuToggle.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation menu");
-        });
-
-        mainNav.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", closeMenu);
-        });
-
-        document.addEventListener("click", event => {
-            if (!mainNav.contains(event.target) && !menuToggle.contains(event.target)) {
-                closeMenu();
-            }
-        });
-
-        window.addEventListener("resize", () => {
-            if (window.innerWidth > 960) closeMenu();
-        });
-    }
-
-    // 6. Scroll Spy for Active Navigation Links
-    const sections = Array.from(navLinks)
-        .map(link => {
-            const href = link.getAttribute("href");
-            return href && href.startsWith("#") ? document.querySelector(href) : null;
-        })
-        .filter(Boolean);
-
-    function setActiveNav(id) {
-        navLinks.forEach(link => {
-            const matches = link.getAttribute("href") === `#${id}`;
-            link.classList.toggle("active", matches);
-        });
-    }
-
-    navLinks.forEach(link => {
-        link.addEventListener("click", () => {
-            const href = link.getAttribute("href");
-            if (href && href.startsWith("#")) {
-                setActiveNav(href.slice(1));
-            }
-        });
+  function renderGrid() {
+    var q = state.query.toLowerCase().trim();
+    var list = LEARNERS.filter(function (x) {
+      var okCat = state.level === 'all' || x.cat === state.level;
+      var okQ = !q || x.name.toLowerCase().includes(q) || x.country.toLowerCase().includes(q) || x.goal.toLowerCase().includes(q) || x.level.toLowerCase().includes(q);
+      return okCat && okQ;
     });
 
-    if ("IntersectionObserver" in window && sections.length) {
-        const observer = new IntersectionObserver(
-            entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        setActiveNav(entry.target.id);
-                    }
-                });
-            },
-            { rootMargin: "-30% 0px -55% 0px", threshold: 0.01 }
-        );
-        sections.forEach(section => observer.observe(section));
+    if (state.sort === 'payout-desc') {
+      list = list.slice().sort(function (a, b) { return b.payout - a.payout; });
+    } else if (state.sort === 'slots-asc') {
+      list = list.slice().sort(function (a, b) { return a.slots - b.slots; });
     }
 
-    // 7. Smooth External Account Hand-off Notice (Mulaearn Login & Registration)
-    const redirectNotice = document.getElementById("redirectNotice");
-    document.querySelectorAll("a[data-mulaearn]").forEach(link => {
-        link.addEventListener("click", event => {
-            if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-            event.preventDefault();
-            const destination = link.dataset.mulaearn === "login"
-                ? "Mulaearn tutor login"
-                : "Mulaearn tutor registration";
-            if (redirectNotice) {
-                redirectNotice.innerHTML = `<span class="live-dot" aria-hidden="true"></span><span>Connecting to ${destination}…</span>`;
-                redirectNotice.classList.add("visible");
-            }
-            window.setTimeout(() => {
-                window.location.href = link.href;
-            }, 550);
-        });
-    });
+    var filtered = state.level !== 'all' || q !== '' || state.sort !== 'featured';
+    $('#resultCount').textContent = filtered
+      ? 'Showing ' + list.length + ' matching learner ' + (list.length === 1 ? 'request' : 'requests')
+      : 'Showing active learner requests · Updated daily';
+    $('#resetBtn').hidden = !filtered;
+    $('#learnerEmpty').hidden = list.length > 0;
 
-    // 8. Learner Search & Level Filters (All 4 levels functional)
-    const track = document.getElementById("learnerTrack");
-    const searchInput = document.getElementById("learnerSearch");
-    const filterButtons = document.querySelectorAll("[data-level-filter]");
-    const emptyMessage = document.getElementById("learnerEmpty");
-    const learnerCards = track ? Array.from(track.querySelectorAll(".learner-card")) : [];
-    let selectedLevel = "all";
+    $('#learnerGrid').innerHTML = list.map(function (x) {
+      var isSaved = state.saved.has(x.id);
+      var hold = state.holds.get(x.id);
+      return '<article class="card learner">' +
+        '<div class="l-top">' +
+          '<div class="av-img"><img src="' + esc(x.avatar) + '" alt="' + esc(x.name) + '" loading="lazy"></div>' +
+          '<div class="l-id"><strong>' + esc(x.name) + '</strong><small>' + esc(x.country) + '</small></div>' +
+          '<button type="button" class="save-btn' + (isSaved ? ' saved' : '') + '" data-save="' + esc(x.id) + '" aria-label="Save request">' + (isSaved ? '★' : '☆') + '</button>' +
+        '</div>' +
+        '<div class="tag-row"><span class="tag">' + esc(x.level) + '</span><span class="code-tag">#' + esc(x.id) + '</span></div>' +
+        '<p class="goal">' + esc(x.goal) + '</p>' +
+        '<div class="chips"><span class="chip">' + esc(x.schedule) + '</span><span class="chip">' + esc(x.duration) + '</span></div>' +
+        '<div class="l-pay">' +
+          '<div><div class="label">Session Payout</div><div class="amount">$' + x.payout + ' <small>/ hr</small></div></div>' +
+          '<div style="text-align:right">' +
+            '<div class="slots-left">' + (hold ? '⏳ Held (' + esc(hold.ref) + ')' : x.slots + ' ' + (x.slots === 1 ? 'slot' : 'slots') + ' open') + '</div>' +
+            '<button type="button" class="btn sm' + (hold ? ' subtle' : '') + '" data-open="' + esc(x.id) + '" style="margin-top:5px">' + (hold ? 'Finish Application' : 'View Brief & Apply') + '</button>' +
+          '</div>' +
+        '</div>' +
+      '</article>';
+    }).join('');
+  }
 
-    function filterLearners() {
-        const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
-        let visibleCount = 0;
-
-        learnerCards.forEach(card => {
-            const level = card.dataset.level || "";
-            const searchableText = `${card.dataset.search || ""} ${card.textContent}`.toLowerCase();
-            const matchesLevel = selectedLevel === "all" || level === selectedLevel;
-            const matchesSearch = !query || searchableText.includes(query);
-            const visible = matchesLevel && matchesSearch;
-
-            card.hidden = !visible;
-            if (visible) visibleCount++;
-        });
-
-        if (emptyMessage) emptyMessage.hidden = visibleCount !== 0;
-        updateCarousel();
+  function renderDrawer() {
+    $('#savedCount').textContent = state.saved.size;
+    var box = $('#drawerList');
+    if (state.saved.size === 0) {
+      $('#drawerTotal').textContent = '$0.00';
+      box.innerHTML = '<div class="empty">No saved learner requests yet. Tap ☆ on any request card to shortlist it here.</div>';
+      return;
     }
+    var sum = 0;
+    box.innerHTML = Array.from(state.saved).map(function (id) {
+      var x = LEARNERS.find(function (item) { return item.id === id; });
+      if (!x) return '';
+      sum += x.payout;
+      return '<div class="d-item">' +
+        '<div class="av-img" style="width:40px;height:40px"><img src="' + esc(x.avatar) + '" alt=""></div>' +
+        '<div style="flex:1;min-width:0"><strong style="display:block;font-size:13px">' + esc(x.name) + '</strong><small style="color:var(--muted);font-size:11px">' + esc(x.level) + ' · $' + x.payout + '/hr</small></div>' +
+        '<button type="button" class="btn sm ghost" data-d-open="' + esc(x.id) + '">Open</button>' +
+        '<button type="button" class="m-close" data-d-del="' + esc(x.id) + '" aria-label="Remove">✕</button>' +
+      '</div>';
+    }).join('');
+    $('#drawerTotal').textContent = '$' + sum.toFixed(2) + ' / wk';
+  }
 
-    if (searchInput) searchInput.addEventListener("input", filterLearners);
-
-    filterButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            selectedLevel = button.dataset.levelFilter || "all";
-            filterButtons.forEach(item => {
-                const active = item === button;
-                item.classList.toggle("active", active);
-                item.setAttribute("aria-pressed", String(active));
-            });
-            filterLearners();
-        });
-    });
-
-    // 9. Expandable Learning-Focus Panels
-    if (track) {
-        track.addEventListener("click", event => {
-            const trigger = event.target.closest(".learner-expand");
-            if (!trigger) return;
-
-            const card = trigger.closest(".learner-card");
-            const panel = card ? card.querySelector(".learner-extra") : null;
-            if (!card || !panel) return;
-
-            const isExpanded = trigger.getAttribute("aria-expanded") === "true";
-            trigger.setAttribute("aria-expanded", String(!isExpanded));
-            panel.hidden = isExpanded;
-            trigger.innerHTML = isExpanded
-                ? 'View learning focus <span>＋</span>'
-                : 'Hide learning focus <span>−</span>';
-            card.classList.toggle("expanded", !isExpanded);
-        });
+  function toggleSave(id) {
+    var x = LEARNERS.find(function (item) { return item.id === id; });
+    if (!x) return;
+    if (state.saved.has(id)) {
+      state.saved.delete(id);
+      showToast('Removed ' + x.name + ' from shortlist');
+    } else {
+      state.saved.add(id);
+      showToast('Saved ' + x.name + ' to shortlist');
+      scheduleNudge(10000);
     }
-
-    // 10. Mobile Horizontal Carousel Controls
-    const previousButton = document.getElementById("learnerPrev");
-    const nextButton = document.getElementById("learnerNext");
-
-    function scrollLearners(direction) {
-        if (!track) return;
-        const firstVisible = learnerCards.find(card => !card.hidden);
-        const amount = firstVisible ? firstVisible.getBoundingClientRect().width + 16 : 300;
-        track.scrollBy({
-            left: direction * amount,
-            behavior: prefersReducedMotion ? "auto" : "smooth"
-        });
+    renderGrid();
+    renderDrawer();
+    if (state.activeId === id) {
+      $('#mSaveBtn').textContent = state.saved.has(id) ? '★ Saved in Shortlist' : '☆ Save to Shortlist';
     }
+  }
 
-    if (previousButton) previousButton.addEventListener("click", () => scrollLearners(-1));
-    if (nextButton) nextButton.addEventListener("click", () => scrollLearners(1));
+  /* MODAL LOGIC */
+  function setStep(step) {
+    $('#viewBrief').hidden = step !== 'brief';
+    $('#viewReserve').hidden = step !== 'reserve';
+    $('#viewDone').hidden = step !== 'done';
+    $('#tabBrief').classList.toggle('on', step === 'brief');
+    $('#tabReserve').classList.toggle('on', step !== 'brief');
+  }
 
-    function updateCarousel() {
-        if (!track) return;
-        const mobileCarousel = window.matchMedia("(max-width: 780px)").matches;
-        if (previousButton) previousButton.disabled = !mobileCarousel;
-        if (nextButton) nextButton.disabled = !mobileCarousel;
+  function openModal(id) {
+    var x = LEARNERS.find(function (item) { return item.id === id; });
+    if (!x) return;
+    state.activeId = id;
+    $('#mCode').textContent = '#' + x.id + ' · ' + x.level;
+    $('#mTitle').textContent = x.name + ' (' + x.country + ')';
+    $('#mAvatar').src = x.avatar;
+    $('#mName').textContent = x.name;
+    $('#mMeta').textContent = x.schedule + ' · ' + x.duration;
+    $('#mPayout').innerHTML = '$' + x.payout + ' <small>/ hr</small>';
+    $('#mSlots').textContent = x.slots + ' ' + (x.slots === 1 ? 'slot' : 'slots') + ' open';
+    $('#mGoal').textContent = x.goal;
+    $('#mChecklist').innerHTML = x.checklist.map(function (c) { return '<li>' + esc(c) + '</li>'; }).join('');
+    $('#mSaveBtn').textContent = state.saved.has(id) ? '★ Saved in Shortlist' : '☆ Save to Shortlist';
+
+    var tmr = new Date();
+    tmr.setDate(tmr.getDate() + 1);
+    $('#fDate').value = tmr.toISOString().split('T')[0];
+    if (state.tutorName) $('#fName').value = state.tutorName;
+
+    var existing = state.holds.get(id);
+    if (existing) {
+      fillDone(x, existing);
+      setStep('done');
+    } else {
+      setStep('brief');
     }
+    $('#briefModal').hidden = false;
+  }
 
-    window.addEventListener("resize", updateCarousel);
-    updateCarousel();
-    filterLearners();
+  function fillDone(x, hold) {
+    $('#dRef').textContent = 'Provisional Hold · #' + hold.ref;
+    $('#dTutorName').textContent = hold.tutorName;
+    $('#dLearnerName').textContent = x.name + ' (' + x.country + ')';
+    $('#dSummaryLearner').textContent = x.name + ' · $' + x.payout + '/hr';
+    $('#dSummaryEmail').textContent = hold.email;
+    $('#dSummaryDate').textContent = hold.date;
+  }
 
-    // 11. Interactive Weekly Session Commitment Planner
-    const sessionSlider = document.getElementById("sessionSlider");
-    const sessionCountDisplay = document.getElementById("sessionCountDisplay");
-    const sessionHoursDisplay = document.getElementById("sessionHoursDisplay");
+  function closeModal() { $('#briefModal').hidden = true; }
 
-    if (sessionSlider && sessionCountDisplay && sessionHoursDisplay) {
-        const updatePlanner = () => {
-            const count = Number(sessionSlider.value);
-            sessionCountDisplay.textContent = `${count} ${count === 1 ? "session" : "sessions"} / wk`;
-            sessionHoursDisplay.textContent = `${count.toFixed(1)} hrs / wk`;
-        };
-        sessionSlider.addEventListener("input", updatePlanner);
-        updatePlanner();
+  /* FLOATING BUBBLES: SUPPORT & FAQS & TERMS */
+  $('#supportBubbleBtn').addEventListener('click', function () {
+    $('#supportPopover').hidden = !$('#supportPopover').hidden;
+  });
+  $('#closeSupportPop').addEventListener('click', function () {
+    $('#supportPopover').hidden = true;
+  });
+  $('#footerSupportBtn').addEventListener('click', function () {
+    $('#supportPopover').hidden = false;
+  });
+
+  $('#faqBubbleBtn').addEventListener('click', function () {
+    $('#supportPopover').hidden = true;
+    $('#faqModal').hidden = false;
+  });
+  $('#footerFaqBtn').addEventListener('click', function () {
+    $('#faqModal').hidden = false;
+  });
+  $('#closeFaqModal').addEventListener('click', function () {
+    $('#faqModal').hidden = true;
+  });
+  $('#faqModal').addEventListener('click', function (e) {
+    if (e.target === this) this.hidden = true;
+  });
+
+  function openTerms() { $('#termsModal').hidden = false; }
+  $('#navTermsBtn').addEventListener('click', openTerms);
+  $('#footerTermsBtn').addEventListener('click', openTerms);
+  $('#closeTermsModal').addEventListener('click', function () { $('#termsModal').hidden = true; });
+  $('#acceptTermsBtn').addEventListener('click', function () { $('#termsModal').hidden = true; });
+  $('#termsModal').addEventListener('click', function (e) {
+    if (e.target === this) this.hidden = true;
+  });
+
+  /* EVENTS */
+  $('#learnerGrid').addEventListener('click', function (e) {
+    var openBtn = e.target.closest('[data-open]');
+    if (openBtn) { openModal(openBtn.dataset.open); return; }
+    var saveBtn = e.target.closest('[data-save]');
+    if (saveBtn) toggleSave(saveBtn.dataset.save);
+  });
+
+  $('#levelFilters').addEventListener('click', function (e) {
+    var b = e.target.closest('.fchip');
+    if (!b) return;
+    state.level = b.dataset.level;
+    this.querySelectorAll('.fchip').forEach(function (c) { c.classList.toggle('on', c === b); });
+    renderGrid();
+  });
+
+  $('#searchInput').addEventListener('input', function (e) {
+    state.query = e.target.value;
+    renderGrid();
+  });
+
+  $('#sortSelect').addEventListener('change', function (e) {
+    state.sort = e.target.value;
+    renderGrid();
+  });
+
+  $('#resetBtn').addEventListener('click', function () {
+    state.level = 'all';
+    state.query = '';
+    state.sort = 'featured';
+    $('#searchInput').value = '';
+    $('#sortSelect').value = 'featured';
+    $('#levelFilters').querySelectorAll('.fchip').forEach(function (c) { c.classList.toggle('on', c.dataset.level === 'all'); });
+    renderGrid();
+  });
+
+  $('#closeModalBtn').addEventListener('click', closeModal);
+  $('#doneCloseBtn').addEventListener('click', closeModal);
+  $('#briefModal').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
+  $('#tabBrief').addEventListener('click', function () { setStep('brief'); });
+  $('#tabReserve').addEventListener('click', function () { setStep('reserve'); });
+  $('#goReserveBtn').addEventListener('click', function () { setStep('reserve'); });
+  $('#backBriefBtn').addEventListener('click', function () { setStep('brief'); });
+  $('#mSaveBtn').addEventListener('click', function () { if (state.activeId) toggleSave(state.activeId); });
+
+  /* EMAIL VALIDATION + FORM SUBMIT */
+  var emailInput = $('#fEmail');
+  emailInput.addEventListener('input', function () {
+    var val = emailInput.value.trim();
+    var valid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val);
+    if (!val) {
+      emailInput.setCustomValidity('Please enter your email address.');
+    } else if (!valid) {
+      emailInput.setCustomValidity('Please enter a valid email address with a domain (e.g. name@gmail.com).');
+    } else {
+      emailInput.setCustomValidity('');
     }
-});
+  });
+
+  $('#reserveForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var emailVal = emailInput.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailVal)) {
+      emailInput.setCustomValidity('Please enter a valid email address with a domain.');
+      emailInput.reportValidity();
+      return;
+    }
+    var x = LEARNERS.find(function (item) { return item.id === state.activeId; });
+    if (!x) return;
+    var hold = {
+      ref: 'MT-' + Math.floor(1000 + Math.random() * 9000),
+      tutorName: $('#fName').value.trim(),
+      email: emailVal,
+      date: $('#fDate').value
+    };
+    state.tutorName = hold.tutorName;
+    state.holds.set(x.id, hold);
+    if (!state.saved.has(x.id)) {
+      state.saved.add(x.id);
+      renderDrawer();
+    }
+    fillDone(x, hold);
+    setStep('done');
+    renderGrid();
+    scheduleNudge(9000);
+  });
+
+  $('#openDrawerBtn').addEventListener('click', function () { $('#drawerBg').hidden = false; });
+  $('#closeDrawerBtn').addEventListener('click', function () { $('#drawerBg').hidden = true; });
+  $('#drawerBg').addEventListener('click', function (e) { if (e.target === this) this.hidden = true; });
+  $('#drawerList').addEventListener('click', function (e) {
+    var o = e.target.closest('[data-d-open]');
+    if (o) { $('#drawerBg').hidden = true; openModal(o.dataset.dOpen); return; }
+    var d = e.target.closest('[data-d-del]');
+    if (d) toggleSave(d.dataset.dDel);
+  });
+
+  $('#closeNudgeBtn').addEventListener('click', function () {
+    state.nudgeDismissed = true;
+    $('#nudgeCard').classList.remove('show');
+  });
+
+  /* EARNINGS PLANNER */
+  $('#sessRange').addEventListener('input', function (e) {
+    var n = Number(e.target.value);
+    $('#sessLabel').textContent = n + (n === 1 ? ' session' : ' sessions');
+    $('#hrsOut').textContent = n.toFixed(1) + ' hrs';
+    $('#usdOut').textContent = '$' + (n * 20) + ' / wk';
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      closeModal();
+      $('#drawerBg').hidden = true;
+      $('#faqModal').hidden = true;
+      $('#termsModal').hidden = true;
+      $('#supportPopover').hidden = true;
+    }
+  });
+
+  $('#year').textContent = new Date().getFullYear();
+  renderGrid();
+  renderDrawer();
+})();
 </script>
 </body>
-  </html>
+</html>
