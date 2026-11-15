@@ -40,6 +40,37 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .shortlist-btn:hover{border-color:rgba(252,163,17,.5);background:rgba(252,163,17,.1)}
 .badge-count{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;padding:0 5px;border-radius:99px;background:var(--gold);color:#0b1322;font-size:11px;font-weight:800}
 
+/* SIDEBAR MENU BUTTON */
+.menu-toggle{width:40px;height:40px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.04);display:grid;place-items:center;gap:4px;padding:9px;flex-shrink:0}
+.menu-toggle:hover{border-color:var(--gold);background:rgba(252,163,17,.1)}
+.menu-toggle span{display:block;width:19px;height:2px;background:var(--gold);border-radius:3px}
+.site-sidebar-bg{position:fixed;inset:0;background:rgba(5,10,20,.78);backdrop-filter:blur(5px);z-index:70;display:flex;justify-content:flex-end}
+.site-sidebar{width:min(390px,88vw);height:100%;background:linear-gradient(155deg,#172642,#0b1322);border-left:1px solid var(--line);padding:22px;display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.45);overflow-y:auto}
+.sidebar-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid var(--line2)}
+.sidebar-brand{font-size:19px;font-weight:800}
+.sidebar-brand span{color:var(--gold)}
+.sidebar-close{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.05);font-size:17px}
+.sidebar-intro{padding:22px 0 16px}
+.sidebar-intro .eyebrow{margin-bottom:7px}
+.sidebar-intro h3{font-size:21px;line-height:1.25;margin-bottom:7px}
+.sidebar-intro p{font-size:12.5px;color:var(--muted2)}
+.sidebar-links{display:grid;gap:8px;margin:8px 0 20px}
+.sidebar-links a,.sidebar-links button{display:flex;align-items:center;gap:11px;width:100%;padding:12px 13px;background:rgba(7,13,24,.55);border:1px solid var(--line2);border-radius:11px;color:var(--muted2);font-size:13px;font-weight:650;text-align:left}
+.sidebar-links a:hover,.sidebar-links button:hover{border-color:var(--gold);color:var(--gold2);background:rgba(252,163,17,.08)}
+.sidebar-links .side-icon{width:25px;height:25px;display:grid;place-items:center;border-radius:8px;background:rgba(252,163,17,.12);color:var(--gold)}
+.sidebar-bottom{margin-top:auto;border-top:1px solid var(--line2);padding-top:18px}
+.sidebar-bottom p{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.sidebar-apply{width:100%;padding:13px}
+
+/* CURRENCY TRIGGER BADGE / SELECTOR */
+.currency-dropdown-wrap{position:relative;display:inline-block}
+.currency-trigger{display:inline-flex;align-items:center;gap:5px;background:rgba(252,163,17,.1);border:1px solid rgba(252,163,17,.35);padding:6px 11px;border-radius:9px;font-size:12px;font-weight:700;color:var(--gold2);cursor:pointer;transition:background .15s}
+.currency-trigger:hover{background:rgba(252,163,17,.2)}
+.currency-menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--card2);border:1px solid rgba(252,163,17,.4);border-radius:12px;width:180px;box-shadow:0 12px 30px rgba(0,0,0,.6);z-index:40;overflow:hidden}
+.currency-option{display:flex;align-items:center;justify-content:space-between;width:100%;padding:10px 14px;background:none;border:0;font-size:12.5px;font-weight:600;color:var(--text);text-align:left;transition:background .15s}
+.currency-option:hover{background:rgba(252,163,17,.15);color:var(--gold2)}
+.currency-option.active{color:var(--gold);font-weight:800}
+
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:11px;padding:12px 18px;font-weight:800;font-size:13px;background:var(--gold);color:#0b1322;transition:filter .15s,transform .1s;white-space:nowrap}
 .btn:hover:not(:disabled){background:var(--gold2)}
@@ -126,16 +157,26 @@ h2{font-size:clamp(20px,3vw,26px);letter-spacing:-.5px;margin-top:4px}
 .step-num{font-size:22px;font-weight:800;color:var(--gold);letter-spacing:-.5px;margin-bottom:8px}
 .step-card h3{font-size:15px;margin-bottom:6px}
 .step-card p{font-size:12.5px;color:var(--muted2);line-height:1.55}
-
 .standards-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .std-card{padding:16px 18px;border-left:3px solid var(--gold)}
 .std-card h3{font-size:14px;margin-bottom:4px;color:var(--gold)}
 .std-card p{font-size:12.5px;color:var(--muted2);line-height:1.55}
 
+/* CERTIFICATE SECTION & REALISTIC DESIGN */
+.cert-section-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:20px;align-items:center}
+.cert-preview-frame{background:#f8f6f0;color:#1c1c1c;border:8px double #8c6d33;border-radius:14px;padding:26px 20px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.55);position:relative}
+.cert-preview-frame::before{content:"";position:absolute;inset:6px;border:1px solid #c5a059;pointer-events:none}
+.cert-badge-top{width:50px;height:50px;border-radius:50%;background:radial-gradient(circle, #f3d068 0%, #aa7c11 100%);color:#fff;font-weight:900;font-size:16px;display:grid;place-items:center;margin:0 auto 8px;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+.cert-recipient-slot{font-size:23px;font-weight:800;color:#2c220f;margin:8px 0;font-family:Georgia,serif;border-bottom:1px solid #d4af37;display:inline-block;padding:0 20px}
+.cert-sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:22px;padding-top:10px;border-top:1px solid #c5a059;font-size:10px;color:#555}
+.cert-sig-line{border-top:1px solid #8c6d33;width:100px;margin:0 auto 3px}
+
 /* ONBOARDING & EARNINGS PLANNER */
 .onboard-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
 .fee-box{border:1px solid rgba(252,163,17,.38);background:linear-gradient(155deg,#172642,#0f182a)}
 .fee-price{font-size:30px;font-weight:800;color:var(--gold);letter-spacing:-1px;margin:8px 0}
+.fee-hint{font-size:12px;color:var(--muted);margin-top:6px;display:block}
+.fee-hint button{background:none;border:0;color:var(--gold);text-decoration:underline;cursor:pointer;font-weight:700}
 .fee-list{display:grid;gap:8px;margin:14px 0 18px;font-size:13px;color:var(--muted2)}
 .fee-list div{display:flex;align-items:flex-start;gap:8px}
 .fee-list span{color:#34d399;font-weight:800}
@@ -152,7 +193,6 @@ input[type="range"]{width:100%;accent-color:var(--gold);cursor:pointer}
 .bubble-btn:hover{transform:translateY(-2px);border-color:var(--gold)}
 .cartoon-av{width:34px;height:34px;border-radius:50%;background:var(--gold);display:grid;place-items:center;overflow:hidden;flex-shrink:0;border:1.5px solid #fff}
 .faq-icon-av{width:34px;height:34px;border-radius:50%;background:rgba(252,163,17,.16);border:1px solid rgba(252,163,17,.45);color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:14px;flex-shrink:0}
-
 .support-popover{background:linear-gradient(155deg,#172642,#0e1729);border:1px solid rgba(252,163,17,.45);border-radius:16px;padding:14px;width:250px;box-shadow:0 18px 45px rgba(0,0,0,.65);margin-bottom:4px}
 .support-popover h4{font-size:13px;color:var(--gold);margin-bottom:3px}
 .support-popover p{font-size:11.5px;color:var(--muted2);margin-bottom:10px}
@@ -167,7 +207,6 @@ details.acc summary::-webkit-details-marker{display:none}
 details.acc summary::after{content:"+";color:var(--gold);font-size:17px;font-weight:400}
 details.acc[open] summary::after{content:"−"}
 details.acc .acc-body{padding:0 15px 14px;font-size:12.5px;color:var(--muted2);line-height:1.6;border-top:1px solid rgba(255,255,255,.05);padding-top:10px}
-
 .terms-doc{display:grid;gap:14px;font-size:13px;color:var(--muted2);line-height:1.65}
 .terms-doc h4{color:var(--gold);font-size:13.5px;margin-bottom:3px}
 
@@ -193,7 +232,7 @@ details.acc .acc-body{padding:0 15px 14px;font-size:12.5px;color:var(--muted2);l
 .handoff-box h4{color:var(--gold);font-size:14px;margin-bottom:6px}
 .handoff-box p{font-size:12.5px;color:var(--text);line-height:1.6;margin-bottom:12px}
 
-/* DRAWER */
+/* SHORTLIST DRAWER */
 .drawer-bg{position:fixed;inset:0;background:rgba(5,10,20,.78);backdrop-filter:blur(5px);display:flex;justify-content:flex-end;z-index:50}
 .drawer{background:var(--card);border-left:1px solid var(--line);width:100%;max-width:400px;height:100%;display:flex;flex-direction:column;padding:20px}
 .drawer-list{flex:1;overflow-y:auto;display:grid;gap:10px;align-content:start;margin:14px 0}
@@ -203,7 +242,7 @@ details.acc .acc-body{padding:0 15px 14px;font-size:12.5px;color:var(--muted2);l
 .nudge{position:fixed;bottom:16px;right:16px;max-width:340px;background:linear-gradient(155deg,#172642,#0e1729);border:1px solid rgba(252,163,17,.5);border-radius:16px;padding:16px;box-shadow:0 20px 50px rgba(0,0,0,.6);z-index:40;transform:translateY(130%);opacity:0;transition:all .3s ease}
 .nudge.show{transform:translateY(0);opacity:1}
 .nudge-close{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.07);border:0;border-radius:50%;width:24px;height:24px;color:var(--muted2);font-size:12px}
-.toast{position:fixed;top:76px;left:50%;transform:translate(-50%,-130%);background:var(--card2);border:1px solid var(--gold);color:var(--text);padding:10px 18px;border-radius:99px;font-size:12.5px;font-weight:600;box-shadow:0 12px 32px rgba(0,0,0,.55);z-index:60;opacity:0;transition:all .25s}
+.toast{position:fixed;top:76px;left:50%;transform:translate(-50%,-130%);background:var(--card2);border:1px solid var(--gold);color:var(--text);padding:10px 18px;border-radius:99px;font-size:12.5px;font-weight:600;box-shadow:0 12px 32px rgba(0,0,0,.55);z-index:80;opacity:0;transition:all .25s}
 .toast.show{transform:translate(-50%,0);opacity:1}
 
 footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var(--line2)}
@@ -215,10 +254,15 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
 .bottom-strip strong{color:var(--gold)}
 
 /* RESPONSIVE */
+@media(max-width:1100px){
+  .top-in{gap:9px}
+  .tabs a,.tabs button{padding:8px 8px;font-size:12px}
+}
 @media(max-width:920px){
-  .hero-grid,.onboard-grid{grid-template-columns:1fr}
+  .hero-grid,.onboard-grid,.cert-section-grid{grid-template-columns:1fr}
   .steps-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .learner-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tabs{display:none}
 }
 @media(max-width:640px){
   .wrap{padding:0 14px}
@@ -230,6 +274,9 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
   .step-card{padding:15px}
   .proof-row strong{font-size:17px}
   .nudge{left:14px;right:14px;max-width:none;bottom:116px}
+  .nav-right{margin-left:auto}
+  .currency-trigger{padding:7px 8px;font-size:11px}
+  .shortlist-btn{padding:7px 9px}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
@@ -247,21 +294,62 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
     <span class="cohort-tag">2026 Cohort</span>
     <nav class="tabs" aria-label="Primary sections">
       <a href="#learners">Learner Requests</a>
+      <a href="#certSection">Certificate Preview</a>
       <a href="#process">How It Works</a>
       <a href="#standards">Standards</a>
       <a href="#onboarding">Become a Tutor</a>
       <button type="button" id="navTermsBtn">Terms &amp; Conditions</button>
     </nav>
     <div class="nav-right">
+      <div class="currency-dropdown-wrap" id="currencyDropdownWrap">
+        <button type="button" class="currency-trigger" id="currencyTrigger" aria-expanded="false" aria-label="Change currency">
+          <span id="currSymbolBadge">USD ($)</span> ▾
+        </button>
+        <div class="currency-menu" id="currencyMenu" hidden>
+          <button type="button" class="currency-option active" data-curr="USD">🌐 USD ($) - Global</button>
+          <button type="button" class="currency-option" data-curr="KES">🇰🇪 KES (KSh) - Kenya</button>
+          <button type="button" class="currency-option" data-curr="TZS">🇹🇿 TZS (Tsh) - Tanzania</button>
+        </div>
+      </div>
       <button type="button" class="shortlist-btn" id="openDrawerBtn" aria-label="Saved learner requests">
         <span>★</span>
         <span class="shortlist-label">Shortlist</span>
         <span class="badge-count" id="savedCount">0</span>
       </button>
-      <a class="btn sm" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer">Become a Tutor</a>
+      <button type="button" class="menu-toggle" id="menuToggleBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="siteSidebar">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </header>
+
+<!-- MAIN NAVIGATION SIDEBAR -->
+<div class="site-sidebar-bg" id="siteSidebarBg" hidden>
+  <aside class="site-sidebar" id="siteSidebar" role="dialog" aria-modal="true" aria-labelledby="sidebarTitle">
+    <div class="sidebar-head">
+      <div class="sidebar-brand" id="sidebarTitle">Melo<span>Tutor</span></div>
+      <button type="button" class="sidebar-close" id="closeSidebarBtn" aria-label="Close navigation menu">✕</button>
+    </div>
+    <div class="sidebar-intro">
+      <div class="eyebrow">MeloTutor Navigation</div>
+      <h3>Your next Swahili teaching opportunity starts here.</h3>
+      <p>Explore learner requests, review the tutoring process, or continue to tutor registration.</p>
+    </div>
+    <nav class="sidebar-links" aria-label="Sidebar navigation">
+      <a href="#learners"><span class="side-icon">▤</span> Learner Requests</a>
+      <a href="#certSection"><span class="side-icon">★</span> Certificate Preview</a>
+      <a href="#process"><span class="side-icon">↗</span> How It Works</a>
+      <a href="#standards"><span class="side-icon">✓</span> Tutor Standards</a>
+      <a href="#onboarding"><span class="side-icon">◈</span> Registration &amp; Earnings</a>
+      <button type="button" id="sidebarTermsBtn"><span class="side-icon">§</span> Terms &amp; Conditions</button>
+      <a href="https://mulaearn.com/login.php" target="_blank" rel="noopener noreferrer"><span class="side-icon">↪</span> Tutor Login</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <p>Ready to teach? Continue to the tutor application portal.</p>
+      <a class="btn sidebar-apply" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer">Become a Tutor →</a>
+    </div>
+  </aside>
+</div>
 
 <main class="wrap" id="top">
 
@@ -278,11 +366,10 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
         </div>
         <div class="proof-row">
           <div><strong>Daily</strong><span>New learner briefs</span></div>
-          <div><strong>$16–$28</strong><span>Per 60-min session</span></div>
+          <div><strong id="heroRateUsd">$16–$28</strong><span>Per 60-min session</span></div>
           <div><strong>Mobile Money</strong><span>Direct payouts</span></div>
         </div>
       </div>
-
       <div class="hero-card">
         <div class="hero-img">
           <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=900&q=85" alt="Swahili language tutor preparing structured lesson notes">
@@ -305,7 +392,6 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
         <p class="sub">Inspect each student’s learning objective, schedule, and session payout. Select <strong>View Brief &amp; Apply</strong> to reserve a slot.</p>
       </div>
     </div>
-
     <div class="toolbar">
       <div class="toolbar-top">
         <div class="search-box">
@@ -314,7 +400,7 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
         </div>
         <select id="sortSelect" class="sort-select" aria-label="Sort requests">
           <option value="featured">Featured order</option>
-          <option value="payout-desc">Highest payout ($)</option>
+          <option value="payout-desc">Highest payout</option>
           <option value="slots-asc">Fewest slots left</option>
         </select>
       </div>
@@ -326,16 +412,12 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
         <button type="button" class="fchip" data-level="business">Business &amp; NGO</button>
       </div>
     </div>
-
     <div class="status-bar">
       <span id="resultCount">Showing active learner requests · Updated daily</span>
       <button type="button" id="resetBtn" class="btn ghost sm" hidden>Reset filters</button>
     </div>
-
     <div class="learner-grid" id="learnerGrid"></div>
     <div class="card empty" id="learnerEmpty" hidden>No learner requests match your search. Clear filters to view all open requests.</div>
-
-    <!-- High-intent conversion banner -->
     <div class="card expand-banner">
       <div>
         <div class="eyebrow">Expanded Tutor Feed</div>
@@ -346,80 +428,82 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section id="process">
+  <!-- CERTIFICATE PREVIEW -->
+  <section id="certSection">
     <div class="sec-head">
       <div>
-        <div class="eyebrow">Editorial Workflow</div>
-        <h2>How tutoring works on MeloTutor</h2>
+        <div class="eyebrow">Professional Credentialing</div>
+        <h2>Interactive Swahili Teaching Certificate Preview</h2>
+        <p class="sub">Type your legal name below to preview your official <strong>Certified Swahili Educator Certificate</strong> before completing your onboarding.</p>
       </div>
     </div>
-    <div class="steps-grid">
-      <div class="card step-card">
-        <div class="step-num">01</div>
-        <h3>Inspect &amp; Shortlist</h3>
-        <p>Review open student profiles, learning goals, and EAT session schedules. Bookmark your preferred requests.</p>
+    <div class="card cert-section-grid">
+      <div>
+        <div class="field" style="margin-bottom:14px">
+          <label for="certInputName">Your Two Legal Names *</label>
+          <input type="text" id="certInputName" placeholder="e.g. Baraka Juma" value="Baraka Juma">
+        </div>
+        <p style="font-size:12.5px;color:var(--muted2);line-height:1.6;margin-bottom:14px">
+          Your official certificate is issued upon successful completion of the MeloTutor pedagogical assessment and qualification review, formatted to match formal academic standards.
+        </p>
+        <div style="font-size:12px;color:#34d399;font-weight:700">✓ Verified for International Teaching &amp; Global Student Matching</div>
       </div>
-      <div class="card step-card">
-        <div class="step-num">02</div>
-        <h3>Reserve a Slot</h3>
-        <p>Enter your name, email, and preferred start date on any brief to place a provisional hold on that learner.</p>
-      </div>
-      <div class="card step-card">
-        <div class="step-num">03</div>
-        <h3>Complete Application</h3>
-        <p>Finish your tutor registration on Mulaearn so your reserved learners and saved shortlist sync to your profile.</p>
-      </div>
-      <div class="card step-card">
-        <div class="step-num">04</div>
-        <h3>Teach &amp; Withdraw</h3>
-        <p>Deliver structured 60-minute Swahili sessions and withdraw cleared earnings via M-Pesa or bank transfer.</p>
+      <div class="cert-preview-frame">
+        <div class="cert-badge-top">★</div>
+        <div style="font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:#8c6d33;font-weight:800">MeloTutor International Academy</div>
+        <div style="font-size:18px;font-weight:800;color:#1c1710;margin:4px 0;font-family:Georgia,serif">Certificate of Professional Competence</div>
+        <div style="font-size:10.5px;color:#665c48;font-style:italic;margin-bottom:8px">This is proudly presented to</div>
+        <div><span class="cert-recipient-slot" id="certRenderName">Baraka Juma</span></div>
+        <p style="font-size:10.5px;color:#554c3d;max-width:340px;margin:8px auto;line-height:1.5">For demonstrating exemplary fluency and mastering the 2026 Swahili Instructional Pedagogy &amp; Cross-Cultural Tutoring Curriculum.</p>
+        <div style="font-size:9.5px;font-weight:700;color:#443b2d;margin-top:6px">"CERTIFIED SWAHILI EDUCATOR" · Issued: <span id="certYearSpan">2026</span></div>
+        <div class="cert-sig-row">
+          <div><div class="cert-sig-line"></div><strong>Prof. J. Mwakileo</strong><br>Academic Director</div>
+          <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#8c6d33);color:#fff;font-size:14px;display:grid;place-items:center;box-shadow:0 3px 8px rgba(0,0,0,0.2)">MT</div>
+          <div><div class="cert-sig-line"></div><strong>A. Ochieng</strong><br>Certification Registrar</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- COMPACT TUTOR STANDARDS -->
+  <!-- HOW IT WORKS -->
+  <section id="process">
+    <div class="sec-head">
+      <div><div class="eyebrow">Editorial Workflow</div><h2>How tutoring works on MeloTutor</h2></div>
+    </div>
+    <div class="steps-grid">
+      <div class="card step-card"><div class="step-num">01</div><h3>Inspect &amp; Shortlist</h3><p>Review open student profiles, learning goals, and EAT session schedules. Bookmark your preferred requests.</p></div>
+      <div class="card step-card"><div class="step-num">02</div><h3>Reserve a Slot</h3><p>Enter your name, email, and preferred start date on any brief to place a provisional hold on that learner.</p></div>
+      <div class="card step-card"><div class="step-num">03</div><h3>Complete Application</h3><p>Finish your tutor registration on Mulaearn so your reserved learners and saved shortlist sync to your profile.</p></div>
+      <div class="card step-card"><div class="step-num">04</div><h3>Teach &amp; Withdraw</h3><p>Deliver structured 60-minute Swahili sessions and withdraw cleared earnings via M-Pesa or bank transfer.</p></div>
+    </div>
+  </section>
+
+  <!-- TUTOR STANDARDS -->
   <section id="standards">
     <div class="sec-head">
-      <div>
-        <div class="eyebrow">Quality &amp; Reliability</div>
-        <h2>Tutor standards &amp; expectations</h2>
-      </div>
+      <div><div class="eyebrow">Quality &amp; Reliability</div><h2>Tutor standards &amp; expectations</h2></div>
     </div>
     <div class="standards-grid">
-      <div class="card std-card">
-        <h3>01 · Structured Lesson Prep</h3>
-        <p>Review the learner's stated goal beforehand and prepare clear vocabulary, pronunciation, or dialogue exercises.</p>
-      </div>
-      <div class="card std-card">
-        <h3>02 · Full 60-Minute Commitment</h3>
-        <p>Standard sessions run a minimum of 60 minutes. Leaving early or incomplete tasks do not qualify for payout.</p>
-      </div>
-      <div class="card std-card">
-        <h3>03 · Punctuality &amp; Communication</h3>
-        <p>Join on time and notify learners promptly through official channels if an unavoidable schedule conflict arises.</p>
-      </div>
-      <div class="card std-card">
-        <h3>04 · Stable Network &amp; Quiet Space</h3>
-        <p>Conduct lessons from a quiet environment with reliable internet so audio and video remain clear throughout.</p>
-      </div>
+      <div class="card std-card"><h3>01 · Structured Lesson Prep</h3><p>Review the learner's stated goal beforehand and prepare clear vocabulary, pronunciation, or dialogue exercises.</p></div>
+      <div class="card std-card"><h3>02 · Full 60-Minute Commitment</h3><p>Standard sessions run a minimum of 60 minutes. Leaving early or incomplete tasks do not qualify for payout.</p></div>
+      <div class="card std-card"><h3>03 · Punctuality &amp; Communication</h3><p>Join on time and notify learners promptly through official channels if an unavoidable schedule conflict arises.</p></div>
+      <div class="card std-card"><h3>04 · Stable Network &amp; Quiet Space</h3><p>Conduct lessons from a quiet environment with reliable internet so audio and video remain clear throughout.</p></div>
     </div>
   </section>
 
   <!-- ONBOARDING & EARNINGS PLANNER -->
   <section id="onboarding">
     <div class="sec-head">
-      <div>
-        <div class="eyebrow">Tutor Onboarding</div>
-        <h2>Registration &amp; weekly earnings planner</h2>
-      </div>
+      <div><div class="eyebrow">Tutor Onboarding</div><h2>Registration &amp; weekly earnings planner</h2></div>
     </div>
     <div class="onboard-grid">
       <div class="card fee-box">
-        <div class="eyebrow">Verified Tutor Onboarding</div>
-        <div class="fee-price">KSh 500 <span style="font-size:13px;font-weight:500;color:var(--muted)">one-time registration</span></div>
-        <p style="font-size:13px;color:var(--muted2)">Covers profile verification, onboarding into the MeloTutor instruction network, and full access to the student request board via our partner portal Mulaearn.</p>
+        <div class="eyebrow">Verified Tutor Credentialing</div>
+        <div class="fee-price" id="feePriceDisplay">$4.00 <span style="font-size:13px;font-weight:500;color:var(--muted)">certificate issuance fee</span></div>
+        <span class="fee-hint" id="currencyHintArea">Want to view site in your local currency? <button type="button" id="hintSwitchBtn">Switch to KES / TZS</button></span>
+        <p style="font-size:13px;color:var(--muted2);margin-top:10px">Covers certificate verification, profile credentialing in the MeloTutor instruction network, and full access to the student request board via our partner portal Mulaearn.</p>
         <div class="fee-list">
+          <div><span>✓</span> Official Certified Swahili Educator digital certificate issuance</div>
           <div><span>✓</span> Access all open beginner, intermediate &amp; business learner briefs</div>
           <div><span>✓</span> Sync your provisionally reserved slots &amp; saved shortlist</div>
           <div><span>✓</span> Withdraw eligible session payouts via M-Pesa or bank</div>
@@ -429,17 +513,13 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
           <a class="btn ghost" href="https://mulaearn.com/login.php" target="_blank" rel="noopener noreferrer">Tutor Login</a>
         </div>
       </div>
-
       <div class="card planner-box">
         <div>
           <div class="eyebrow">Schedule Estimator</div>
           <h3 style="font-size:17px;margin:6px 0">Plan your weekly tutoring hours</h3>
-          <p style="font-size:12.5px;color:var(--muted)">Slide to estimate weekly hours and illustrative payout based on an average $20/hr Swahili session rate.</p>
+          <p style="font-size:12.5px;color:var(--muted)">Slide to estimate weekly hours and illustrative payout based on an average <span id="estimatorRate">$20/hr</span> Swahili session rate.</p>
           <div class="range-wrap">
-            <div class="range-head">
-              <span>Sessions per week (60 mins each)</span>
-              <strong id="sessLabel" style="color:var(--gold)">6 sessions</strong>
-            </div>
+            <div class="range-head"><span>Sessions per week (60 mins each)</span><strong id="sessLabel" style="color:var(--gold)">6 sessions</strong></div>
             <input type="range" id="sessRange" min="1" max="20" value="6" aria-label="Sessions per week">
           </div>
         </div>
@@ -458,11 +538,10 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
 
 <footer>
   <div class="wrap foot-in">
-    <div>
-      <strong style="color:var(--text)">Melo<span style="color:var(--gold)">Tutor</span></strong> · Swahili Instruction Network · © <span id="year">2026</span>
-    </div>
+    <div><strong style="color:var(--text)">Melo<span style="color:var(--gold)">Tutor</span></strong> · Swahili Instruction Network · © <span id="year">2026</span></div>
     <div class="foot-links">
       <a href="#learners">Learner Requests</a>
+      <a href="#certSection">Certificate Preview</a>
       <a href="#standards">Tutor Standards</a>
       <button type="button" id="footerFaqBtn">FAQs</button>
       <button type="button" id="footerTermsBtn">Terms &amp; Conditions</button>
@@ -475,9 +554,8 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
   <strong>2026 Q4 Tutor Cohort Open</strong> · Accepting Fluent Swahili Instructors for Global 1-on-1 Sessions
 </div>
 
-<!-- BOTTOM-LEFT FLOATING BUBBLES: FAQS & CONTACT SUPPORT (PRO CARTOON AVATAR) -->
+<!-- FLOATING SUPPORT & FAQ -->
 <div class="float-dock" id="floatDock">
-  <!-- Support Choice Popover (Hidden until tapped) -->
   <div class="support-popover" id="supportPopover" hidden>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
       <h4>Tutor Support Desk</h4>
@@ -485,50 +563,32 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
     </div>
     <p>Choose your preferred channel to reach our onboarding team:</p>
     <a class="sup-choice" href="https://wa.me/254105961022?text=Hello%20MeloTutor%20Support%2C%20I%20need%20help%20with%20my%20Swahili%20tutor%20application." target="_blank" rel="noopener noreferrer">
-      <span style="width:26px;height:26px;border-radius:50%;background:rgba(16,185,129,.18);color:#34d399;display:grid;place-items:center;font-size:13px">💬</span>
-      <span>Chat on WhatsApp</span>
+      <span style="width:26px;height:26px;border-radius:50%;background:rgba(16,185,129,.18);color:#34d399;display:grid;place-items:center;font-size:13px">💬</span><span>Chat on WhatsApp</span>
     </a>
     <a class="sup-choice" href="mailto:climaxedray1@gmail.com?subject=MeloTutor%20Tutor%20Support">
-      <span style="width:26px;height:26px;border-radius:50%;background:rgba(252,163,17,.18);color:var(--gold);display:grid;place-items:center;font-size:13px">✉</span>
-      <span>Send an Email</span>
+      <span style="width:26px;height:26px;border-radius:50%;background:rgba(252,163,17,.18);color:var(--gold);display:grid;place-items:center;font-size:13px">✉</span><span>Send an Email</span>
     </a>
   </div>
-
-  <!-- FAQs Bubble -->
-  <button type="button" class="bubble-btn" id="faqBubbleBtn" aria-label="Open Frequently Asked Questions">
-    <span class="faq-icon-av">?</span>
-    <span>FAQs</span>
-  </button>
-
-  <!-- Contact Support Bubble with Pro Cartoon Avatar -->
+  <button type="button" class="bubble-btn" id="faqBubbleBtn" aria-label="Open Frequently Asked Questions"><span class="faq-icon-av">?</span><span>FAQs</span></button>
   <button type="button" class="bubble-btn" id="supportBubbleBtn" aria-label="Contact Support">
     <span class="cartoon-av" aria-hidden="true">
       <svg viewBox="0 0 64 64" width="34" height="34" fill="none">
         <rect width="64" height="64" fill="#fca311"/>
-        <!-- Shoulders / Blazer -->
         <path d="M12 64C12 51 20 45 32 45C44 45 52 51 52 64" fill="#0b1322"/>
         <path d="M27 45L32 54L37 45" fill="#ffffff"/>
-        <!-- Neck -->
         <rect x="27" y="36" width="10" height="10" rx="4" fill="#8d5524"/>
-        <!-- Face -->
         <path d="M20 24C20 16.5 25.4 12 32 12C38.6 12 44 16.5 44 24V28C44 35.2 38.6 40 32 40C25.4 40 20 35.2 20 28V24Z" fill="#a56734"/>
-        <!-- Hair -->
         <path d="M19 24C19 14.5 24.5 10 32 10C39.5 10 45 14.5 45 24C44 19 40 16.5 32 16.5C24 16.5 20 19 19 24Z" fill="#111827"/>
-        <!-- Glasses -->
         <rect x="22.5" y="23" width="8" height="6" rx="2" stroke="#0b1322" stroke-width="1.8" fill="rgba(255,255,255,0.15)"/>
         <rect x="33.5" y="23" width="8" height="6" rx="2" stroke="#0b1322" stroke-width="1.8" fill="rgba(255,255,255,0.15)"/>
         <path d="M30.5 25.5H33.5" stroke="#0b1322" stroke-width="1.8"/>
-        <!-- Eyes -->
         <circle cx="26.5" cy="26" r="1.3" fill="#0b1322"/>
         <circle cx="37.5" cy="26" r="1.3" fill="#0b1322"/>
-        <!-- Smile -->
         <path d="M28 32.5C29.5 34.5 34.5 34.5 36 32.5" stroke="#0b1322" stroke-width="2" stroke-linecap="round"/>
-        <!-- Headset Mic -->
         <path d="M19 25V29C19 32.5 22 35 26 35" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
         <circle cx="26.5" cy="35" r="2" fill="#0b1322"/>
       </svg>
-    </span>
-    <span>Contact Support</span>
+    </span><span>Contact Support</span>
   </button>
 </div>
 
@@ -536,65 +596,44 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
 <div class="backdrop" id="briefModal" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
     <div class="m-head">
-      <div>
-        <span class="eyebrow" id="mCode">#MT-204</span>
-        <h2 id="mTitle" style="font-size:20px">Learner Request Brief</h2>
-      </div>
+      <div><span class="eyebrow" id="mCode">#MT-204</span><h2 id="mTitle" style="font-size:20px">Learner Request Brief</h2></div>
       <button type="button" class="m-close" id="closeModalBtn" aria-label="Close modal">✕</button>
     </div>
-
     <div class="m-tabs">
       <button type="button" class="m-tab on" id="tabBrief">01. Session Brief</button>
       <button type="button" class="m-tab" id="tabReserve">02. Reserve &amp; Apply</button>
     </div>
-
-    <!-- STEP 1: BRIEF -->
     <div id="viewBrief">
       <div class="m-learner">
         <div class="av-img"><img id="mAvatar" src="" alt=""></div>
-        <div style="flex:1;min-width:0">
-          <strong id="mName" style="display:block;font-size:15px"></strong>
-          <small id="mMeta" style="color:var(--muted);font-size:12px"></small>
-        </div>
-        <div style="text-align:right">
-          <div class="amount" id="mPayout">$22</div>
-          <div class="slots-left" id="mSlots">2 slots left</div>
-        </div>
+        <div style="flex:1;min-width:0"><strong id="mName" style="display:block;font-size:15px"></strong><small id="mMeta" style="color:var(--muted);font-size:12px"></small></div>
+        <div style="text-align:right"><div class="amount" id="mPayout">$22</div><div class="slots-left" id="mSlots">2 slots left</div></div>
       </div>
-
       <div class="label">Learning Objective</div>
       <p id="mGoal" style="font-size:13.5px;color:var(--muted2);margin:6px 0 14px"></p>
-
       <div class="label">Session Deliverables &amp; Focus</div>
       <ul class="m-list" id="mChecklist"></ul>
-
+      <div style="font-size:12px;color:var(--muted);background:rgba(255,255,255,.035);border:1px solid var(--line2);border-radius:10px;padding:10px 12px;margin-top:12px">
+        <div style="display:flex;justify-content:space-between;gap:10px"><span>Request posted</span><strong id="mPostedDate" style="color:var(--text)"></strong></div>
+        <div style="display:flex;justify-content:space-between;gap:10px;margin-top:5px"><span>Preferred start</span><strong id="mStartDate" style="color:var(--gold)"></strong></div>
+      </div>
       <div style="display:flex;gap:10px;margin-top:16px">
         <button type="button" class="btn ghost sm" id="mSaveBtn">★ Save to Shortlist</button>
         <button type="button" class="btn sm" id="goReserveBtn" style="flex:1">Reserve Slot &amp; Apply →</button>
       </div>
     </div>
 
-    <!-- STEP 2: RESERVE FORM -->
     <div id="viewReserve" hidden>
       <p style="font-size:12.5px;color:var(--muted2);background:rgba(255,255,255,.04);border:1px solid var(--line2);padding:10px 12px;border-radius:10px;margin-bottom:14px">
         <strong style="color:var(--gold)">Why we ask:</strong> Entering your name, email address, and preferred start date holds this learner request and links your saved shortlist when you complete your tutor application.
       </p>
       <form id="reserveForm">
         <div class="row2">
-          <div class="field">
-            <label for="fName">Your Full Name *</label>
-            <input type="text" id="fName" required placeholder="Full name">
-          </div>
-          <div class="field">
-            <label for="fEmail">Email Address *</label>
-            <input type="email" id="fEmail" required placeholder="Email address" pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$" title="Please enter a valid email address (e.g. name@domain.com)">
-          </div>
+          <div class="field"><label for="fName">Your Full Name *</label><input type="text" id="fName" required placeholder="Full name"></div>
+          <div class="field"><label for="fEmail">Email Address *</label><input type="email" id="fEmail" required placeholder="Email address" pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$" title="Please enter a valid email address (e.g. name@domain.com)"></div>
         </div>
         <div class="row2">
-          <div class="field">
-            <label for="fDate">Preferred Start Date *</label>
-            <input type="date" id="fDate" required>
-          </div>
+          <div class="field"><label for="fDate">Preferred Start Date *</label><input type="date" id="fDate" required></div>
           <div class="field">
             <label for="fStrength">Swahili Teaching Specialty</label>
             <select id="fStrength">
@@ -605,10 +644,7 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
             </select>
           </div>
         </div>
-        <div class="field">
-          <label for="fNote">Brief Note on Your Swahili Background (Optional)</label>
-          <textarea id="fNote" rows="2" placeholder="Native speaker, teaching experience, or dialects spoken..."></textarea>
-        </div>
+        <div class="field"><label for="fNote">Brief Note on Your Swahili Background (Optional)</label><textarea id="fNote" rows="2" placeholder="Native speaker, teaching experience, or dialects spoken..."></textarea></div>
         <div style="display:flex;gap:10px;margin-top:14px">
           <button type="button" class="btn ghost sm" id="backBriefBtn">← Back</button>
           <button type="submit" class="btn sm" style="flex:1">Hold Slot &amp; Continue ✓</button>
@@ -616,100 +652,64 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
       </form>
     </div>
 
-    <!-- STEP 3: CONFIRMATION & HANDOFF -->
     <div id="viewDone" hidden>
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
         <span style="width:34px;height:34px;border-radius:50%;background:rgba(16,185,129,.18);color:#34d399;display:grid;place-items:center;font-weight:800">✓</span>
-        <div>
-          <div class="eyebrow" id="dRef">Ref #MT-8821</div>
-          <h3 style="font-size:17px">Slot Held for <span id="dTutorName" style="color:var(--gold)"></span></h3>
-        </div>
+        <div><div class="eyebrow" id="dRef">Ref #MT-8821</div><h3 style="font-size:17px">Slot Held for <span id="dTutorName" style="color:var(--gold)"></span></h3></div>
       </div>
-
       <div class="handoff-box">
         <h4>Final Step: Complete Your Tutor Application</h4>
         <p>Your provisional hold on <strong id="dLearnerName"></strong> is now reserved. To lock in this learner, access the classroom tools, and receive session payouts, complete your tutor registration on <strong>Mulaearn</strong> now.</p>
         <a class="btn sm" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer" style="width:100%">Complete Application on Mulaearn →</a>
       </div>
-
       <div style="font-size:12px;color:var(--muted);display:grid;gap:5px;background:rgba(7,13,24,.55);padding:12px;border-radius:10px;margin-bottom:12px">
         <div style="display:flex;justify-content:space-between"><span>Learner:</span><strong id="dSummaryLearner" style="color:var(--text)"></strong></div>
         <div style="display:flex;justify-content:space-between"><span>Email Linked:</span><strong id="dSummaryEmail" style="color:var(--text)"></strong></div>
         <div style="display:flex;justify-content:space-between"><span>Start Date:</span><strong id="dSummaryDate" style="color:var(--text)"></strong></div>
       </div>
-
       <button type="button" class="btn ghost sm" id="doneCloseBtn" style="width:100%">← Back to Open Requests</button>
     </div>
   </div>
 </div>
 
-<!-- FAQS MODAL (TRIGGERED BY FAQS BUBBLE) -->
+<!-- FAQS MODAL -->
 <div class="backdrop" id="faqModal" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="faqModalTitle">
     <div class="m-head">
-      <div>
-        <span class="eyebrow">Tutor Help Center</span>
-        <h2 id="faqModalTitle" style="font-size:20px">Frequently Asked Questions</h2>
-      </div>
+      <div><span class="eyebrow">Tutor Help Center</span><h2 id="faqModalTitle" style="font-size:20px">Frequently Asked Questions</h2></div>
       <button type="button" class="m-close" id="closeFaqModal" aria-label="Close FAQs">✕</button>
     </div>
-
     <details class="acc" open>
       <summary>Why do I enter my name, email address, and date when reserving?</summary>
       <div class="acc-body">Entering your details creates a provisional hold reference (<code style="color:var(--gold)">#MT-XXXX</code>) and links your saved shortlist to your profile. Once you complete your tutor application on <strong>Mulaearn</strong>, your reserved learner requests carry over so you can proceed immediately.</div>
     </details>
     <details class="acc">
-      <summary>Do I need to complete registration on Mulaearn to claim a slot?</summary>
-      <div class="acc-body">Yes. Reserving a learner on MeloTutor places a temporary hold on the slot. You must complete your tutor registration and sign in on <strong>Mulaearn</strong> to finalize the booking, conduct the session, and receive payouts.</div>
-    </details>
-    <details class="acc">
-      <summary>What does the one-time KSh 500 registration fee cover?</summary>
-      <div class="acc-body">The one-time KSh 500 fee covers tutor identity verification and onboarding access to the platform. It does not purchase guaranteed bookings or fixed income; tutors earn through eligible, completed 60-minute Swahili lessons.</div>
+      <summary>What does the certificate issuance fee cover?</summary>
+      <div class="acc-body">The certificate issuance fee covers your official Certified Swahili Educator digital certificate generation, profile credentialing, and onboarding access to the student request board. You can view fees in USD, KES, or TZS using the currency switcher at the top.</div>
     </details>
     <details class="acc">
       <summary>How and when do tutors get paid?</summary>
       <div class="acc-body">Once a scheduled 60-minute lesson is completed and verified, the session payout is credited to your balance and can be withdrawn via M-Pesa or supported bank rails.</div>
     </details>
-
     <div style="margin-top:14px;display:flex;gap:10px">
       <a class="btn sm" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer" style="flex:1">Apply to Become a Tutor →</a>
     </div>
   </div>
 </div>
 
-<!-- TERMS & CONDITIONS LEGAL MODAL -->
+<!-- TERMS & CONDITIONS MODAL -->
 <div class="backdrop" id="termsModal" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="termsModalTitle">
     <div class="m-head">
-      <div>
-        <span class="eyebrow">Platform Governance</span>
-        <h2 id="termsModalTitle" style="font-size:20px">Terms &amp; Conditions</h2>
-      </div>
+      <div><span class="eyebrow">Platform Governance</span><h2 id="termsModalTitle" style="font-size:20px">Terms &amp; Conditions</h2></div>
       <button type="button" class="m-close" id="closeTermsModal" aria-label="Close Terms and Conditions">✕</button>
     </div>
-
     <div class="terms-doc">
-      <div>
-        <h4>1. Independent Tutor Status &amp; Eligibility</h4>
-        <p>Tutors registered through MeloTutor and Mulaearn operate as independent language instructors. Applicants must possess strong spoken and written fluency in Swahili, be at least 18 years of age, and submit accurate identity details during registration.</p>
-      </div>
-      <div>
-        <h4>2. Session Completion &amp; Payout Verification</h4>
-        <p>Tutor earnings are strictly tied to eligible, completed tutoring sessions of at least 60 minutes delivered in accordance with the learner’s brief. Missed sessions, unverified lessons, or sessions cut short without learner consent are marked incomplete and do not qualify for payout.</p>
-      </div>
-      <div>
-        <h4>3. Registration Fee &amp; Non-Guarantee Policy</h4>
-        <p>The one-time KSh 500 onboarding fee covers profile verification and access to the MeloTutor network and Mulaearn tutor workspace. Platform access does not guarantee a minimum volume of student bookings or fixed income; demand depends on learner schedules and tutor availability.</p>
-      </div>
-      <div>
-        <h4>4. Code of Conduct, Confidentiality &amp; Non-Circumvention</h4>
-        <p>Tutors must maintain professional conduct, respect learner privacy, and keep all student contact details confidential. Soliciting learners outside official platform channels or bypassing booking procedures is strictly prohibited and may result in permanent account suspension.</p>
-      </div>
+      <div><h4>1. Independent Tutor Status &amp; Eligibility</h4><p>Tutors registered through MeloTutor and Mulaearn operate as independent language instructors. Applicants must possess strong spoken and written fluency in Swahili, be at least 18 years of age, and submit accurate identity details during registration.</p></div>
+      <div><h4>2. Session Completion &amp; Payout Verification</h4><p>Tutor earnings are strictly tied to eligible, completed tutoring sessions of at least 60 minutes delivered in accordance with the learner’s brief. Missed sessions, unverified lessons, or sessions cut short without learner consent are marked incomplete and do not qualify for payout.</p></div>
+      <div><h4>3. Certificate Issuance &amp; Non-Guarantee Policy</h4><p>The certificate issuance fee covers certificate generation and profile verification on Mulaearn. Platform access does not guarantee a minimum volume of student bookings or fixed income; demand depends on learner schedules and tutor availability.</p></div>
     </div>
-
-    <div style="margin-top:16px">
-      <button type="button" class="btn sm" id="acceptTermsBtn" style="width:100%">I Understand &amp; Close</button>
-    </div>
+    <div style="margin-top:16px"><button type="button" class="btn sm" id="acceptTermsBtn" style="width:100%">I Understand &amp; Close</button></div>
   </div>
 </div>
 
@@ -717,26 +717,18 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
 <div class="drawer-bg" id="drawerBg" hidden>
   <div class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
     <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--line2)">
-      <div>
-        <div class="eyebrow">Tutor Shortlist</div>
-        <h3 id="drawerTitle" style="font-size:18px">Saved Learner Requests</h3>
-      </div>
+      <div><div class="eyebrow">Tutor Shortlist</div><h3 id="drawerTitle" style="font-size:18px">Saved Learner Requests</h3></div>
       <button type="button" class="m-close" id="closeDrawerBtn" aria-label="Close shortlist">✕</button>
     </div>
-
     <div class="drawer-list" id="drawerList"></div>
-
     <div style="border-top:1px solid var(--line2);padding-top:14px">
-      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px">
-        <span style="color:var(--muted)">Combined Session Value:</span>
-        <strong id="drawerTotal" style="color:var(--gold);font-size:16px">$0.00</strong>
-      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px"><span style="color:var(--muted)">Combined Session Value:</span><strong id="drawerTotal" style="color:var(--gold);font-size:16px">$0.00</strong></div>
       <a class="btn sm" href="https://mulaearn.com/register.php?ref=Miami" target="_blank" rel="noopener noreferrer" style="width:100%">Apply &amp; Sync Shortlist →</a>
     </div>
   </div>
 </div>
 
-<!-- PERSONALIZED CONCIERGE URGENCY NUDGE -->
+<!-- PERSONALIZED CONCIERGE NUDGE -->
 <aside class="nudge" id="nudgeCard" aria-live="polite">
   <button type="button" class="nudge-close" id="closeNudgeBtn" aria-label="Dismiss notice">✕</button>
   <div class="eyebrow" style="margin-bottom:6px">Tutor Onboarding Notice</div>
@@ -750,506 +742,801 @@ footer{color:#8a97ab;font-size:12px;padding:24px 0 18px;border-top:1px solid var
 (function () {
   var LEARNERS = [
     {
-      id: 'LRN-204',
-      name: 'Elena Rostova',
-      country: 'Germany',
-      level: 'Beginner',
-      cat: 'beginner',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-      goal: 'Conversational Swahili and polite greetings for an upcoming 3-month research stay in Dar es Salaam.',
-      schedule: 'Tue & Thu · 18:00 EAT',
-      duration: '60 mins',
-      payout: 22,
-      slots: 2,
-      checklist: [
+      id:'LRN-204',name:'Elena Rostova',country:'Germany',level:'Beginner',cat:'beginner',
+      avatar:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      goal:'Conversational Swahili and polite greetings for an upcoming 3-month research stay in Dar es Salaam.',
+      schedule:'Tue & Thu · 18:00 EAT',duration:'60 mins',payoutUsd:22,slots:2,
+      postedDaysAgo:0,startDaysFromNow:5,
+      checklist:[
         'Introduce everyday greetings, polite expressions, and self-introductions.',
         'Practice market, transport, and restaurant roleplay scenarios.',
         'Provide clear pronunciation feedback on coastal Swahili phonetics.'
       ]
     },
     {
-      id: 'LRN-209',
-      name: 'Marcus Vance',
-      country: 'United States',
-      level: 'Intermediate',
-      cat: 'intermediate',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
-      goal: 'Workplace vocabulary, listening comprehension, and natural everyday idioms with East African colleagues.',
-      schedule: 'Mon & Wed · 16:00 EAT',
-      duration: '60 mins',
-      payout: 20,
-      slots: 3,
-      checklist: [
+      id:'LRN-209',name:'Marcus Vance',country:'United States',level:'Intermediate',cat:'intermediate',
+      avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+      goal:'Workplace vocabulary, listening comprehension, and natural everyday idioms with East African colleagues.',
+      schedule:'Mon & Wed · 16:00 EAT',duration:'60 mins',payoutUsd:20,slots:3,
+      postedDaysAgo:1,startDaysFromNow:7,
+      checklist:[
         'Run 30 minutes of unscripted conversational dialogue on current topics.',
         'Correct verb tense transitions and subject prefixes in real time.',
         'Share 10 practical idiomatic expressions after each session.'
       ]
     },
     {
-      id: 'LRN-212',
-      name: 'Sora Takahashi',
-      country: 'Japan',
-      level: 'Beginner',
-      cat: 'beginner',
-      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
-      goal: 'Essential noun classes, numbers, and travel communication ahead of a wildlife conservation trip to Nairobi.',
-      schedule: 'Sat · 11:00 EAT',
-      duration: '60 mins',
-      payout: 21,
-      slots: 2,
-      checklist: [
+      id:'LRN-212',name:'Sora Takahashi',country:'Japan',level:'Beginner',cat:'beginner',
+      avatar:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+      goal:'Essential noun classes, numbers, and travel communication ahead of a wildlife conservation trip to Nairobi.',
+      schedule:'Sat · 11:00 EAT',duration:'60 mins',payoutUsd:21,slots:2,
+      postedDaysAgo:2,startDaysFromNow:9,
+      checklist:[
         'Teach M-WA and KI-VI noun class foundations with simple examples.',
         'Drill numbers, time-telling (Swahili clock), and directions.',
         'Prepare a printable 1-page travel phrase recap.'
       ]
     },
     {
-      id: 'LRN-215',
-      name: 'Claire Dubois',
-      country: 'France',
-      level: 'Advanced',
-      cat: 'advanced',
-      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80',
-      goal: 'Debating East African economic news, formal speech structure, and nuanced Swahili composition.',
-      schedule: 'Wed · 19:30 EAT',
-      duration: '60 mins',
-      payout: 28,
-      slots: 1,
-      checklist: [
-        'Discuss one East African editorial article per session in fluent Swahili.',
-        'Refine formal register, passive/causative verb extensions, and proverbs.',
-        'Review short written summary paragraphs submitted by the learner.'
+      id:'LRN-215',name:'Amara Williams',country:'United Kingdom',level:'Intermediate',cat:'intermediate',
+      avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=200&q=80',
+      goal:'Improve spoken fluency and listening comprehension before relocating to Kenya for a new job.',
+      schedule:'Mon & Fri · 19:00 EAT',duration:'60 mins',payoutUsd:24,slots:2,
+      postedDaysAgo:1,startDaysFromNow:6,
+      checklist:[
+        'Practice natural conversations about work and daily routines.',
+        'Improve listening comprehension using short spoken passages.',
+        'Correct pronunciation and common sentence construction errors.'
       ]
     },
     {
-      id: 'LRN-218',
-      name: 'David Osei',
-      country: 'United Kingdom',
-      level: 'Intermediate',
-      cat: 'intermediate',
-      avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80',
-      goal: 'Moving from passive family understanding to confident, spontaneous speaking during visits to Mombasa.',
-      schedule: 'Tue & Sat · 14:00 EAT',
-      duration: '60 mins',
-      payout: 21,
-      slots: 3,
-      checklist: [
-        'Build active speaking confidence through storytelling and Q&A drills.',
-        'Expand family, community, and coastal cultural vocabulary.',
-        'Eliminate hesitation when switching between past, present, and future tenses.'
+      id:'LRN-218',name:'Daniel Fischer',country:'Austria',level:'Advanced',cat:'advanced',
+      avatar:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80',
+      goal:'Develop advanced Swahili writing skills, complex sentence structures, and confident professional communication.',
+      schedule:'Tue & Thu · 17:00 EAT',duration:'60 mins',payoutUsd:28,slots:1,
+      postedDaysAgo:2,startDaysFromNow:8,
+      checklist:[
+        'Review advanced grammar and complex sentence construction.',
+        'Practice formal presentations and professional discussions.',
+        'Provide writing corrections and structured feedback.'
       ]
     },
     {
-      id: 'LRN-221',
-      name: 'Hannah Lindqvist',
-      country: 'Sweden',
-      level: 'Business & NGO',
-      cat: 'business',
-      avatar: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=200&q=80',
-      goal: 'Community outreach vocabulary, formal meeting greetings, and field communication for NGO coordination.',
-      schedule: 'Thu · 17:00 EAT',
-      duration: '60 mins',
-      payout: 25,
-      slots: 2,
-      checklist: [
-        'Practice formal introductions and community stakeholder meeting etiquette.',
-        'Build health, education, and logistics terminology.',
-        'Simulate field interviews and Q&A sessions in clear Swahili.'
+      id:'LRN-221',name:'Isabella Rossi',country:'Italy',level:'Beginner',cat:'beginner',
+      avatar:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80',
+      goal:'Learn foundational Swahili vocabulary and everyday conversation for an extended East African holiday.',
+      schedule:'Wed & Sat · 10:00 EAT',duration:'60 mins',payoutUsd:18,slots:3,
+      postedDaysAgo:3,startDaysFromNow:10,
+      checklist:[
+        'Introduce greetings, numbers, and common expressions.',
+        'Practice ordering food and asking for directions.',
+        'Build a practical beginner vocabulary list.'
       ]
     },
     {
-      id: 'LRN-224',
-      name: 'Mateo Silva',
-      country: 'Brazil',
-      level: 'Beginner',
-      cat: 'beginner',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-      goal: 'Structured step-by-step Swahili grammar from scratch with focus on clear pronunciation and listening.',
-      schedule: 'Fri · 18:30 EAT',
-      duration: '60 mins',
-      payout: 19,
-      slots: 4,
-      checklist: [
-        'Master Swahili vowel sounds, syllable stress, and personal pronouns.',
-        'Build basic sentence construction using everyday verbs.',
-        'Assign light 15-minute vocabulary review between weekly sessions.'
+      id:'LRN-224',name:'Oliver Chen',country:'China',level:'Business & NGO',cat:'business',
+      avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+      goal:'Learn professional Swahili for NGO coordination, field communication, and meetings with regional partners.',
+      schedule:'Mon & Thu · 15:00 EAT',duration:'60 mins',payoutUsd:27,slots:2,
+      postedDaysAgo:1,startDaysFromNow:5,
+      checklist:[
+        'Teach formal introductions and professional meeting language.',
+        'Practice NGO fieldwork vocabulary and stakeholder conversations.',
+        'Review respectful communication in professional settings.'
       ]
     },
     {
-      id: 'LRN-227',
-      name: 'Dr. Priya Nair',
-      country: 'India',
-      level: 'Business & NGO',
-      cat: 'business',
-      avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=200&q=80',
-      goal: 'Patient consultation phrases and empathetic medical communication ahead of a clinical fellowship in Kenya.',
-      schedule: 'Mon & Thu · 19:00 EAT',
-      duration: '60 mins',
-      payout: 26,
-      slots: 2,
-      checklist: [
-        'Practice polite patient intake questions and symptom descriptions.',
-        'Focus on respectful forms of address for elders and families.',
-        'Roleplay clinic triage conversations at a natural pace.'
+      id:'LRN-227',name:'Chloe Martin',country:'France',level:'Intermediate',cat:'intermediate',
+      avatar:'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80',
+      goal:'Strengthen conversational confidence and understand common expressions used in everyday Kenyan Swahili.',
+      schedule:'Tue & Fri · 20:00 EAT',duration:'60 mins',payoutUsd:23,slots:2,
+      postedDaysAgo:4,startDaysFromNow:11,
+      checklist:[
+        'Practice everyday dialogue with natural speaking speed.',
+        'Explain common expressions and frequently used vocabulary.',
+        'Conduct listening and response exercises.'
       ]
     },
     {
-      id: 'LRN-230',
-      name: 'Lucas Lindholm',
-      country: 'Norway',
-      level: 'Advanced',
-      cat: 'advanced',
-      avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80',
-      goal: 'Polishing oral fluency, East African radio comprehension, and nuanced storytelling idioms.',
-      schedule: 'Sun · 15:00 EAT',
-      duration: '60 mins',
-      payout: 27,
-      slots: 2,
-      checklist: [
-        'Analyze audio clips and summarize key points in natural Swahili.',
-        'Refine complex relative clauses and conditional expressions.',
-        'Provide detailed vocabulary upgrades during open conversation.'
+      id:'LRN-230',name:'Liam Anderson',country:'Netherlands',level:'Advanced',cat:'advanced',
+      avatar:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80',
+      goal:'Refine advanced grammar and deliver confident Swahili presentations for an upcoming regional assignment.',
+      schedule:'Wed & Sun · 17:30 EAT',duration:'60 mins',payoutUsd:26,slots:1,
+      postedDaysAgo:2,startDaysFromNow:12,
+      checklist:[
+        'Practice structured presentations in Swahili.',
+        'Review advanced verb forms and sentence patterns.',
+        'Provide detailed feedback on fluency and clarity.'
+      ]
+    },
+    {
+      id:'LRN-233',name:'Nadia Hassan',country:'Spain',level:'Business & NGO',cat:'business',
+      avatar:'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=200&q=80',
+      goal:'Build practical Swahili communication skills for business travel and meetings with East African suppliers.',
+      schedule:'Mon & Wed · 14:00 EAT',duration:'60 mins',payoutUsd:25,slots:3,
+      postedDaysAgo:3,startDaysFromNow:8,
+      checklist:[
+        'Teach business introductions and professional greetings.',
+        'Practice supplier negotiations and commercial discussions.',
+        'Develop useful business vocabulary and expressions.'
+      ]
+    },
+    {
+      id:'LRN-236',name:'Ethan Brooks',country:'Sweden',level:'Beginner',cat:'beginner',
+      avatar:'https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=200&q=80',
+      goal:'Start learning Swahili from scratch, focusing on pronunciation and basic communication before travelling to Tanzania.',
+      schedule:'Sat & Sun · 09:00 EAT',duration:'60 mins',payoutUsd:19,slots:2,
+      postedDaysAgo:5,startDaysFromNow:14,
+      checklist:[
+        'Introduce Swahili sounds and pronunciation basics.',
+        'Teach everyday vocabulary and simple sentence patterns.',
+        'Practice introductions and basic travel conversations.'
+      ]
+    },
+    {
+      id:'LRN-239',name:'Grace Nakamura',country:'Japan',level:'Intermediate',cat:'intermediate',
+      avatar:'https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?auto=format&fit=crop&w=200&q=80',
+      goal:'Improve reading, speaking, and practical Swahili vocabulary for a community development programme in East Africa.',
+      schedule:'Tue & Sat · 13:00 EAT',duration:'60 mins',payoutUsd:24,slots:2,
+      postedDaysAgo:1,startDaysFromNow:9,
+      checklist:[
+        'Practice reading short Swahili passages aloud.',
+        'Improve vocabulary through practical conversation.',
+        'Review grammar and common sentence structures.'
       ]
     }
   ];
 
   var state = {
-    level: 'all',
-    query: '',
-    sort: 'featured',
-    saved: new Set(),
-    holds: new Map(),
-    activeId: null,
-    tutorName: '',
-    nudgeDismissed: false
+    curr:'USD',
+    level:'all',
+    query:'',
+    sort:'featured',
+    saved:new Set(),
+    holds:new Map(),
+    activeId:null,
+    tutorName:'',
+    nudgeDismissed:false
   };
 
-  function $(s) { return document.querySelector(s); }
-  function esc(v) {
-    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  function $(s){return document.querySelector(s);}
+
+  function esc(v){
+    return String(v==null?'':v).replace(/[&<>"']/g,function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
     });
+  }
+
+  /* DATE HELPERS */
+  function dateFromOffset(days){
+    var d=new Date();
+    d.setHours(12,0,0,0);
+    d.setDate(d.getDate()+days);
+    return d;
+  }
+
+  function dateToInputValue(date){
+    var y=date.getFullYear();
+    var m=String(date.getMonth()+1).padStart(2,'0');
+    var day=String(date.getDate()).padStart(2,'0');
+    return y+'-'+m+'-'+day;
+  }
+
+  function formatDate(date){
+    return date.toLocaleDateString(undefined,{
+      day:'numeric',
+      month:'short',
+      year:'numeric'
+    });
+  }
+
+  function formatInputDate(value){
+    if(!value)return '';
+    var parts=value.split('-');
+    if(parts.length!==3)return value;
+    return formatDate(new Date(Number(parts[0]),Number(parts[1])-1,Number(parts[2]),12));
+  }
+
+  function postedDate(x){
+    return formatDate(dateFromOffset(-x.postedDaysAgo));
+  }
+
+  function startDate(x){
+    return formatDate(dateFromOffset(x.startDaysFromNow));
   }
 
   var toastTimer;
-  function showToast(msg) {
-    var t = $('#toast');
-    t.textContent = msg;
+
+  function showToast(msg){
+    var t=$('#toast');
+    t.textContent=msg;
     t.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3200);
+    toastTimer=setTimeout(function(){
+      t.classList.remove('show');
+    },3200);
   }
 
-  var nudgeTimer;
-  function scheduleNudge(ms) {
-    if (state.nudgeDismissed) return;
-    if (state.saved.size === 0 && state.holds.size === 0) return;
-    clearTimeout(nudgeTimer);
-    nudgeTimer = setTimeout(function () {
-      if (state.nudgeDismissed) return;
-      var txt = $('#nudgeText');
-      if (state.tutorName) {
-        txt.innerHTML = 'Hi <strong style="color:var(--gold)">' + esc(state.tutorName) + '</strong>, complete your tutor application on Mulaearn so your reserved learner slot stays locked in.';
-      } else if (state.holds.size > 0) {
-        txt.innerHTML = 'Your provisional learner hold is active — finish your tutor application on <strong style="color:var(--gold)">Mulaearn</strong> before the slot reopens.';
-      } else {
-        var n = state.saved.size;
-        txt.innerHTML = 'You have <strong style="color:var(--gold)">' + n + ' shortlisted ' + (n === 1 ? 'request' : 'requests') + '</strong> waiting — apply on Mulaearn now to claim your preferred learners.';
-      }
-      $('#nudgeCard').classList.add('show');
-    }, ms || 11000);
+  /* CURRENCY */
+  function formatMoney(usdAmount){
+    if(state.curr==='KES'){
+      return 'KSh '+Math.round(usdAmount*130).toLocaleString();
+    }else if(state.curr==='TZS'){
+      return 'Tsh '+Math.round(usdAmount*2600).toLocaleString();
+    }
+    return '$'+usdAmount.toFixed(2);
   }
 
-  function renderGrid() {
-    var q = state.query.toLowerCase().trim();
-    var list = LEARNERS.filter(function (x) {
-      var okCat = state.level === 'all' || x.cat === state.level;
-      var okQ = !q || x.name.toLowerCase().includes(q) || x.country.toLowerCase().includes(q) || x.goal.toLowerCase().includes(q) || x.level.toLowerCase().includes(q);
-      return okCat && okQ;
+  function formatFee(usdBase){
+    if(state.curr==='KES')return 'KSh 500';
+    if(state.curr==='TZS')return 'Tsh 10,000';
+    return '$'+usdBase.toFixed(2);
+  }
+
+  /* SIDEBAR */
+  var sidebarBg=$('#siteSidebarBg');
+  var menuToggle=$('#menuToggleBtn');
+
+  function openSidebar(){
+    sidebarBg.hidden=false;
+    menuToggle.setAttribute('aria-expanded','true');
+    menuToggle.setAttribute('aria-label','Close navigation menu');
+    document.body.style.overflow='hidden';
+  }
+
+  function closeSidebar(){
+    sidebarBg.hidden=true;
+    menuToggle.setAttribute('aria-expanded','false');
+    menuToggle.setAttribute('aria-label','Open navigation menu');
+    document.body.style.overflow='';
+  }
+
+  menuToggle.addEventListener('click',function(){
+    if(sidebarBg.hidden)openSidebar();
+    else closeSidebar();
+  });
+
+  $('#closeSidebarBtn').addEventListener('click',closeSidebar);
+
+  sidebarBg.addEventListener('click',function(e){
+    if(e.target===sidebarBg)closeSidebar();
+  });
+
+  $('#siteSidebar').querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click',closeSidebar);
+  });
+
+  $('#sidebarTermsBtn').addEventListener('click',function(){
+    closeSidebar();
+    $('#termsModal').hidden=false;
+  });
+
+  /* CURRENCY DROPDOWN */
+  var currTrigger=$('#currencyTrigger');
+  var currMenu=$('#currencyMenu');
+
+  currTrigger.addEventListener('click',function(e){
+    e.stopPropagation();
+    var isOpen=!currMenu.hidden;
+    currMenu.hidden=isOpen;
+    currTrigger.setAttribute('aria-expanded',String(!isOpen));
+  });
+
+  document.addEventListener('click',function(){
+    currMenu.hidden=true;
+    currTrigger.setAttribute('aria-expanded','false');
+  });
+
+  document.querySelectorAll('.currency-option').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      setCurrency(btn.dataset.curr);
+    });
+  });
+
+  $('#hintSwitchBtn').addEventListener('click',function(){
+    setCurrency('KES');
+  });
+
+  function setCurrency(c){
+    state.curr=c;
+
+    document.querySelectorAll('.currency-option').forEach(function(b){
+      b.classList.toggle('active',b.dataset.curr===c);
     });
 
-    if (state.sort === 'payout-desc') {
-      list = list.slice().sort(function (a, b) { return b.payout - a.payout; });
-    } else if (state.sort === 'slots-asc') {
-      list = list.slice().sort(function (a, b) { return a.slots - b.slots; });
+    if(c==='KES')$('#currSymbolBadge').textContent='KES (KSh)';
+    else if(c==='TZS')$('#currSymbolBadge').textContent='TZS (Tsh)';
+    else $('#currSymbolBadge').textContent='USD ($)';
+
+    currMenu.hidden=true;
+    currTrigger.setAttribute('aria-expanded','false');
+
+    $('#heroRateUsd').textContent=formatMoney(16)+'–'+formatMoney(28);
+    $('#estimatorRate').textContent=formatMoney(20)+'/hr';
+    $('#feePriceDisplay').innerHTML=formatFee(4)+' <span style="font-size:13px;font-weight:500;color:var(--muted)">certificate issuance fee</span>';
+
+    if(c==='USD'){
+      $('#currencyHintArea').innerHTML='Want to view site in your local currency? <button type="button" id="hintSwitchBtn">Switch to KES / TZS</button>';
+      $('#hintSwitchBtn').addEventListener('click',function(){setCurrency('KES');});
+    }else{
+      $('#currencyHintArea').innerHTML='Currency translated for '+c+'. <button type="button" id="hintSwitchUsd">Switch back to USD ($)</button>';
+      $('#hintSwitchUsd').addEventListener('click',function(){setCurrency('USD');});
     }
 
-    var filtered = state.level !== 'all' || q !== '' || state.sort !== 'featured';
-    $('#resultCount').textContent = filtered
-      ? 'Showing ' + list.length + ' matching learner ' + (list.length === 1 ? 'request' : 'requests')
-      : 'Showing active learner requests · Updated daily';
-    $('#resetBtn').hidden = !filtered;
-    $('#learnerEmpty').hidden = list.length > 0;
+    renderGrid();
+    renderDrawer();
+    showToast('Currency updated to '+c);
+  }
 
-    $('#learnerGrid').innerHTML = list.map(function (x) {
-      var isSaved = state.saved.has(x.id);
-      var hold = state.holds.get(x.id);
-      return '<article class="card learner">' +
-        '<div class="l-top">' +
-          '<div class="av-img"><img src="' + esc(x.avatar) + '" alt="' + esc(x.name) + '" loading="lazy"></div>' +
-          '<div class="l-id"><strong>' + esc(x.name) + '</strong><small>' + esc(x.country) + '</small></div>' +
-          '<button type="button" class="save-btn' + (isSaved ? ' saved' : '') + '" data-save="' + esc(x.id) + '" aria-label="Save request">' + (isSaved ? '★' : '☆') + '</button>' +
-        '</div>' +
-        '<div class="tag-row"><span class="tag">' + esc(x.level) + '</span><span class="code-tag">#' + esc(x.id) + '</span></div>' +
-        '<p class="goal">' + esc(x.goal) + '</p>' +
-        '<div class="chips"><span class="chip">' + esc(x.schedule) + '</span><span class="chip">' + esc(x.duration) + '</span></div>' +
-        '<div class="l-pay">' +
-          '<div><div class="label">Session Payout</div><div class="amount">$' + x.payout + ' <small>/ hr</small></div></div>' +
-          '<div style="text-align:right">' +
-            '<div class="slots-left">' + (hold ? '⏳ Held (' + esc(hold.ref) + ')' : x.slots + ' ' + (x.slots === 1 ? 'slot' : 'slots') + ' open') + '</div>' +
-            '<button type="button" class="btn sm' + (hold ? ' subtle' : '') + '" data-open="' + esc(x.id) + '" style="margin-top:5px">' + (hold ? 'Finish Application' : 'View Brief & Apply') + '</button>' +
-          '</div>' +
-        '</div>' +
+  /* CERTIFICATE NAME */
+  var certInput=$('#certInputName');
+
+  if(certInput){
+    certInput.addEventListener('input',function(e){
+      var val=e.target.value.trim();
+      $('#certRenderName').textContent=val||'[Enter Two Legal Names]';
+    });
+  }
+
+  $('#certYearSpan').textContent=new Date().getFullYear();
+
+  /* ONBOARDING NUDGE */
+  var nudgeTimer;
+
+  function scheduleNudge(ms){
+    if(state.nudgeDismissed)return;
+    if(state.saved.size===0&&state.holds.size===0)return;
+
+    clearTimeout(nudgeTimer);
+
+    nudgeTimer=setTimeout(function(){
+      if(state.nudgeDismissed)return;
+
+      var txt=$('#nudgeText');
+
+      if(state.tutorName){
+        txt.innerHTML='Hi <strong style="color:var(--gold)">'+esc(state.tutorName)+'</strong>, complete your tutor application on Mulaearn so your reserved learner slot stays locked in.';
+      }else if(state.holds.size>0){
+        txt.innerHTML='Your provisional learner hold is active — finish your tutor application on <strong style="color:var(--gold)">Mulaearn</strong> before the slot reopens.';
+      }else{
+        var n=state.saved.size;
+        txt.innerHTML='You have <strong style="color:var(--gold)">'+n+' shortlisted '+(n===1?'request':'requests')+'</strong> waiting — apply on Mulaearn now to claim your preferred learners.';
+      }
+
+      $('#nudgeCard').classList.add('show');
+    },ms||11000);
+  }
+
+  /* LEARNER GRID */
+  function renderGrid(){
+    var q=state.query.toLowerCase().trim();
+
+    var list=LEARNERS.filter(function(x){
+      var okCat=state.level==='all'||x.cat===state.level;
+      var searchable=[
+        x.name,x.country,x.goal,x.level,x.schedule,x.id
+      ].join(' ').toLowerCase();
+      var okQ=!q||searchable.includes(q);
+      return okCat&&okQ;
+    });
+
+    if(state.sort==='payout-desc'){
+      list=list.slice().sort(function(a,b){
+        return b.payoutUsd-a.payoutUsd;
+      });
+    }else if(state.sort==='slots-asc'){
+      list=list.slice().sort(function(a,b){
+        return a.slots-b.slots;
+      });
+    }
+
+    var filtered=state.level!=='all'||q!==''||state.sort!=='featured';
+
+    $('#resultCount').textContent=filtered
+      ?'Showing '+list.length+' matching learner '+(list.length===1?'request':'requests')
+      :'Showing '+LEARNERS.length+' learner requests · Updated '+formatDate(new Date());
+
+    $('#resetBtn').hidden=!filtered;
+    $('#learnerEmpty').hidden=list.length>0;
+
+    $('#learnerGrid').innerHTML=list.map(function(x){
+      var isSaved=state.saved.has(x.id);
+      var hold=state.holds.get(x.id);
+      var payStr=formatMoney(x.payoutUsd);
+
+      return '<article class="card learner">'+
+        '<div class="l-top">'+
+          '<div class="av-img"><img src="'+esc(x.avatar)+'" alt="'+esc(x.name)+'" loading="lazy"></div>'+
+          '<div class="l-id"><strong>'+esc(x.name)+'</strong><small>'+esc(x.country)+'</small></div>'+
+          '<button type="button" class="save-btn'+(isSaved?' saved':'')+'" data-save="'+esc(x.id)+'" aria-label="Save request">'+(isSaved?'★':'☆')+'</button>'+
+        '</div>'+
+        '<div class="tag-row"><span class="tag">'+esc(x.level)+'</span><span class="code-tag">#'+esc(x.id)+'</span></div>'+
+        '<p class="goal">'+esc(x.goal)+'</p>'+
+        '<div class="chips">'+
+          '<span class="chip">'+esc(x.schedule)+'</span>'+
+          '<span class="chip">'+esc(x.duration)+'</span>'+
+          '<span class="chip">Posted '+esc(postedDate(x))+'</span>'+
+          '<span class="chip">Starts '+esc(startDate(x))+'</span>'+
+        '</div>'+
+        '<div class="l-pay">'+
+          '<div><div class="label">Session Payout</div><div class="amount">'+payStr+' <small>/ hr</small></div></div>'+
+          '<div style="text-align:right">'+
+            '<div class="slots-left">'+(hold?'⏳ Held ('+esc(hold.ref)+')':x.slots+' '+(x.slots===1?'slot':'slots')+' open')+'</div>'+
+            '<button type="button" class="btn sm'+(hold?' subtle':'')+'" data-open="'+esc(x.id)+'" style="margin-top:5px">'+(hold?'Finish Application':'View Brief & Apply')+'</button>'+
+          '</div>'+
+        '</div>'+
       '</article>';
     }).join('');
   }
 
-  function renderDrawer() {
-    $('#savedCount').textContent = state.saved.size;
-    var box = $('#drawerList');
-    if (state.saved.size === 0) {
-      $('#drawerTotal').textContent = '$0.00';
-      box.innerHTML = '<div class="empty">No saved learner requests yet. Tap ☆ on any request card to shortlist it here.</div>';
+  /* SHORTLIST DRAWER */
+  function renderDrawer(){
+    $('#savedCount').textContent=state.saved.size;
+
+    var box=$('#drawerList');
+
+    if(state.saved.size===0){
+      $('#drawerTotal').textContent=formatMoney(0);
+      box.innerHTML='<div class="empty">No saved learner requests yet. Tap ☆ on any request card to shortlist it here.</div>';
       return;
     }
-    var sum = 0;
-    box.innerHTML = Array.from(state.saved).map(function (id) {
-      var x = LEARNERS.find(function (item) { return item.id === id; });
-      if (!x) return '';
-      sum += x.payout;
-      return '<div class="d-item">' +
-        '<div class="av-img" style="width:40px;height:40px"><img src="' + esc(x.avatar) + '" alt=""></div>' +
-        '<div style="flex:1;min-width:0"><strong style="display:block;font-size:13px">' + esc(x.name) + '</strong><small style="color:var(--muted);font-size:11px">' + esc(x.level) + ' · $' + x.payout + '/hr</small></div>' +
-        '<button type="button" class="btn sm ghost" data-d-open="' + esc(x.id) + '">Open</button>' +
-        '<button type="button" class="m-close" data-d-del="' + esc(x.id) + '" aria-label="Remove">✕</button>' +
+
+    var sumUsd=0;
+
+    box.innerHTML=Array.from(state.saved).map(function(id){
+      var x=LEARNERS.find(function(item){return item.id===id;});
+      if(!x)return '';
+
+      sumUsd+=x.payoutUsd;
+      var pStr=formatMoney(x.payoutUsd);
+
+      return '<div class="d-item">'+
+        '<div class="av-img" style="width:40px;height:40px"><img src="'+esc(x.avatar)+'" alt=""></div>'+
+        '<div style="flex:1;min-width:0"><strong style="display:block;font-size:13px">'+esc(x.name)+'</strong><small style="color:var(--muted);font-size:11px">'+esc(x.level)+' · '+pStr+'/hr</small></div>'+
+        '<button type="button" class="btn sm ghost" data-d-open="'+esc(x.id)+'">Open</button>'+
+        '<button type="button" class="m-close" data-d-del="'+esc(x.id)+'" aria-label="Remove">✕</button>'+
       '</div>';
     }).join('');
-    $('#drawerTotal').textContent = '$' + sum.toFixed(2) + ' / wk';
+
+    $('#drawerTotal').textContent=formatMoney(sumUsd)+' / wk';
   }
 
-  function toggleSave(id) {
-    var x = LEARNERS.find(function (item) { return item.id === id; });
-    if (!x) return;
-    if (state.saved.has(id)) {
+  function toggleSave(id){
+    var x=LEARNERS.find(function(item){return item.id===id;});
+    if(!x)return;
+
+    if(state.saved.has(id)){
       state.saved.delete(id);
-      showToast('Removed ' + x.name + ' from shortlist');
-    } else {
+      showToast('Removed '+x.name+' from shortlist');
+    }else{
       state.saved.add(id);
-      showToast('Saved ' + x.name + ' to shortlist');
+      showToast('Saved '+x.name+' to shortlist');
       scheduleNudge(10000);
     }
+
     renderGrid();
     renderDrawer();
-    if (state.activeId === id) {
-      $('#mSaveBtn').textContent = state.saved.has(id) ? '★ Saved in Shortlist' : '☆ Save to Shortlist';
+
+    if(state.activeId===id){
+      $('#mSaveBtn').textContent=state.saved.has(id)?'★ Saved in Shortlist':'☆ Save to Shortlist';
     }
   }
 
-  /* MODAL LOGIC */
-  function setStep(step) {
-    $('#viewBrief').hidden = step !== 'brief';
-    $('#viewReserve').hidden = step !== 'reserve';
-    $('#viewDone').hidden = step !== 'done';
-    $('#tabBrief').classList.toggle('on', step === 'brief');
-    $('#tabReserve').classList.toggle('on', step !== 'brief');
+  /* MODAL */
+  function setStep(step){
+    $('#viewBrief').hidden=step!=='brief';
+    $('#viewReserve').hidden=step!=='reserve';
+    $('#viewDone').hidden=step!=='done';
+    $('#tabBrief').classList.toggle('on',step==='brief');
+    $('#tabReserve').classList.toggle('on',step!=='brief');
   }
 
-  function openModal(id) {
-    var x = LEARNERS.find(function (item) { return item.id === id; });
-    if (!x) return;
-    state.activeId = id;
-    $('#mCode').textContent = '#' + x.id + ' · ' + x.level;
-    $('#mTitle').textContent = x.name + ' (' + x.country + ')';
-    $('#mAvatar').src = x.avatar;
-    $('#mName').textContent = x.name;
-    $('#mMeta').textContent = x.schedule + ' · ' + x.duration;
-    $('#mPayout').innerHTML = '$' + x.payout + ' <small>/ hr</small>';
-    $('#mSlots').textContent = x.slots + ' ' + (x.slots === 1 ? 'slot' : 'slots') + ' open';
-    $('#mGoal').textContent = x.goal;
-    $('#mChecklist').innerHTML = x.checklist.map(function (c) { return '<li>' + esc(c) + '</li>'; }).join('');
-    $('#mSaveBtn').textContent = state.saved.has(id) ? '★ Saved in Shortlist' : '☆ Save to Shortlist';
+  function openModal(id){
+    var x=LEARNERS.find(function(item){return item.id===id;});
+    if(!x)return;
 
-    var tmr = new Date();
-    tmr.setDate(tmr.getDate() + 1);
-    $('#fDate').value = tmr.toISOString().split('T')[0];
-    if (state.tutorName) $('#fName').value = state.tutorName;
+    state.activeId=id;
 
-    var existing = state.holds.get(id);
-    if (existing) {
-      fillDone(x, existing);
+    $('#mCode').textContent='#'+x.id+' · '+x.level;
+    $('#mTitle').textContent=x.name+' ('+x.country+')';
+    $('#mAvatar').src=x.avatar;
+    $('#mAvatar').alt=x.name;
+    $('#mName').textContent=x.name;
+    $('#mMeta').textContent=x.schedule+' · '+x.duration;
+    $('#mPayout').innerHTML=formatMoney(x.payoutUsd)+' <small>/ hr</small>';
+    $('#mSlots').textContent=x.slots+' '+(x.slots===1?'slot':'slots')+' open';
+    $('#mGoal').textContent=x.goal;
+    $('#mChecklist').innerHTML=x.checklist.map(function(c){
+      return '<li>'+esc(c)+'</li>';
+    }).join('');
+
+    $('#mPostedDate').textContent=postedDate(x);
+    $('#mStartDate').textContent=startDate(x);
+    $('#mSaveBtn').textContent=state.saved.has(id)?'★ Saved in Shortlist':'☆ Save to Shortlist';
+
+    var minimumDate=dateToInputValue(dateFromOffset(0));
+    $('#fDate').min=minimumDate;
+    $('#fDate').value=dateToInputValue(dateFromOffset(x.startDaysFromNow));
+
+    if(state.tutorName)$('#fName').value=state.tutorName;
+
+    var existing=state.holds.get(id);
+
+    if(existing){
+      fillDone(x,existing);
       setStep('done');
-    } else {
+    }else{
       setStep('brief');
     }
-    $('#briefModal').hidden = false;
+
+    $('#briefModal').hidden=false;
   }
 
-  function fillDone(x, hold) {
-    $('#dRef').textContent = 'Provisional Hold · #' + hold.ref;
-    $('#dTutorName').textContent = hold.tutorName;
-    $('#dLearnerName').textContent = x.name + ' (' + x.country + ')';
-    $('#dSummaryLearner').textContent = x.name + ' · $' + x.payout + '/hr';
-    $('#dSummaryEmail').textContent = hold.email;
-    $('#dSummaryDate').textContent = hold.date;
+  function fillDone(x,hold){
+    $('#dRef').textContent='Provisional Hold · #'+hold.ref;
+    $('#dTutorName').textContent=hold.tutorName;
+    $('#dLearnerName').textContent=x.name+' ('+x.country+')';
+    $('#dSummaryLearner').textContent=x.name+' · '+formatMoney(x.payoutUsd)+'/hr';
+    $('#dSummaryEmail').textContent=hold.email;
+    $('#dSummaryDate').textContent=formatInputDate(hold.date);
   }
 
-  function closeModal() { $('#briefModal').hidden = true; }
+  function closeModal(){
+    $('#briefModal').hidden=true;
+  }
 
-  /* FLOATING BUBBLES: SUPPORT & FAQS & TERMS */
-  $('#supportBubbleBtn').addEventListener('click', function () {
-    $('#supportPopover').hidden = !$('#supportPopover').hidden;
-  });
-  $('#closeSupportPop').addEventListener('click', function () {
-    $('#supportPopover').hidden = true;
-  });
-  $('#footerSupportBtn').addEventListener('click', function () {
-    $('#supportPopover').hidden = false;
+  /* SUPPORT, FAQ & TERMS */
+  $('#supportBubbleBtn').addEventListener('click',function(){
+    $('#supportPopover').hidden=!$('#supportPopover').hidden;
   });
 
-  $('#faqBubbleBtn').addEventListener('click', function () {
-    $('#supportPopover').hidden = true;
-    $('#faqModal').hidden = false;
-  });
-  $('#footerFaqBtn').addEventListener('click', function () {
-    $('#faqModal').hidden = false;
-  });
-  $('#closeFaqModal').addEventListener('click', function () {
-    $('#faqModal').hidden = true;
-  });
-  $('#faqModal').addEventListener('click', function (e) {
-    if (e.target === this) this.hidden = true;
+  $('#closeSupportPop').addEventListener('click',function(){
+    $('#supportPopover').hidden=true;
   });
 
-  function openTerms() { $('#termsModal').hidden = false; }
-  $('#navTermsBtn').addEventListener('click', openTerms);
-  $('#footerTermsBtn').addEventListener('click', openTerms);
-  $('#closeTermsModal').addEventListener('click', function () { $('#termsModal').hidden = true; });
-  $('#acceptTermsBtn').addEventListener('click', function () { $('#termsModal').hidden = true; });
-  $('#termsModal').addEventListener('click', function (e) {
-    if (e.target === this) this.hidden = true;
+  $('#footerSupportBtn').addEventListener('click',function(){
+    $('#supportPopover').hidden=false;
   });
 
-  /* EVENTS */
-  $('#learnerGrid').addEventListener('click', function (e) {
-    var openBtn = e.target.closest('[data-open]');
-    if (openBtn) { openModal(openBtn.dataset.open); return; }
-    var saveBtn = e.target.closest('[data-save]');
-    if (saveBtn) toggleSave(saveBtn.dataset.save);
+  $('#faqBubbleBtn').addEventListener('click',function(){
+    $('#supportPopover').hidden=true;
+    $('#faqModal').hidden=false;
   });
 
-  $('#levelFilters').addEventListener('click', function (e) {
-    var b = e.target.closest('.fchip');
-    if (!b) return;
-    state.level = b.dataset.level;
-    this.querySelectorAll('.fchip').forEach(function (c) { c.classList.toggle('on', c === b); });
+  $('#footerFaqBtn').addEventListener('click',function(){
+    $('#faqModal').hidden=false;
+  });
+
+  $('#closeFaqModal').addEventListener('click',function(){
+    $('#faqModal').hidden=true;
+  });
+
+  $('#faqModal').addEventListener('click',function(e){
+    if(e.target===this)this.hidden=true;
+  });
+
+  function openTerms(){
+    $('#termsModal').hidden=false;
+  }
+
+  $('#navTermsBtn').addEventListener('click',openTerms);
+  $('#footerTermsBtn').addEventListener('click',openTerms);
+
+  $('#closeTermsModal').addEventListener('click',function(){
+    $('#termsModal').hidden=true;
+  });
+
+  $('#acceptTermsBtn').addEventListener('click',function(){
+    $('#termsModal').hidden=true;
+  });
+
+  $('#termsModal').addEventListener('click',function(e){
+    if(e.target===this)this.hidden=true;
+  });
+
+  /* LEARNER GRID EVENTS */
+  $('#learnerGrid').addEventListener('click',function(e){
+    var openBtn=e.target.closest('[data-open]');
+    if(openBtn){
+      openModal(openBtn.dataset.open);
+      return;
+    }
+
+    var saveBtn=e.target.closest('[data-save]');
+    if(saveBtn)toggleSave(saveBtn.dataset.save);
+  });
+
+  $('#levelFilters').addEventListener('click',function(e){
+    var b=e.target.closest('.fchip');
+    if(!b)return;
+
+    state.level=b.dataset.level;
+
+    this.querySelectorAll('.fchip').forEach(function(c){
+      c.classList.toggle('on',c===b);
+    });
+
     renderGrid();
   });
 
-  $('#searchInput').addEventListener('input', function (e) {
-    state.query = e.target.value;
+  $('#searchInput').addEventListener('input',function(e){
+    state.query=e.target.value;
     renderGrid();
   });
 
-  $('#sortSelect').addEventListener('change', function (e) {
-    state.sort = e.target.value;
+  $('#sortSelect').addEventListener('change',function(e){
+    state.sort=e.target.value;
     renderGrid();
   });
 
-  $('#resetBtn').addEventListener('click', function () {
-    state.level = 'all';
-    state.query = '';
-    state.sort = 'featured';
-    $('#searchInput').value = '';
-    $('#sortSelect').value = 'featured';
-    $('#levelFilters').querySelectorAll('.fchip').forEach(function (c) { c.classList.toggle('on', c.dataset.level === 'all'); });
+  $('#resetBtn').addEventListener('click',function(){
+    state.level='all';
+    state.query='';
+    state.sort='featured';
+
+    $('#searchInput').value='';
+    $('#sortSelect').value='featured';
+
+    $('#levelFilters').querySelectorAll('.fchip').forEach(function(c){
+      c.classList.toggle('on',c.dataset.level==='all');
+    });
+
     renderGrid();
   });
 
-  $('#closeModalBtn').addEventListener('click', closeModal);
-  $('#doneCloseBtn').addEventListener('click', closeModal);
-  $('#briefModal').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
-  $('#tabBrief').addEventListener('click', function () { setStep('brief'); });
-  $('#tabReserve').addEventListener('click', function () { setStep('reserve'); });
-  $('#goReserveBtn').addEventListener('click', function () { setStep('reserve'); });
-  $('#backBriefBtn').addEventListener('click', function () { setStep('brief'); });
-  $('#mSaveBtn').addEventListener('click', function () { if (state.activeId) toggleSave(state.activeId); });
+  /* MODAL EVENTS */
+  $('#closeModalBtn').addEventListener('click',closeModal);
+  $('#doneCloseBtn').addEventListener('click',closeModal);
 
-  /* EMAIL VALIDATION + FORM SUBMIT */
-  var emailInput = $('#fEmail');
-  emailInput.addEventListener('input', function () {
-    var val = emailInput.value.trim();
-    var valid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val);
-    if (!val) {
+  $('#briefModal').addEventListener('click',function(e){
+    if(e.target===this)closeModal();
+  });
+
+  $('#tabBrief').addEventListener('click',function(){
+    setStep('brief');
+  });
+
+  $('#tabReserve').addEventListener('click',function(){
+    setStep('reserve');
+  });
+
+  $('#goReserveBtn').addEventListener('click',function(){
+    setStep('reserve');
+  });
+
+  $('#backBriefBtn').addEventListener('click',function(){
+    setStep('brief');
+  });
+
+  $('#mSaveBtn').addEventListener('click',function(){
+    if(state.activeId)toggleSave(state.activeId);
+  });
+
+  /* EMAIL VALIDATION */
+  var emailInput=$('#fEmail');
+
+  emailInput.addEventListener('input',function(){
+    var val=emailInput.value.trim();
+    var valid=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val);
+
+    if(!val){
       emailInput.setCustomValidity('Please enter your email address.');
-    } else if (!valid) {
+    }else if(!valid){
       emailInput.setCustomValidity('Please enter a valid email address with a domain (e.g. name@gmail.com).');
-    } else {
+    }else{
       emailInput.setCustomValidity('');
     }
   });
 
-  $('#reserveForm').addEventListener('submit', function (e) {
+  /* RESERVATION FORM */
+  $('#reserveForm').addEventListener('submit',function(e){
     e.preventDefault();
-    var emailVal = emailInput.value.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailVal)) {
+
+    var emailVal=emailInput.value.trim();
+
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailVal)){
       emailInput.setCustomValidity('Please enter a valid email address with a domain.');
       emailInput.reportValidity();
       return;
     }
-    var x = LEARNERS.find(function (item) { return item.id === state.activeId; });
-    if (!x) return;
-    var hold = {
-      ref: 'MT-' + Math.floor(1000 + Math.random() * 9000),
-      tutorName: $('#fName').value.trim(),
-      email: emailVal,
-      date: $('#fDate').value
+
+    var x=LEARNERS.find(function(item){
+      return item.id===state.activeId;
+    });
+
+    if(!x)return;
+
+    var selectedDate=$('#fDate').value;
+    var today=dateToInputValue(dateFromOffset(0));
+
+    if(!selectedDate||selectedDate<today){
+      $('#fDate').setCustomValidity('Please select today or a future date.');
+      $('#fDate').reportValidity();
+      return;
+    }
+
+    $('#fDate').setCustomValidity('');
+
+    var hold={
+      ref:'MT-'+Math.floor(1000+Math.random()*9000),
+      tutorName:$('#fName').value.trim(),
+      email:emailVal,
+      date:selectedDate
     };
-    state.tutorName = hold.tutorName;
-    state.holds.set(x.id, hold);
-    if (!state.saved.has(x.id)) {
+
+    state.tutorName=hold.tutorName;
+    state.holds.set(x.id,hold);
+
+    if(!state.saved.has(x.id)){
       state.saved.add(x.id);
       renderDrawer();
     }
-    fillDone(x, hold);
+
+    fillDone(x,hold);
     setStep('done');
     renderGrid();
     scheduleNudge(9000);
   });
 
-  $('#openDrawerBtn').addEventListener('click', function () { $('#drawerBg').hidden = false; });
-  $('#closeDrawerBtn').addEventListener('click', function () { $('#drawerBg').hidden = true; });
-  $('#drawerBg').addEventListener('click', function (e) { if (e.target === this) this.hidden = true; });
-  $('#drawerList').addEventListener('click', function (e) {
-    var o = e.target.closest('[data-d-open]');
-    if (o) { $('#drawerBg').hidden = true; openModal(o.dataset.dOpen); return; }
-    var d = e.target.closest('[data-d-del]');
-    if (d) toggleSave(d.dataset.dDel);
+  /* SHORTLIST DRAWER EVENTS */
+  $('#openDrawerBtn').addEventListener('click',function(){
+    $('#drawerBg').hidden=false;
   });
 
-  $('#closeNudgeBtn').addEventListener('click', function () {
-    state.nudgeDismissed = true;
+  $('#closeDrawerBtn').addEventListener('click',function(){
+    $('#drawerBg').hidden=true;
+  });
+
+  $('#drawerBg').addEventListener('click',function(e){
+    if(e.target===this)this.hidden=true;
+  });
+
+  $('#drawerList').addEventListener('click',function(e){
+    var o=e.target.closest('[data-d-open]');
+
+    if(o){
+      $('#drawerBg').hidden=true;
+      openModal(o.dataset.dOpen);
+      return;
+    }
+
+    var d=e.target.closest('[data-d-del]');
+    if(d)toggleSave(d.dataset.dDel);
+  });
+
+  /* NUDGE */
+  $('#closeNudgeBtn').addEventListener('click',function(){
+    state.nudgeDismissed=true;
     $('#nudgeCard').classList.remove('show');
   });
 
   /* EARNINGS PLANNER */
-  $('#sessRange').addEventListener('input', function (e) {
-    var n = Number(e.target.value);
-    $('#sessLabel').textContent = n + (n === 1 ? ' session' : ' sessions');
-    $('#hrsOut').textContent = n.toFixed(1) + ' hrs';
-    $('#usdOut').textContent = '$' + (n * 20) + ' / wk';
+  $('#sessRange').addEventListener('input',function(e){
+    var n=Number(e.target.value);
+
+    $('#sessLabel').textContent=n+(n===1?' session':' sessions');
+    $('#hrsOut').textContent=n.toFixed(1)+' hrs';
+
+    var usdVal=n*20;
+    $('#usdOut').textContent=formatMoney(usdVal)+' / wk';
   });
 
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
+  /* KEYBOARD ACCESSIBILITY */
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
       closeModal();
-      $('#drawerBg').hidden = true;
-      $('#faqModal').hidden = true;
-      $('#termsModal').hidden = true;
-      $('#supportPopover').hidden = true;
+      closeSidebar();
+      $('#drawerBg').hidden=true;
+      $('#faqModal').hidden=true;
+      $('#termsModal').hidden=true;
+      $('#supportPopover').hidden=true;
+      currMenu.hidden=true;
+      currTrigger.setAttribute('aria-expanded','false');
     }
   });
 
-  $('#year').textContent = new Date().getFullYear();
+  /* INITIALISE PAGE */
+  $('#year').textContent=new Date().getFullYear();
   renderGrid();
   renderDrawer();
 })();
