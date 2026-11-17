@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090b10">
+<meta name="description" content="Get your MeloTutor Swahili tutor certificate: verify an existing MeloTutor certificate, join the free course, or apply for expedited assessment.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d4af37'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='38' font-weight='700' text-anchor='middle' fill='%23090b10'%3EM%3C/text%3E%3C/svg%3E">
+<title>Get Certified | MeloTutor</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="CSS/certification.css">
+</head>
+<body>
+
+<noscript>
+  <p style="margin:0;padding:14px 18px;background:#3a1c1c;color:#ffd7d7;text-align:center;font-family:Arial,sans-serif;font-size:14px">
+    MeloTutor needs JavaScript to work. Please turn it on in your browser and reload this page.
+  </p>
+</noscript>
+
+<div class="dash">
+
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">M</span>
+      <span class="brand-name">MeloTutor</span>
+    </a>
+
+    <nav class="nav" aria-label="Page sections">
+      <a href="#overview" class="active">Overview</a>
+      <a href="#steps">Next steps</a>
+      <a href="#certificates">Certificates</a>
+      <a href="#activity">Activity</a>
+      <a href="dashboard.html" id="goDash">Tutor dashboard</a>
+    </nav>
+
+    <div class="side-foot">
+      <div class="user-chip">
+        <strong id="chipName"></strong>
+        <span id="chipEmail"></span>
+      </div>
+      <button class="btn btn-ghost btn-block" id="signOutBtn" type="button">Sign out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="card">
+      <span class="eyebrow"><i></i> Your account</span>
+      <h1 id="welcomeTitle">Welcome</h1>
+      <p class="sub" id="welcomeSub"></p>
+
+      <div class="banner" id="welcomeBanner" hidden style="margin-top:18px">
+        Your account is ready. Choose your certificate pathway below.
+      </div>
+
+      <div class="banner error" id="dataBanner" hidden style="margin-top:18px"></div>
+
+      <!-- Classy Certificate Status Widget -->
+      <div class="cert-status-widget" style="margin-top:22px;">
+        <div class="csw-left">
+          <span class="csw-eyebrow">Credential Status</span>
+          <strong id="statCert" class="csw-value">Loading...</strong>
+        </div>
+        <div class="csw-badge-icon">✦</div>
+      </div>
+    </section>
+
+    <!-- NEXT STEPS SLIDER -->
+    <section id="steps">
+      <div class="section-head">
+        <div>
+          <h2>Your next steps</h2>
+          <p class="sub">Swipe or use the arrows to see both steps.</p>
+        </div>
+        <div class="arrows">
+          <button class="arrow" id="stepsPrev" type="button" aria-label="Previous step">&#8249;</button>
+          <button class="arrow" id="stepsNext" type="button" aria-label="Next step">&#8250;</button>
+        </div>
+      </div>
+
+      <div class="track" id="stepsTrack" tabindex="0" aria-label="Certification steps">
+
+        <article class="slide first">
+          <div>
+            <div class="step-no">Step 1 of 2</div>
+            <h3>Choose your certificate pathway</h3>
+            <p>Upload a previously issued MeloTutor certificate, join our free training course when enrolment opens, or complete a quick assessment.</p>
+            <span class="state" id="stepCertState"></span>
+          </div>
+          <a class="btn btn-primary" href="#certificates">View certificate options</a>
+        </article>
+
+        <article class="slide">
+          <div>
+            <div class="step-no">Step 2 of 2</div>
+            <h3>Start teaching &amp; earning</h3>
+            <p>Once certified, your official credential unlocks immediately and your tutor dashboard opens for full learner matching—allowing you to reserve student slots, host 1-on-1 sessions, and withdraw earnings directly.</p>
+            <span class="state">After certification</span>
+          </div>
+          <a class="btn btn-ghost" href="dashboard.html">View dashboard</a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- CERTIFICATES -->
+    <section id="certificates">
+      <h2>Certificate options</h2>
+      <p class="sub">Choose the pathway that accurately describes your qualification status.</p>
+
+      <div class="paths">
+
+        <!-- 1. Existing MeloTutor Certificate -->
+        <div class="path">
+          <span class="tag">Option 1</span>
+          <h3>Verify an existing MeloTutor certificate</h3>
+          <p class="sub">Already earned an official MeloTutor certificate in a previous cohort or session? Upload it here with your reference details to sync your account.</p>
+
+          <form class="form" id="existingForm" novalidate>
+            <div class="row2">
+              <div class="field">
+                <label for="certInstitution">Issuing branch or program</label>
+                <input id="certInstitution" type="text" required maxlength="120" autocomplete="organization" placeholder="MeloTutor Certification Desk">
+              </div>
+
+              <div class="field">
+                <label for="certTitle">Certificate reference or title</label>
+                <input id="certTitle" type="text" required maxlength="120" placeholder="MeloTutor Swahili Instructor Level 1">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="certFile">MeloTutor certificate file</label>
+              <input id="certFile" type="file" accept=".pdf,.jpg,.jpeg,.png" required>
+              <div class="hint">PDF, JPG or PNG of your official MeloTutor document. Maximum 8 MB.</div>
+            </div>
+
+            <button class="btn btn-ghost" id="existingBtn" type="submit">Submit for verification</button>
+            <div class="dmsg" id="existingMsg" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <!-- 2. Free course -->
+        <div class="path">
+          <span class="tag">Option 2</span>
+          <h3>Earn a MeloTutor certificate — free</h3>
+          <p class="sub">The standard MeloTutor Swahili Tutor Certification Programme is free and takes two months or longer. Enrolment is not open yet.</p>
+
+          <button class="btn btn-ghost" id="courseBtn" type="button" style="margin-top:16px">Start the free course — coming soon</button>
+          <div class="dmsg" id="courseMsg" role="status" aria-live="polite" style="margin-top:10px"></div>
+        </div>
+
+        <!-- 3. Expedited assessment -->
+        <div class="path">
+          <span class="tag">Option 3</span>
+          <h3>Expedited assessment</h3>
+          <p class="sub">Complete your details and proceed directly to secure payment for expedited certification assessment.</p>
+
+          <div class="fee" id="certificateFee" data-usd="1">$1.00 USD</div>
+
+          <form class="form" id="readyForm" novalidate>
+            <div class="field">
+              <label for="readyCountry">Country</label>
+              <select id="readyCountry">
+                <option value="KE">Kenya</option>
+                <option value="TZ">Tanzania</option>
+              </select>
+            </div>
+
+<div class="field">
+  <label for="readyExperience">Tell us a bit about yourself and your Swahili background</label>
+  <textarea id="readyExperience" required rows="4" maxlength="1000" placeholder="Native speaker, informal tutoring, helping friends, or conversational practice..."></textarea>
+</div>
+
+            <button class="btn btn-primary" id="readyBtn" type="submit">Continue to payment</button>
+            <div class="dmsg" id="readyMsg" role="status" aria-live="polite"></div>
+
+            <div class="hint" style="margin-top:12px">
+              After you continue, a <strong>Pay now</strong> button appears below. Pay with the
+              <strong>same email you signed up with</strong> so your payment is matched to your account.
+              Your certificate unlocks automatically, usually within a minute.
+              Paid but nothing happened?
+              <a href="https://wa.me/254105961022?text=Hello%20MeloTutor%20Support%2C%20I%20paid%20for%20my%20certificate%20but%20my%20dashboard%20has%20not%20unlocked." target="_blank" rel="noopener noreferrer">WhatsApp support</a>
+              or
+              <a href="mailto:climaxedray1@gmail.com?subject=MeloTutor%20certificate%20payment">email us</a>.
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ACTIVITY -->
+    <section id="activity" class="card">
+      <h2>Recent activity</h2>
+      <ul class="activity" id="activityList"></ul>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/certification.js"></script>
+<script src="js/chariow-pay.js"></script>
+</body>
+</html>
