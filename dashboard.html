@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090b10">
+<title>Tutor Dashboard | MeloTutor</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="CSS/dashboard.css">
+</head>
+<body>
+
+<!-- Shown until we know the tutor is signed in AND approved -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <span class="brand-mark">M</span>
+    <p id="gateText">Checking your account…</p>
+  </div>
+</div>
+
+<div class="app" id="app" hidden>
+
+  <!-- SIDEBAR / BOTTOM BAR -->
+  <aside class="side">
+    <a class="brand" href="Index.html">
+      <span class="brand-mark">M</span>
+      <span class="brand-name">MeloTutor</span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Dashboard sections">
+      <a href="#overview" data-view="overview"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg><span>Overview</span></a>
+      <a href="#requests" data-view="requests"><svg viewBox="0 0 24 24"><path d="M7 4h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3zM8 9h8M8 13h8M8 17h5"/></svg><span>Requests</span></a>
+      <a href="#sessions" data-view="sessions"><svg viewBox="0 0 24 24"><path d="M6 5h12a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3zM3 10h18M8 3v4M16 3v4"/></svg><span>Sessions</span></a>
+      <a href="#earnings" data-view="earnings"><svg viewBox="0 0 24 24"><path d="M3 7h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 7l12-3v3M17 13.5h.01"/></svg><span>Earnings</span></a>
+      <a href="#activity" data-view="activity"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg><span>Activity</span></a>
+      <a href="#certificate" data-view="certificate"><svg viewBox="0 0 24 24"><path d="M12 4a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM9 13.5L8 21l4-2 4 2-1-7.5"/></svg><span>Certificate</span></a>
+      <a href="#profile" data-view="profile"><svg viewBox="0 0 24 24"><path d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Profile</span></a>
+    </nav>
+
+    <div class="side-foot">
+      <div class="help">
+        <strong>Need help?</strong>
+        <span>Contact the MeloTutor support desk.</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <header class="top">
+      <div>
+        <span class="chip ok">Certified tutor</span>
+        <h1 id="pageTitle">Overview</h1>
+        <p class="sub" id="pageSub"></p>
+      </div>
+      <div class="top-actions">
+        <div class="avatar" id="avatar" aria-hidden="true">T</div>
+        <button class="btn btn-ghost" id="signOutBtn" type="button">Sign out</button>
+      </div>
+    </header>
+
+    <div class="banner error" id="dataBanner" hidden></div>
+
+    <!-- OVERVIEW -->
+    <section class="view" id="v-overview">
+      <div class="stats">
+        <div class="stat gold"><div class="label">Available balance</div><strong id="sAvail">KSh 0</strong><small>Ready to withdraw</small></div>
+        <div class="stat"><div class="label">Earned this month</div><strong id="sMonth">KSh 0</strong><small>Cleared earnings</small></div>
+        <div class="stat"><div class="label">Sessions completed</div><strong id="sDone">0</strong><small id="sDoneNote">All time</small></div>
+        <div class="stat"><div class="label">Pending clearance</div><strong id="sPending">KSh 0</strong><small>Awaiting verification</small></div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <h2>Earnings, last 8 weeks</h2>
+          <div class="bars" id="bars" aria-label="Weekly earnings chart"></div>
+          <div class="bar-axis" id="barAxis"></div>
+        </div>
+        <div class="card cta">
+          <div class="label">Ready to withdraw</div>
+          <div class="big" id="ctaAmount">KSh 0</div>
+          <p class="note" id="ctaNote"></p>
+          <a class="btn btn-gold btn-block" href="#earnings">Withdraw funds</a>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="card-head"><h2>Upcoming sessions</h2><a href="#sessions" class="link">View all</a></div>
+          <div id="ovUpcoming" class="list"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Recent activity</h2><a href="#activity" class="link">View all</a></div>
+          <div id="ovActivity" class="list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REQUESTS -->
+    <section class="view" id="v-requests" hidden>
+      <div class="card">
+        <div class="card-head"><h2>Open learner requests</h2></div>
+        <div id="reqList" class="req-grid"></div>
+        <p class="note">To take a request, reserve it from the <a class="link" href="Index.html#learners">learner requests page</a>. Reservations are pending until reviewed.</p>
+      </div>
+    </section>
+
+    <!-- SESSIONS -->
+    <section class="view" id="v-sessions" hidden>
+      <div class="stats" id="sessStats"></div>
+      <div class="card">
+        <div class="card-head">
+          <h2>Session history</h2>
+          <div class="seg" id="sessFilter" role="tablist">
+            <button type="button" class="on" data-f="all">All</button>
+            <button type="button" data-f="upcoming">Upcoming</button>
+            <button type="button" data-f="completed">Completed</button>
+            <button type="button" data-f="cancelled">Cancelled</button>
+          </div>
+        </div>
+        <div class="table" id="sessTable"></div>
+      </div>
+    </section>
+
+    <!-- EARNINGS -->
+    <section class="view" id="v-earnings" hidden>
+      <div class="stats" id="earnStats"></div>
+
+      <div class="grid2">
+        <div class="card cta">
+          <h2>Request a withdrawal</h2>
+          <p class="note" id="wdAvail"></p>
+
+          <form id="wdForm" novalidate>
+            <label for="wdAmount">Amount (KSh)</label>
+            <input id="wdAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="e.g. 10,000">
+            <div class="quick">
+              <button type="button" data-q="5000">KSh 5,000</button>
+              <button type="button" data-q="10000">KSh 10,000</button>
+              <button type="button" data-q="all" class="gold">Everything</button>
+            </div>
+
+            <label>Pay me via</label>
+            <div class="method" id="wdMethod">
+              <button type="button" class="on" data-m="mpesa">M-Pesa</button>
+              <button type="button" data-m="bank">Bank transfer</button>
+            </div>
+
+            <div id="wdMpesa">
+              <label for="wdPhone">M-Pesa phone number</label>
+              <input id="wdPhone" type="tel" autocomplete="tel" placeholder="e.g. 07XX XXX XXX">
+            </div>
+            <div id="wdBank" hidden>
+              <label for="wdBankName">Bank name</label>
+              <input id="wdBankName" type="text" placeholder="Bank name">
+              <label for="wdAcct">Account number</label>
+              <input id="wdAcct" type="text" inputmode="numeric" placeholder="Account number">
+              <label for="wdAcName">Account holder name</label>
+              <input id="wdAcName" type="text" placeholder="Name on the account">
+            </div>
+
+            <button class="btn btn-gold btn-block" id="wdBtn" type="submit">Request withdrawal</button>
+            <div class="dmsg" id="wdMsg" role="status"></div>
+            <p class="note" id="wdPolicy"></p>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>How earnings work</h2>
+          <ol class="steps">
+            <li><b>Teach a session</b><span>Sessions follow the learner’s brief.</span></li>
+            <li><b>MeloTutor verifies it</b><span>Earnings are recorded only after a session is verified.</span></li>
+            <li><b>Money clears</b><span>Verified earnings move from pending to available.</span></li>
+            <li><b>You withdraw</b><span>Request a payout to M-Pesa or your bank.</span></li>
+          </ol>
+          <div class="callout">Payments are made only through the official MeloTutor process. Never send money to an unverified number.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>Withdrawal history</h2>
+          <div class="seg" id="wdFilter">
+            <button type="button" class="on" data-f="all">All</button>
+            <button type="button" data-f="paid">Paid</button>
+            <button type="button" data-f="processing">Processing</button>
+            <button type="button" data-f="failed">Failed</button>
+          </div>
+        </div>
+        <div class="table" id="wdTable"></div>
+      </div>
+    </section>
+
+    <!-- ACTIVITY -->
+    <section class="view" id="v-activity" hidden>
+      <div class="card">
+        <h2>Activity feed</h2>
+        <div id="actFeed" class="feed"></div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATE -->
+    <section class="view" id="v-certificate" hidden>
+      <div class="card">
+        <h2>Your certification</h2>
+        <div id="certBox" class="list"></div>
+        <p class="note"><a class="link" href="certification.html">Open the certification page</a> to apply for another certificate.</p>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="view" id="v-profile" hidden>
+      <div class="card">
+        <h2>Profile</h2>
+        <div id="profBox" class="kv"></div>
+        <p class="note">To change your name or email, contact support.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

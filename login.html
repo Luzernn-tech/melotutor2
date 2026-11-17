@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090b10">
+  <meta name="description" content="Sign in to your MeloTutor account.">
+
+  <title>Login | MeloTutor</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="CSS/auth.css">
+</head>
+
+<body>
+
+  <main class="shell">
+
+    <!-- LEFT PANEL -->
+    <section class="panel-left">
+
+      <a href="index.html" class="brand">
+        <span class="brand-mark">M</span>
+        <span class="brand-name">MeloTutor</span>
+      </a>
+
+      <div class="hero">
+
+        <div class="pill">
+          <i></i>
+          Welcome back
+        </div>
+
+        <h1>Your next teaching opportunity starts here.</h1>
+
+        <p>
+          Sign in to access your MeloTutor account, explore learner
+          requests and manage your tutoring journey.
+        </p>
+
+      </div>
+
+      <div class="steps" aria-label="Account steps">
+
+        <div class="step on">
+          <b>1</b>
+          Continue to your account
+        </div>
+
+        <div class="step">
+          <b>2</b>
+          Explore tutoring opportunities
+        </div>
+
+        <div class="step">
+          <b>3</b>
+          Manage your progress
+        </div>
+
+      </div>
+
+      <div class="panel-footer">
+        © <span id="loginYear"></span> MeloTutor. All rights reserved.
+      </div>
+
+    </section>
+
+
+    <!-- RIGHT PANEL -->
+    <section class="panel-right">
+
+      <div class="form-wrap">
+
+        <div class="form-head">
+
+          <div class="pill">
+            <i></i>
+            Your account
+          </div>
+
+          <h2 id="formTitle">Welcome back</h2>
+
+          <p id="formSubtitle">
+            Enter your details to sign in to MeloTutor.
+          </p>
+
+        </div>
+
+
+        <!-- LOGIN FORM -->
+        <form id="loginForm">
+
+          <div class="field">
+
+            <label for="loginEmail">Email address</label>
+
+            <input
+              type="email"
+              id="loginEmail"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="loginPassword">Password</label>
+
+            <div class="input-wrap">
+
+              <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              >
+
+              <button
+                type="button"
+                class="toggle-pw"
+                id="toggleLoginPw"
+                aria-label="Show password"
+              >
+                Show
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-options">
+
+            <button
+              type="button"
+              class="text-link"
+              id="forgotPasswordBtn"
+            >
+              Forgot password?
+            </button>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="loginBtn"
+          >
+            Sign In
+          </button>
+
+        </form>
+
+
+        <div class="msg" id="authMessage" role="status" aria-live="polite"></div>
+
+
+        <div class="divider">or</div>
+
+
+        <!-- GOOGLE SIGN IN -->
+        <button
+          type="button"
+          class="btn btn-google"
+          id="googleBtn"
+        >
+          <span class="g-mark" aria-hidden="true">G</span>
+          Continue with Google
+        </button>
+
+
+        <!-- PASSWORD RESET FORM -->
+        <form id="resetPasswordForm" hidden>
+
+          <div class="field">
+
+            <label for="newPassword">New password</label>
+
+            <div class="input-wrap">
+
+              <input
+                type="password"
+                id="newPassword"
+                placeholder="Create a new password"
+                autocomplete="new-password"
+                minlength="6"
+                required
+              >
+
+              <button
+                type="button"
+                class="toggle-pw"
+                id="toggleNewPw"
+                aria-label="Show password"
+              >
+                Show
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="confirmNewPassword">Confirm new password</label>
+
+            <input
+              type="password"
+              id="confirmNewPassword"
+              placeholder="Enter your new password again"
+              autocomplete="new-password"
+              minlength="6"
+              required
+            >
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="updatePasswordBtn"
+          >
+            Update Password
+          </button>
+
+          <div
+            class="msg"
+            id="resetMessage"
+            role="status"
+            aria-live="polite"
+          ></div>
+
+        </form>
+
+
+        <!-- ACCOUNT LINKS -->
+        <p class="alt" id="signupPrompt">
+          Don't have an account?
+          <a href="signup.html">Create an account</a>
+        </p>
+
+        <p class="alt">
+          <a href="index.html">← Back to MeloTutor</a>
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/login.js"></script>
+
+  <script>
+    document.getElementById('loginYear').textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+</html>
