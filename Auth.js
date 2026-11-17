@@ -31,23 +31,23 @@
     return location.origin + location.pathname.replace(/[^/]*$/, '');
   }
 
-  /* Where to go after logging in: ?next=index.html or ?next=dashboard.html (nothing else). */
-  var ALLOWED_NEXT = ['index.html', 'index.html', 'dashboard.html', 'certification.html'];
+  /* Where to go after logging in. */
+  var ALLOWED_NEXT = ['index.html', 'dashboard.html', 'certification.html'];
+
   function nextUrl() {
     var next = new URLSearchParams(window.location.search).get('next');
     return ALLOWED_NEXT.indexOf(next) !== -1 ? next : 'dashboard.html';
   }
 
-  /* Check whether a username is already taken (case-insensitive). */
+  /* Check username through secure Supabase RPC.
+     Does not expose profile records to anonymous visitors. */
   async function isUsernameTaken(username) {
-    var res = await sb
-      .from('profiles')
-      .select('id')
-      .ilike('username', username)
-      .limit(1);
+    var res = await sb.rpc('is_username_taken', {
+      p_username: username
+    });
 
     if (res.error) throw res.error;
-    return Array.isArray(res.data) && res.data.length > 0;
+    return res.data === true;
   }
 
   /* Generate a unique fallback username for Google OAuth signups. */
@@ -61,18 +61,22 @@
     if (raw.length < 3) raw = 'tutor_' + raw;
 
     var candidate = raw;
+
     for (var i = 0; i < 6; i++) {
       var taken = await isUsernameTaken(candidate);
       if (!taken) return candidate;
+
       var suffix = Math.floor(100 + Math.random() * 9000);
       candidate = raw.slice(0, 19) + '_' + suffix;
     }
+
     return 'tutor_' + Date.now().toString().slice(-8);
   }
 
   /* Ensure Google OAuth users have a profile row with a unique username. */
   async function ensureOAuthProfile(session) {
     if (!session || !session.user) return;
+
     var user = session.user;
 
     var existing = await sb
@@ -87,7 +91,7 @@
     var fullName = (meta.full_name || meta.name || '').trim();
     var username = await generateUniqueUsername(user);
 
-    await sb.from('profiles').upsert(
+    var profileResult = await sb.from('profiles').upsert(
       {
         id: user.id,
         full_name: fullName || username,
@@ -96,6 +100,8 @@
       },
       { onConflict: 'id' }
     );
+
+    if (profileResult.error) throw profileResult.error;
   }
 
   /* Already signed in (or returning from Google OAuth)? Ensure profile & redirect. */
@@ -106,20 +112,24 @@
       } catch (e) {
         console.warn('Profile sync notice:', e.message);
       }
+
       var isSignupPage = Boolean($('#signupForm'));
       var dest = isSignupPage && !new URLSearchParams(window.location.search).get('next')
         ? 'certification.html?welcome=1'
         : nextUrl();
+
       window.location.replace(dest);
     }
   });
 
   /* ---------- SHOW / HIDE PASSWORD ---------- */
   var toggle = $('#togglePw');
+
   if (toggle) {
     toggle.addEventListener('click', function () {
       var input = $('#authPassword');
       var show = input.type === 'password';
+
       input.type = show ? 'text' : 'password';
       toggle.textContent = show ? 'Hide' : 'Show';
       toggle.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
@@ -128,6 +138,7 @@
 
   /* ---------- SIGN UP (email + password + unique username) ---------- */
   var signupForm = $('#signupForm');
+
   if (signupForm) {
     signupForm.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -141,14 +152,17 @@
         setMsg('Please enter at least two names for your full legal name.', 'error');
         return;
       }
+
       if (!USERNAME_RE.test(username)) {
         setMsg('Username must be 3–24 characters using letters, numbers, or underscores only.', 'error');
         return;
       }
+
       if (!EMAIL_RE.test(email)) {
         setMsg('Please enter a valid email address.', 'error');
         return;
       }
+
       if (password.length < MIN_PASSWORD) {
         setMsg('Your password must be at least ' + MIN_PASSWORD + ' characters.', 'error');
         return;
@@ -158,6 +172,7 @@
 
       try {
         var taken = await isUsernameTaken(username);
+
         if (taken) {
           setMsg('That username is already taken. Please choose another one.', 'error');
           setBusy(false);
@@ -168,10 +183,14 @@
           email: email,
           password: password,
           options: {
-            data: { full_name: name, username: username },
+            data: {
+              full_name: name,
+              username: username
+            },
             emailRedirectTo: baseUrl() + 'login.html'
           }
         });
+
         if (result.error) throw result.error;
 
         /* Email confirmation is enabled: no session until they confirm. */
@@ -181,18 +200,9 @@
           return;
         }
 
-        var upsertRes = await sb.from('profiles').upsert(
-          { id: result.data.user.id, full_name: name, username: username, email: email },
-          { onConflict: 'id' }
-        );
-        if (upsertRes.error) {
-          if (upsertRes.error.code === '23505') {
-            throw new Error('That username is already taken. Please choose another one.');
-          }
-          throw upsertRes.error;
-        }
-
+        /* Profile creation is handled by the database auth trigger. */
         window.location.href = 'certification.html?welcome=1';
+
       } catch (err) {
         setMsg(err.message || 'Unable to create your account. Please try again.', 'error');
       } finally {
@@ -203,6 +213,7 @@
 
   /* ---------- LOG IN (email + password) ---------- */
   var loginForm = $('#loginForm');
+
   if (loginForm) {
     loginForm.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -210,19 +221,39 @@
       var email = $('#authEmail').value.trim().toLowerCase();
       var password = $('#authPassword').value;
 
-      if (!EMAIL_RE.test(email)) { setMsg('Please enter a valid email address.', 'error'); return; }
-      if (!password) { setMsg('Please enter your password.', 'error'); return; }
+      if (!EMAIL_RE.test(email)) {
+        setMsg('Please enter a valid email address.', 'error');
+        return;
+      }
+
+      if (!password) {
+        setMsg('Please enter your password.', 'error');
+        return;
+      }
 
       setBusy(true);
 
       try {
-        var result = await sb.auth.signInWithPassword({ email: email, password: password });
+        var result = await sb.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
         if (result.error) throw result.error;
+
         window.location.href = nextUrl();
+
       } catch (err) {
         var text = err.message || 'Unable to log in. Please try again.';
-        if (/invalid login credentials/i.test(text)) text = 'Incorrect email or password.';
-        if (/email not confirmed/i.test(text)) text = 'Please confirm your email address first. Check your inbox for the confirmation link.';
+
+        if (/invalid login credentials/i.test(text)) {
+          text = 'Incorrect email or password.';
+        }
+
+        if (/email not confirmed/i.test(text)) {
+          text = 'Please confirm your email address first. Check your inbox for the confirmation link.';
+        }
+
         setMsg(text, 'error');
         setBusy(false);
       }
@@ -231,11 +262,14 @@
 
   /* ---------- GOOGLE (sign up and log in) ---------- */
   var googleBtn = $('#googleBtn');
+
   if (googleBtn) {
     googleBtn.addEventListener('click', async function () {
       setBusy(true);
+
       try {
         var target = loginForm ? nextUrl() : 'certification.html?welcome=1';
+
         var result = await sb.auth.signInWithOAuth({
           provider: 'google',
           options: {
@@ -246,8 +280,11 @@
             }
           }
         });
+
         if (result.error) throw result.error;
+
         /* The browser now redirects to Google. */
+
       } catch (err) {
         setMsg(err.message || 'Google sign-in is not available yet.', 'error');
         setBusy(false);
