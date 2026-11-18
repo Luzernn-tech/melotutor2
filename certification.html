@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#090b10">
-<meta name="description" content="Get your MeloTutor Swahili tutor certificate: verify an existing MeloTutor certificate, join the free course, or apply for expedited assessment.">
+<meta name="description" content="Get your MeloTutor Swahili tutor certificate through our free course or paid certification programme.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d4af37'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='38' font-weight='700' text-anchor='middle' fill='%23090b10'%3EM%3C/text%3E%3C/svg%3E">
 <title>Get Certified | MeloTutor</title>
@@ -13,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="certification.css">
+<link rel="stylesheet" href="CSS/certification.css">
 </head>
 <body>
 
@@ -93,7 +94,7 @@
           <div>
             <div class="step-no">Step 1 of 2</div>
             <h3>Choose your certificate pathway</h3>
-            <p>Upload a previously issued MeloTutor certificate, join our free training course when enrolment opens, or complete a quick assessment.</p>
+            <p>Join our free training course when enrolment opens, or complete the paid certification process.</p>
             <span class="state" id="stepCertState"></span>
           </div>
           <a class="btn btn-primary" href="#certificates">View certificate options</a>
@@ -115,43 +116,13 @@
     <!-- CERTIFICATES -->
     <section id="certificates">
       <h2>Certificate options</h2>
-      <p class="sub">Choose the pathway that accurately describes your qualification status.</p>
+      <p class="sub">Choose your preferred MeloTutor certification pathway.</p>
 
       <div class="paths">
 
-        <!-- 1. Existing MeloTutor Certificate -->
+        <!-- 1. Free course -->
         <div class="path">
           <span class="tag">Option 1</span>
-          <h3>Verify an existing MeloTutor certificate</h3>
-          <p class="sub">Already earned an official MeloTutor certificate in a previous cohort or session? Upload it here with your reference details to sync your account.</p>
-
-          <form class="form" id="existingForm" novalidate>
-            <div class="row2">
-              <div class="field">
-                <label for="certInstitution">Issuing branch or program</label>
-                <input id="certInstitution" type="text" required maxlength="120" autocomplete="organization" placeholder="MeloTutor Certification Desk">
-              </div>
-
-              <div class="field">
-                <label for="certTitle">Certificate reference or title</label>
-                <input id="certTitle" type="text" required maxlength="120" placeholder="MeloTutor Swahili Instructor Level 1">
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="certFile">MeloTutor certificate file</label>
-              <input id="certFile" type="file" accept=".pdf,.jpg,.jpeg,.png" required>
-              <div class="hint">PDF, JPG or PNG of your official MeloTutor document. Maximum 8 MB.</div>
-            </div>
-
-            <button class="btn btn-ghost" id="existingBtn" type="submit">Submit for verification</button>
-            <div class="dmsg" id="existingMsg" role="status" aria-live="polite"></div>
-          </form>
-        </div>
-
-        <!-- 2. Free course -->
-        <div class="path">
-          <span class="tag">Option 2</span>
           <h3>Earn a MeloTutor certificate — free</h3>
           <p class="sub">The standard MeloTutor Swahili Tutor Certification Programme is free and takes two months or longer. Enrolment is not open yet.</p>
 
@@ -159,9 +130,9 @@
           <div class="dmsg" id="courseMsg" role="status" aria-live="polite" style="margin-top:10px"></div>
         </div>
 
-        <!-- 3. Expedited assessment -->
+        <!-- 2. Expedited assessment -->
         <div class="path">
-          <span class="tag">Option 3</span>
+          <span class="tag">Option 2</span>
           <h3>Expedited assessment</h3>
           <p class="sub">Complete your details and proceed directly to secure payment for expedited certification assessment.</p>
 
@@ -176,10 +147,10 @@
               </select>
             </div>
 
-<div class="field">
-  <label for="readyExperience">Tell us a bit about yourself and your Swahili background</label>
-  <textarea id="readyExperience" required rows="4" maxlength="1000" placeholder="Native speaker, informal tutoring, helping friends, or conversational practice..."></textarea>
-</div>
+            <div class="field">
+              <label for="readyExperience">Tell us a bit about yourself and your Swahili background</label>
+              <textarea id="readyExperience" required rows="4" maxlength="1000" placeholder="Native speaker, informal tutoring, helping friends, or conversational practice..."></textarea>
+            </div>
 
             <button class="btn btn-primary" id="readyBtn" type="submit">Continue to payment</button>
             <div class="dmsg" id="readyMsg" role="status" aria-live="polite"></div>
@@ -209,8 +180,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="certification.js"></script>
-<script src="chariow-pay.js"></script>
+<script src="js/config.js"></script>
+<script src="js/certification.js"></script>
+<script src="js/chariow-pay.js"></script>
 </body>
 </html>
