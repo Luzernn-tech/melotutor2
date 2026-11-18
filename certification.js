@@ -1,3 +1,4 @@
+
 /* =====================================================
    MELOTUTOR — CERTIFICATION
    File: js/certification.js
@@ -414,94 +415,6 @@
 
     loadFailed = false;
     await loadAll();
-  });
-
-  /* ---------- CERTIFICATE: EXISTING ---------- */
-
-  $('existingForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    const institution = $('certInstitution').value.trim();
-    const title = $('certTitle').value.trim();
-    const file = $('certFile').files[0];
-
-    if (!institution || !title || !file) {
-      setMsg(
-        'existingMsg',
-        'Please complete every field and choose a file.',
-        'error'
-      );
-      return;
-    }
-
-    if (file.size > 8 * 1024 * 1024) {
-      setMsg(
-        'existingMsg',
-        'The file must be 8 MB or smaller.',
-        'error'
-      );
-      return;
-    }
-
-    const ext = file.name.split('.').pop().toLowerCase();
-
-    if (['pdf', 'jpg', 'jpeg', 'png'].indexOf(ext) === -1) {
-      setMsg(
-        'existingMsg',
-        'Only PDF, JPG and PNG files are accepted.',
-        'error'
-      );
-      return;
-    }
-
-    $('existingBtn').disabled = true;
-
-    try {
-      const path = user.id + '/' + crypto.randomUUID() + '.' + ext;
-
-      const up = await sb.storage
-        .from('certificate-documents')
-        .upload(path, file, {
-          upsert: false,
-          contentType: file.type
-        });
-
-      if (up.error) throw up.error;
-
-      const ins = await sb.from('certificates').insert({
-        user_id: user.id,
-        certificate_type: 'existing',
-        certificate_title: title,
-        issuing_institution: institution,
-        file_path: path,
-        status: 'pending_verification'
-      });
-
-      if (ins.error) throw ins.error;
-
-      setMsg(
-        'existingMsg',
-        'Certificate submitted successfully.',
-        'ok'
-      );
-
-      $('existingForm').reset();
-
-      loadFailed = false;
-      await loadAll();
-
-    } catch (err) {
-      console.error('MeloTutor certificate error:', err);
-
-      setMsg(
-        'existingMsg',
-        'We could not submit your certificate. Please try again.',
-        'error'
-      );
-
-    } finally {
-      $('existingBtn').disabled = false;
-    }
   });
 
   /* ---------- CERTIFICATE: FREE COURSE ---------- */
