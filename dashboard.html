@@ -11,6 +11,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="dashboard.css">
+
+<script>
+/* Show /dashboard in the address bar instead of /dashboard.html */
+if (/\.html$/.test(location.pathname)) {
+  history.replaceState(null, '', location.pathname.replace(/\.html$/, '') + location.search + location.hash);
+}
+</script>
 </head>
 <body>
 
@@ -75,7 +82,7 @@
         <div class="stat"><div class="label">Pending clearance</div><strong id="sPending">KSh 0</strong><small>Awaiting verification</small></div>
       </div>
 
-      <div class="grid2">
+      <div class="grid2 wide">
         <div class="card">
           <h2>Earnings, last 8 weeks</h2>
           <div class="bars" id="bars" aria-label="Weekly earnings chart"></div>
