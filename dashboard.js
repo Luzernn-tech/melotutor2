@@ -1,7 +1,7 @@
 /* =====================================================
    MELOTUTOR — TUTOR DASHBOARD
-   File: js/dashboard.js
-   Requires js/config.js (window.sb)
+   File: dashboard.js
+   Requires config.js (window.sb)
    Only tutors with an issued certificate get in. The real lock is Supabase RLS
    (see supabase-setup.sql); this page just reflects it.
 ===================================================== */
@@ -12,9 +12,11 @@
   /* ---- YOUR POLICIES: edit these to match supabase-setup.sql ---- */
   const CONFIG = {
     certIssuedStatus: 'issued',         // the certificates.status value that means "issued"
-    minWithdrawal: 500,                 // must equal v_min in request_withdrawal()
-    processingText: '[set your processing time]',
-    feesText: '[set your fees, or write “none”]'
+    minWithdrawal: 1000,                // must equal v_min in request_withdrawal()
+    processingText: 'within 24 hours',
+    feesText: 'none, you receive the full amount',
+    sessionMinutes: 60,                 // every session is one hour
+    startWindowMin: 15                  // tutors can start a session this many minutes early
   };
 
   const sb = window.sb;
@@ -127,6 +129,23 @@
     route();
   }
 
+  const SESS_BASE = 'id,learner_name,topic,starts_at,duration_min,amount_kes,status';
+  const SESS_NEW = SESS_BASE + ',meeting_url,start_mode,transcription,transcript,started_at';
+
+  async function loadSessions(uid) {
+    let r = await sb.from('tutor_sessions').select(SESS_NEW).eq('tutor_id', uid).order('starts_at', { ascending: false });
+    if (r.error) {
+      /* new columns not added yet: fall back so the page still works */
+      r = await sb.from('tutor_sessions').select(SESS_BASE).eq('tutor_id', uid).order('starts_at', { ascending: false });
+      if (r.error) {
+        console.warn('MeloTutor:', r.error.message);
+        $('dataBanner').textContent = 'Some data could not be loaded. Pull down to refresh and try again.';
+        $('dataBanner').hidden = false;
+      }
+    }
+    return r;
+  }
+
   async function loadAll() {
     const uid = user.id;
     const meta = user.user_metadata || {};
@@ -135,7 +154,7 @@
     const r = await Promise.all([
       q(sb.from('profiles').select('full_name,username,email').eq('id', uid).maybeSingle()),
       q(sb.from('tutor_earnings').select('id,amount_kes,status,note,created_at').eq('tutor_id', uid).order('created_at', { ascending: false })),
-      q(sb.from('tutor_sessions').select('id,learner_name,topic,starts_at,duration_min,amount_kes,status').eq('tutor_id', uid).order('starts_at', { ascending: false })),
+      loadSessions(uid),
       q(sb.from('withdrawals').select('id,amount_kes,method,status,reference,created_at').eq('tutor_id', uid).order('created_at', { ascending: false })),
       q(sb.from('learner_requests').select('id,learner_display_name,country,level,goal,schedule_text,duration_minutes,payout_kes,slots_available').eq('status', 'open').order('posted_at', { ascending: false }).limit(12)),
       q(sb.from('certificates').select('status,certificate_title,created_at').eq('user_id', uid).order('created_at', { ascending: false }))
@@ -186,6 +205,7 @@
     renderActivity();
     renderRequests();
     renderSessions();
+    renderSessCards();
     renderEarnings(lifetime, withdrawn, processing, pending);
     renderCert();
     renderProfile();
@@ -248,6 +268,62 @@
     }).join('') : '<div class="empty">No open requests right now.</div>';
   }
 
+  function transcriptHtml(s) {
+    return s.transcript
+      ? '<details class="tr"><summary>Transcript</summary><pre>' + esc(s.transcript) + '</pre></details>'
+      : '';
+  }
+
+  function sessMsg(text, kind) {
+    const el = $('sessMsg');
+    el.textContent = text || '';
+    el.className = 'dmsg' + (kind ? ' ' + kind : '');
+  }
+
+  function sessCanStart(s) {
+    const t = new Date(s.starts_at).getTime();
+    const now = Date.now();
+    return now >= t - CONFIG.startWindowMin * 60000 && now <= t + CONFIG.sessionMinutes * 60000;
+  }
+
+  function renderSessCards() {
+    const up = D.sessions.filter(function (s) { return s.status === 'upcoming'; })
+      .sort(function (a, b) { return new Date(a.starts_at) - new Date(b.starts_at); });
+
+    $('sessCards').innerHTML = up.length ? up.map(function (s) {
+      const mode = s.start_mode === 'auto' ? 'auto' : 'manual';
+      const trOn = !!s.transcription;
+      const started = !!s.started_at;
+      const link = /^https:\/\//i.test(s.meeting_url || '')
+        ? '<a class="btn" href="' + esc(s.meeting_url) + '" target="_blank" rel="noopener noreferrer">Join lesson</a>'
+        : '';
+      const on = function (cond) { return cond ? ' class="on"' : ''; };
+      const dis = started ? ' disabled' : '';
+
+      let action;
+      if (started) {
+        action = '<span class="chip ok">Started</span>' + link;
+      } else if (mode === 'auto') {
+        action = '<span class="m">Starts automatically at ' + esc(new Date(s.starts_at).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })) + '.</span>' + link;
+      } else {
+        action = '<button type="button" class="btn btn-gold" data-act="start"' + (sessCanStart(s) ? '' : ' disabled') + '>Start session</button>' +
+          (sessCanStart(s) ? '' : '<span class="m">Opens ' + CONFIG.startWindowMin + ' minutes before the start time.</span>') + link;
+      }
+
+      return '<div class="sess" data-id="' + esc(s.id) + '">' +
+        '<div class="sess-top"><div><b>' + esc(s.learner_name) + '</b><span class="m">' + esc(s.topic || '') + '</span></div>' +
+        '<span class="chip">' + esc(s.duration_min || CONFIG.sessionMinutes) + ' min</span></div>' +
+        '<span class="m">' + esc(dateStr(s.starts_at, true)) + '</span>' +
+        '<div class="opt-label">How it starts</div>' +
+        '<div class="seg"><button type="button"' + on(mode === 'auto') + ' data-act="mode" data-v="auto"' + dis + '>Auto</button>' +
+        '<button type="button"' + on(mode === 'manual') + ' data-act="mode" data-v="manual"' + dis + '>Manual</button></div>' +
+        '<div class="opt-label">Transcription</div>' +
+        '<div class="seg"><button type="button"' + on(trOn) + ' data-act="tr" data-v="on"' + dis + '>On</button>' +
+        '<button type="button"' + on(!trOn) + ' data-act="tr" data-v="off"' + dis + '>Off</button></div>' +
+        '<div class="sess-actions">' + action + '</div></div>';
+    }).join('') : '<div class="empty">No upcoming sessions yet.</div>';
+  }
+
   function renderSessions() {
     const count = function (s) { return D.sessions.filter(function (x) { return x.status === s; }).length; };
     const hours = D.sessions.filter(function (s) { return s.status === 'completed'; }).reduce(function (t, s) { return t + (Number(s.duration_min) || 0); }, 0) / 60;
@@ -257,7 +333,7 @@
     const list = D.sessions.filter(function (s) { return sessFilter === 'all' || s.status === sessFilter; });
     $('sessTable').innerHTML = '<div class="t-row head"><div>Date</div><div>Learner &amp; topic</div><div>Length</div><div class="r">Earned</div><div class="r">Status</div></div>' +
       (list.length ? list.map(function (s) {
-        return '<div class="t-row"><div>' + esc(dateStr(s.starts_at, true)) + '</div><div><b>' + esc(s.learner_name) + '</b><br><span style="color:var(--muted);font-size:12.5px">' + esc(s.topic || '') + '</span></div>' +
+        return '<div class="t-row"><div>' + esc(dateStr(s.starts_at, true)) + '</div><div><b>' + esc(s.learner_name) + '</b><br><span style="color:var(--muted);font-size:12.5px">' + esc(s.topic || '') + '</span>' + transcriptHtml(s) + '</div>' +
           '<div>' + esc(s.duration_min) + ' min</div><div class="r"><b>' + kes(s.status === 'cancelled' ? 0 : s.amount_kes) + '</b></div><div class="r">' + chip(s.status) + '</div></div>';
       }).join('') : '<div class="empty">No sessions to show.</div>');
   }
@@ -271,6 +347,13 @@
     ].map(function (p) { return '<div class="stat ' + p[3] + '"><div class="label">' + p[0] + '</div><strong>' + p[1] + '</strong><small>' + p[2] + '</small></div>'; }).join('');
 
     $('wdAvail').textContent = 'You can withdraw up to your available balance of ' + kes(balance) + '.';
+    $('wdRules').innerHTML = [
+      'Minimum withdrawal: ' + kes(CONFIG.minWithdrawal) + '.',
+      'Payouts are processed ' + CONFIG.processingText + '.',
+      'Fees: ' + CONFIG.feesText + '.',
+      'Get paid by M-Pesa or bank transfer.',
+      'You can only withdraw your available balance. Pending earnings clear after MeloTutor verifies the session.'
+    ].map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
     $('wdPolicy').textContent = 'Minimum withdrawal: ' + kes(CONFIG.minWithdrawal) + '. Processing time: ' + CONFIG.processingText + '. Fees: ' + CONFIG.feesText + '. You will see the status of every request below.';
 
     const list = D.withdrawals.filter(function (w) { return wdFilter === 'all' || w.status === wdFilter; });
@@ -299,6 +382,11 @@
     if (VIEWS.indexOf(v) === -1) v = 'overview';
     VIEWS.forEach(function (n) { $('v-' + n).hidden = n !== v; });
     document.querySelectorAll('#nav a').forEach(function (a) { a.classList.toggle('active', a.dataset.view === v); });
+    /* keep the active tab in view on the phone's bottom bar */
+    try {
+      const act = document.querySelector('#nav a.active');
+      if (act && act.scrollIntoView) act.scrollIntoView({ block: 'nearest', inline: 'center' });
+    } catch (e) { /* ignore */ }
     $('pageTitle').textContent = v === 'overview' ? 'Welcome back, ' + String(name).trim().split(/\s+/)[0] : TITLES[v];
     $('pageSub').textContent = v === 'overview' ? user.email || '' : '';
     window.scrollTo(0, 0);
@@ -318,6 +406,34 @@
   seg('sessFilter', function (f) { sessFilter = f; });
   seg('wdFilter', function (f) { wdFilter = f; });
   $('signOutBtn').addEventListener('click', signOut);
+
+  $('sessCards').addEventListener('click', async function (e) {
+    const b = e.target.closest('button[data-act]');
+    if (!b || b.disabled) return;
+    const card = b.closest('.sess');
+    const s = D.sessions.find(function (x) { return String(x.id) === card.dataset.id; });
+    if (!s) return;
+
+    sessMsg('');
+    b.disabled = true;
+    let res;
+    if (b.dataset.act === 'start') {
+      res = await sb.rpc('start_session', { p_session: s.id });
+    } else {
+      const mode = b.dataset.act === 'mode' ? b.dataset.v : (s.start_mode === 'auto' ? 'auto' : 'manual');
+      const tr = b.dataset.act === 'tr' ? b.dataset.v === 'on' : !!s.transcription;
+      res = await sb.rpc('set_session_options', { p_session: s.id, p_start_mode: mode, p_transcription: tr });
+    }
+
+    if (res.error) {
+      sessMsg(res.error.message || 'Could not update the session. Please try again.', 'err');
+      b.disabled = false;
+      return;
+    }
+    sessMsg(b.dataset.act === 'start' ? 'Session started.' : 'Session updated.', 'ok');
+    await loadAll();
+    render();
+  });
 
   $('wdMethod').addEventListener('click', function (e) {
     const b = e.target.closest('button[data-m]');
