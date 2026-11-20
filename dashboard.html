@@ -11,13 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="dashboard.css">
-
-<script>
-/* Show /dashboard in the address bar instead of /dashboard.html */
-if (/\.html$/.test(location.pathname)) {
-  history.replaceState(null, '', location.pathname.replace(/\.html$/, '') + location.search + location.hash);
-}
-</script>
 </head>
 <body>
 
@@ -82,7 +75,7 @@ if (/\.html$/.test(location.pathname)) {
         <div class="stat"><div class="label">Pending clearance</div><strong id="sPending">KSh 0</strong><small>Awaiting verification</small></div>
       </div>
 
-      <div class="grid2 wide">
+      <div class="grid2">
         <div class="card">
           <h2>Earnings, last 8 weeks</h2>
           <div class="bars" id="bars" aria-label="Weekly earnings chart"></div>
@@ -120,6 +113,23 @@ if (/\.html$/.test(location.pathname)) {
     <!-- SESSIONS -->
     <section class="view" id="v-sessions" hidden>
       <div class="stats" id="sessStats"></div>
+
+      <div class="card">
+        <h2>How sessions work</h2>
+        <ol class="steps">
+          <li><b>Every session is 60 minutes</b><span>One session is one full hour with the learner.</span></li>
+          <li><b>Pick how it starts</b><span>Auto starts at the scheduled time. Manual lets you tap Start session from 15 minutes before.</span></li>
+          <li><b>Choose transcription</b><span>Turn it on and the lesson transcript is saved to the session once it ends.</span></li>
+          <li><b>MeloTutor verifies it</b><span>After verification the earning moves to your available balance.</span></li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>Your upcoming sessions</h2></div>
+        <div id="sessCards" class="sess-cards"></div>
+        <div class="dmsg" id="sessMsg" role="status"></div>
+      </div>
+
       <div class="card">
         <div class="card-head">
           <h2>Session history</h2>
@@ -187,6 +197,11 @@ if (/\.html$/.test(location.pathname)) {
           </ol>
           <div class="callout">Payments are made only through the official MeloTutor process. Never send money to an unverified number.</div>
         </div>
+      </div>
+
+      <div class="card">
+        <h2>Withdrawal rules</h2>
+        <ul class="rules" id="wdRules"></ul>
       </div>
 
       <div class="card">
