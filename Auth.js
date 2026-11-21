@@ -1,5 +1,4 @@
-
-/* MeloTutor — authentication for signup.html and login.html. */
+/* MeloTutor — authentication for signup and login. */
 (function () {
   /* ---------- SUPABASE ---------- */
   var SUPABASE_URL = 'https://eyyfphdmtihmhzabnamv.supabase.co';
@@ -32,11 +31,12 @@
   }
 
   /* Where to go after logging in. */
-  var ALLOWED_NEXT = ['index.html', 'dashboard.html', 'certification.html'];
+  var ALLOWED_NEXT = ['index', 'dashboard', 'certification'];
 
   function nextUrl() {
-    var next = new URLSearchParams(window.location.search).get('next');
-    return ALLOWED_NEXT.indexOf(next) !== -1 ? next : 'dashboard.html';
+    var next = (new URLSearchParams(window.location.search).get('next') || '').replace(/\.html$/, '');
+    if (next === 'index') return '/';
+    return ALLOWED_NEXT.indexOf(next) !== -1 ? next : 'dashboard';
   }
 
   /* Check username through secure Supabase RPC.
@@ -115,7 +115,7 @@
 
       var isSignupPage = Boolean($('#signupForm'));
       var dest = isSignupPage && !new URLSearchParams(window.location.search).get('next')
-        ? 'certification.html?welcome=1'
+        ? 'certification?welcome=1'
         : nextUrl();
 
       window.location.replace(dest);
@@ -187,7 +187,7 @@
               full_name: name,
               username: username
             },
-            emailRedirectTo: baseUrl() + 'login.html'
+            emailRedirectTo: baseUrl() + 'login'
           }
         });
 
@@ -201,7 +201,7 @@
         }
 
         /* Profile creation is handled by the database auth trigger. */
-        window.location.href = 'certification.html?welcome=1';
+        window.location.href = 'certification?welcome=1';
 
       } catch (err) {
         setMsg(err.message || 'Unable to create your account. Please try again.', 'error');
@@ -268,7 +268,7 @@
       setBusy(true);
 
       try {
-        var target = loginForm ? nextUrl() : 'certification.html?welcome=1';
+        var target = loginForm ? nextUrl() : 'certification?welcome=1';
 
         var result = await sb.auth.signInWithOAuth({
           provider: 'google',
