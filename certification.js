@@ -1,4 +1,3 @@
-
 /* =====================================================
    MELOTUTOR — CERTIFICATION
    File: js/certification.js
@@ -171,7 +170,7 @@
     const { data } = await sb.auth.getSession();
 
     if (!data || !data.session) {
-      window.location.replace('login.html?next=certification.html');
+      window.location.replace('login?next=certification');
       return;
     }
 
@@ -179,7 +178,7 @@
 
     sb.auth.onAuthStateChange(function (event) {
       if (event === 'SIGNED_OUT') {
-        window.location.replace('login.html');
+        window.location.replace('login');
       }
     });
 
@@ -306,7 +305,7 @@
 
     /* Certificate issued: this step is finished, go to the dashboard. */
     if (certList.some((c) => c.status === 'issued')) {
-      window.location.replace('dashboard.html');
+      window.location.replace('dashboard');
       return;
     }
 
@@ -560,7 +559,7 @@
     $('signOutBtn').disabled = true;
 
     await sb.auth.signOut();
-    window.location.href = 'login.html';
+    window.location.href = 'login';
   });
 
   updateCertificateFee();
