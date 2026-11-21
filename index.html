@@ -12,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="style.css">
+<script src="urls.js"></script>
 </head>
 <body>
 
@@ -41,7 +42,7 @@
         <span class="badge-count" id="savedCount">0</span>
       </button>
 
-      <a class="top-cta" href="signup.html">Become a tutor</a>
+      <a class="top-cta" href="signup">Become a tutor</a>
 
       <button type="button" class="menu-toggle" id="menuToggleBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="siteSidebar">
         <span></span><span></span><span></span>
@@ -70,13 +71,13 @@
       <a href="#standards"><span class="side-icon">✓</span> Tutor standards</a>
       <a href="#onboarding"><span class="side-icon">◈</span> Registration &amp; earnings</a>
       <button type="button" id="sidebarTermsBtn"><span class="side-icon">§</span> Terms &amp; conditions</button>
-      <a href="dashboard.html"><span class="side-icon">◉</span> My dashboard</a>
-      <a href="login.html"><span class="side-icon">↪</span> Tutor login</a>
+      <a href="dashboard"><span class="side-icon">◉</span> My dashboard</a>
+      <a href="login"><span class="side-icon">↪</span> Tutor login</a>
     </nav>
 
     <div class="sidebar-bottom">
       <p>Ready to teach? Create a tutor account.</p>
-      <a class="btn sidebar-apply" href="signup.html">Become a tutor →</a>
+      <a class="btn sidebar-apply" href="signup">Become a tutor →</a>
     </div>
   </aside>
 </div>
@@ -92,7 +93,7 @@
         <p class="sub">Browse open learner requests, reserve a teaching slot, and start earning through 1-on-1 online Swahili sessions.</p>
         <div class="hero-actions">
           <a class="btn" href="#learners">Explore requests</a>
-          <a class="btn ghost" href="signup.html">Apply as a tutor →</a>
+          <a class="btn ghost" href="signup">Apply as a tutor →</a>
         </div>
         <div class="proof-row">
           <div><strong>Live</strong><span>Learner briefs</span></div>
@@ -159,7 +160,7 @@
         <h3>Save requests and submit reservations</h3>
         <p>Browsing is free. Create an account or sign in to save requests and reserve a slot.</p>
       </div>
-      <a class="btn" href="signup.html">Create an account →</a>
+      <a class="btn" href="signup">Create an account →</a>
     </div>
   </section>
 
@@ -246,8 +247,8 @@
           <div><span>✓</span> Direct withdrawals via M-Pesa &amp; Mobile Money</div>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <a class="btn" href="signup.html">Become a tutor →</a>
-          <a class="btn ghost" href="login.html">Tutor login</a>
+          <a class="btn" href="signup">Become a tutor →</a>
+          <a class="btn ghost" href="login">Tutor login</a>
         </div>
       </div>
 
@@ -302,7 +303,7 @@
       <a href="#learners">Learner requests</a>
       <a href="#certSection">Certificate preview</a>
       <a href="#standards">Standards</a>
-      <a href="login.html">Tutor login</a>
+      <a href="login">Tutor login</a>
       <button type="button" id="footerFaqBtn">FAQs</button>
       <button type="button" id="footerTermsBtn">Terms &amp; conditions</button>
       <button type="button" id="footerSupportBtn">Contact support</button>
@@ -424,7 +425,7 @@
       <div class="handoff-box">
         <h4>Next: complete your tutor profile</h4>
         <p>Your reservation for <strong id="dLearnerName"></strong> has been recorded. Manage your sessions from your dashboard.</p>
-        <a class="btn sm" href="dashboard.html" style="width:100%">Go to my dashboard →</a>
+        <a class="btn sm" href="dashboard" style="width:100%">Go to my dashboard →</a>
       </div>
       <div style="font-size:12px;color:var(--muted);display:grid;gap:6px;background:var(--input);padding:13px;border-radius:11px;margin-bottom:12px">
         <div style="display:flex;justify-content:space-between"><span>Learner:</span><strong id="dSummaryLearner" style="color:var(--text)"></strong></div>
@@ -456,7 +457,7 @@
       <div class="acc-body">Earnings are credited upon completing each 60-minute session and can be withdrawn directly via M-Pesa and mobile money.</div>
     </details>
     <div style="margin-top:14px;display:flex;gap:10px">
-      <a class="btn sm" href="signup.html" style="flex:1">Apply to become a tutor →</a>
+      <a class="btn sm" href="signup" style="flex:1">Apply to become a tutor →</a>
     </div>
   </div>
 </div>
@@ -487,7 +488,7 @@
     <div class="drawer-list" id="drawerList"></div>
     <div style="border-top:1px solid var(--line2);padding-top:14px">
       <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px"><span style="color:var(--muted)">Combined session value:</span><strong id="drawerTotal" style="color:var(--gold2);font-size:16px">$0.00</strong></div>
-      <a class="btn sm" href="dashboard.html" style="width:100%">Go to my dashboard →</a>
+      <a class="btn sm" href="dashboard" style="width:100%">Go to my dashboard →</a>
     </div>
   </div>
 </div>
@@ -497,7 +498,7 @@
   <button type="button" class="nudge-close" id="closeNudgeBtn" aria-label="Dismiss notice">✕</button>
   <div class="eyebrow" style="margin-bottom:6px">Onboarding notice</div>
   <p id="nudgeText" style="font-size:12.5px;line-height:1.55;margin-bottom:12px;padding-right:16px"></p>
-  <a class="btn sm" href="dashboard.html" style="width:100%">Go to my dashboard →</a>
+  <a class="btn sm" href="dashboard" style="width:100%">Go to my dashboard →</a>
 </aside>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
