@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080a0f">
+<title>Task | MeloTutor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet" href="glass.css">
+</head>
+<body>
+
+<main class="task-wrap">
+
+  <!-- Loading / message screen -->
+  <section class="card task-center" id="tMsg">
+    <span class="brand-mark">M</span>
+    <p id="tMsgText">Loading your task…</p>
+    <div class="task-actions" id="tMsgActions"></div>
+  </section>
+
+  <!-- Rules (shown before the task starts) -->
+  <section class="card" id="tRules" hidden>
+    <span class="chip" id="tKind"></span>
+    <h1 id="tTitle"></h1>
+    <p class="sub" id="tMeta"></p>
+    <p class="note" id="tInstr" style="font-size:14px;color:#d6d9df"></p>
+
+    <div class="task-rules">
+      <h2>Rules, please read</h2>
+      <ul>
+        <li><b>Do your own work.</b> No AI tools, translators or helpers of any kind.</li>
+        <li><b>Stay on this page.</b> Leaving the page, switching tabs or apps, or minimising the browser <b>forfeits the task</b> and you cannot retry it.</li>
+        <li><b>No copying or pasting.</b> Pasting is blocked and recorded.</li>
+        <li><b>No screenshots or screen recording.</b> Your browser cannot tell us if you take one, so the team reads every submission. Work that looks copied or machine-made is rejected.</li>
+        <li><b>You have one attempt</b> and a time limit. When time runs out, what you wrote is submitted.</li>
+        <li><b>Everything is reviewed.</b> You are paid only after the team approves your work.</li>
+      </ul>
+      <label class="agree"><input type="checkbox" id="tAgree"> I have read the rules and I agree.</label>
+    </div>
+
+    <button class="btn btn-gold btn-block" id="tStart" type="button" disabled>Start task</button>
+  </section>
+
+  <!-- Work area -->
+  <section id="tWork" hidden>
+    <div class="task-bar card">
+      <div><b id="tWorkTitle"></b><span class="m" id="tWorkKind"></span></div>
+      <div class="timer" id="tTimer" aria-live="off">--:--</div>
+    </div>
+
+    <div class="card">
+      <div id="tSource" class="source" hidden></div>
+      <div id="tFields"></div>
+      <div class="dmsg" id="tErr" role="alert"></div>
+      <button class="btn btn-gold btn-block" id="tSubmit" type="button">Submit for review</button>
+      <p class="note">Stay on this page until you have submitted.</p>
+    </div>
+  </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="task.js"></script>
+</body>
+</html>
