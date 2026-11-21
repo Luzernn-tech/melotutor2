@@ -960,8 +960,8 @@
         <h3 style="font-size: 18px; margin-bottom: 6px; color: var(--text);">Want to unlock all ${totalMatching} learner requests?</h3>
         <p style="font-size: 13.5px; color: var(--muted); max-width: 460px; margin: 0 auto 16px;">Create a tutor account or sign in to browse the full directory, bookmark briefs, and reserve your teaching slots.</p>
         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-          <a class="btn sm" href="signup.html">Create a tutor account →</a>
-          <a class="btn ghost sm" href="login.html">Sign in</a>
+          <a class="btn sm" href="signup">Create a tutor account →</a>
+          <a class="btn ghost sm" href="login">Sign in</a>
         </div>
       `;
     } else {
@@ -1311,7 +1311,7 @@
 
           if (!session.data || !session.data.session) {
             showToast('Please sign in to request a slot.');
-            setTimeout(() => { window.location.href = 'login.html'; }, 1200);
+            setTimeout(() => { window.location.href = 'login'; }, 1200);
             return;
           }
 
