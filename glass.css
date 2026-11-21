@@ -226,3 +226,89 @@ select.field, form select { padding-right: 12px; }
 .sess { border-radius: 20px; }
 .sess .seg { background: rgba(6,9,14,.4); }
 details.tr pre { background: rgba(6,9,14,.5); }
+
+/* =====================================================
+   PHONE + DESKTOP LAYOUT
+   Why the old bottom bar jumped to the top: a blurred parent (backdrop-filter)
+   becomes the "box" a fixed child is placed in. On phones the sidebar is now
+   not blurred, so the bar is fixed to the screen bottom as intended.
+===================================================== */
+
+.nav-more, .nav-scrim { display: none; }
+
+@media (max-width: 960px) {
+  .side, .nav-wrap {
+    -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+    background: none !important; border: 0 !important; box-shadow: none !important;
+    padding: 0 !important; border-radius: 0 !important;
+  }
+  .app { padding: 14px 14px calc(104px + env(safe-area-inset-bottom)); gap: 16px; }
+
+  .nav {
+    position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); top: auto; z-index: 40;
+    display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; justify-content: flex-start; gap: 4px;
+    padding: 8px; overflow: visible;
+    border: 1px solid var(--border); border-radius: 28px;
+    background: rgba(14, 18, 26, .74);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .14);
+  }
+  .nav a, .nav .nav-more {
+    flex: 0 0 calc((100% - 16px) / 5); min-width: 0; min-height: 54px; padding: 6px 2px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    border: 0 !important; border-radius: 20px; background: none; color: var(--muted);
+    font: inherit; font-size: 10.5px; font-weight: 600; cursor: pointer; position: relative;
+  }
+  .nav a svg, .nav .nav-more svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .nav a span, .nav .nav-more span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nav .nav-more { display: flex; order: 2; }
+  .nav a.sec { display: none; order: 3; }
+  .nav.open a.sec:not([hidden]) { display: flex; }
+  .nav.open { padding: 12px 8px; row-gap: 8px; }
+  .nav.open .nav-more { color: #ffe3a6; }
+
+  .nav a.active, .nav a:active {
+    background: linear-gradient(135deg, rgba(var(--glow-amber), .30), rgba(var(--glow-amber), .1));
+    color: #ffe3a6; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 0 20px rgba(var(--glow-amber), .25);
+  }
+  .nav .dot { top: 6px; right: 18px; }
+
+  .nav-scrim {
+    position: fixed; inset: 0; z-index: 35; display: block;
+    background: rgba(4, 6, 10, .6); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  }
+  .nav-scrim[hidden] { display: none; }
+
+  .side .brand { padding: 2px 4px; }
+  .side .side-foot { display: none; }
+}
+
+/* Large phones / small tablets: a little more room */
+@media (min-width: 600px) and (max-width: 960px) {
+  .app { padding-left: 22px; padding-right: 22px; }
+  .nav { left: 50%; right: auto; width: min(560px, calc(100% - 32px)); transform: translateX(-50%); }
+}
+
+/* Desktop */
+@media (min-width: 961px) {
+  .nav-more, .nav-scrim { display: none !important; }
+  .nav a { min-height: 46px; }
+}
+
+/* ---------- certificate ---------- */
+.cert-frame { border: 1px solid var(--border); border-radius: 18px; overflow: hidden; background: #0b0f17; box-shadow: 0 0 40px rgba(var(--glow-amber), .12); }
+.cert-frame canvas { display: block; width: 100%; height: auto; }
+.cert-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+@media (max-width: 560px) { .cert-actions .btn { flex: 1 1 100%; } }
+
+@media print {
+  @page { size: A4 landscape; margin: 0; }
+  body { background: #fff !important; }
+  body::before { display: none !important; }
+  body * { visibility: hidden !important; }
+  .cert-frame, .cert-frame * { visibility: visible !important; }
+  .cert-frame { position: fixed; inset: 0; width: 100vw; height: 100vh; border: 0; border-radius: 0; box-shadow: none; }
+  .cert-frame canvas { width: 100%; height: 100%; object-fit: contain; }
+}
+
+.card.cta .note { margin-bottom: 14px; }
