@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#090b10">
 <title>Tutor Dashboard | MeloTutor</title>
 
@@ -12,6 +12,7 @@
 
 <link rel="stylesheet" href="dashboard.css">
 <link rel="stylesheet" href="glass.css">
+<script src="urls.js"></script>
 </head>
 <body>
 
@@ -27,22 +28,23 @@
 
   <!-- SIDEBAR / BOTTOM BAR -->
   <aside class="side">
-    <a class="brand" href="index.html">
+    <a class="brand" href="/">
       <span class="brand-mark">M</span>
       <span class="brand-name">MeloTutor</span>
     </a>
 
     <nav class="nav" id="nav" aria-label="Dashboard sections">
       <a href="#overview" data-view="overview"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg><span>Overview</span></a>
-      <a href="#requests" data-view="requests"><svg viewBox="0 0 24 24"><path d="M7 4h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3zM8 9h8M8 13h8M8 17h5"/></svg><span>Requests</span></a>
+      <a class="sec" href="#requests" data-view="requests"><svg viewBox="0 0 24 24"><path d="M7 4h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3zM8 9h8M8 13h8M8 17h5"/></svg><span>Requests</span></a>
       <a href="#tasks" data-view="tasks"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg><span>Tasks</span></a>
       <a href="#sessions" data-view="sessions"><svg viewBox="0 0 24 24"><path d="M6 5h12a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3zM3 10h18M8 3v4M16 3v4"/></svg><span>Sessions</span></a>
       <a href="#earnings" data-view="earnings"><svg viewBox="0 0 24 24"><path d="M3 7h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 7l12-3v3M17 13.5h.01"/></svg><span>Earnings</span></a>
-      <a href="#invite" data-view="invite"><svg viewBox="0 0 24 24"><path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM4 21c0-3.5 3.6-5.5 8-5.5s8 2 8 5.5M19 4v6M16 7h6"/></svg><span>Invite</span></a>
-      <a href="#activity" data-view="activity"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg><span>Activity</span></a>
-      <a href="#certificate" data-view="certificate"><svg viewBox="0 0 24 24"><path d="M12 4a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM9 13.5L8 21l4-2 4 2-1-7.5"/></svg><span>Certificate</span></a>
-      <a href="#profile" data-view="profile"><svg viewBox="0 0 24 24"><path d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Profile</span></a>
-      <a href="admin.html" id="adminLink" hidden><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6zM9 12l2 2 4-4"/></svg><span>Admin</span></a>
+      <a class="sec" href="#invite" data-view="invite"><svg viewBox="0 0 24 24"><path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM4 21c0-3.5 3.6-5.5 8-5.5s8 2 8 5.5M19 4v6M16 7h6"/></svg><span>Invite</span></a>
+      <a class="sec" href="#activity" data-view="activity"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg><span>Activity</span></a>
+      <a class="sec" href="#certificate" data-view="certificate"><svg viewBox="0 0 24 24"><path d="M12 4a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM9 13.5L8 21l4-2 4 2-1-7.5"/></svg><span>Certificate</span></a>
+      <a class="sec" href="#profile" data-view="profile"><svg viewBox="0 0 24 24"><path d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Profile</span></a>
+      <a class="sec" href="#" id="adminLink" hidden target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6zM9 12l2 2 4-4"/></svg><span>Admin</span></a>
+      <button type="button" class="nav-more" id="navMore" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg><span>More</span></button>
     </nav>
 
     <div class="side-foot">
@@ -108,9 +110,13 @@
     <!-- REQUESTS -->
     <section class="view" id="v-requests" hidden>
       <div class="card">
+        <div class="card-head"><h2>Your reservation requests</h2></div>
+        <div id="myRes" class="list"></div>
+      </div>
+      <div class="card">
         <div class="card-head"><h2>Open learner requests</h2></div>
         <div id="reqList" class="req-grid"></div>
-        <p class="note">To take a request, reserve it from the <a class="link" href="index.html#learners">learner requests page</a>. Reservations are pending until reviewed.</p>
+        <p class="note">To take a request, reserve it from the <a class="link" href="/#learners">learner requests page</a>. Reservations are pending until reviewed.</p>
       </div>
     </section>
 
@@ -265,10 +271,19 @@
 
     <!-- CERTIFICATE -->
     <section class="view" id="v-certificate" hidden>
+      <div class="card cert-card">
+        <h2>Your MeloTutor certificate</h2>
+        <p class="note" style="margin:0 0 14px">Issued in the names you registered with. It is always here and it does not expire.</p>
+        <div class="cert-frame"><canvas id="certCanvas" width="1600" height="1130" role="img" aria-label="Your MeloTutor certificate"></canvas></div>
+        <div class="cert-actions">
+          <button class="btn btn-gold" id="certDownload" type="button">Download certificate</button>
+          <button class="btn" id="certPrint" type="button">Print</button>
+        </div>
+      </div>
       <div class="card">
-        <h2>Your certification</h2>
+        <h2>Your certification records</h2>
         <div id="certBox" class="list"></div>
-        <p class="note"><a class="link" href="certification.html">Open the certification page</a> to apply for another certificate.</p>
+        <p class="note"><a class="link" href="certification">Open the certification page</a> to apply for another certificate.</p>
       </div>
     </section>
 
@@ -277,7 +292,7 @@
       <div class="card">
         <h2>Profile</h2>
         <div id="profBox" class="kv"></div>
-        <p class="note">To change your name or email, contact support.</p>
+        <p class="note">To change your name or contact details, contact support.</p>
       </div>
     </section>
 
@@ -285,6 +300,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<div class="nav-scrim" id="navScrim" hidden></div>
 <script src="config.js"></script>
 <script src="referral.js"></script>
 <script src="dashboard.js"></script>
