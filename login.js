@@ -48,12 +48,13 @@
     var params = new URLSearchParams(window.location.search);
     var next = params.get('next');
 
-    /* Only allow simple local HTML page redirects. */
-    if (next && /^[a-z0-9_-]+\.html$/i.test(next)) {
-      return next;
+    /* Only allow simple local page names (with or without .html). */
+    if (next && /^[a-z0-9_-]+(\.html)?$/i.test(next)) {
+      next = next.replace(/\.html$/i, '');
+      return next === 'index' ? '/' : next;
     }
 
-    return 'dashboard.html';
+    return 'dashboard';
   }
 
   function goToDashboard() {
@@ -305,7 +306,7 @@
     try {
       var redirectUrl = window.location.origin +
         window.location.pathname.replace(/[^/]*$/, '') +
-        'login.html';
+        'login';
 
       var result = await sb.auth.resetPasswordForEmail(email, {
         redirectTo: redirectUrl
@@ -377,7 +378,7 @@
 
       setTimeout(function () {
         /* Drop the recovery token from the address so the form does not reopen. */
-        window.location.href = 'login.html';
+        window.location.href = 'login';
       }, 1800);
 
     } catch (error) {
