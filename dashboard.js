@@ -21,15 +21,16 @@
 
   const sb = window.sb;
   const $ = (id) => document.getElementById(id);
-  const VIEWS = ['overview', 'requests', 'sessions', 'earnings', 'activity', 'certificate', 'profile'];
+  const VIEWS = ['overview', 'requests', 'tasks', 'sessions', 'earnings', 'invite', 'activity', 'certificate', 'profile'];
   const TITLES = {
-    overview: 'Overview', requests: 'Learner requests', sessions: 'Sessions',
+    overview: 'Overview', requests: 'Learner requests', tasks: 'Tasks', invite: 'Invite friends', sessions: 'Sessions',
     earnings: 'Earnings & withdrawals', activity: 'Activity', certificate: 'Certificate', profile: 'Profile'
   };
 
   let user = null;
   let name = '';
-  let D = { earnings: [], sessions: [], withdrawals: [], requests: [], certs: [], app: null };
+  let D = { earnings: [], sessions: [], withdrawals: [], requests: [], certs: [], app: null, tasks: [], subs: [], invites: [], refCode: '' };
+  let isAdmin = false;
   let balance = 0;
   let method = 'mpesa';
   let sessFilter = 'all';
@@ -54,8 +55,22 @@
     return s.charAt(0).toUpperCase() + s.slice(1);
   }
   function chip(status) {
-    const cls = { paid: 'ok', completed: 'ok', approved: 'ok', processing: 'warn', upcoming: 'warn', pending: 'warn', failed: 'bad', cancelled: 'bad' }[status] || 'warn';
-    return '<span class="chip ' + cls + '">' + esc(pretty(status)) + '</span>';
+    const cls = { paid: 'ok', completed: 'ok', approved: 'ok', rewarded: 'ok', live: 'ok', processing: 'warn', upcoming: 'warn', pending: 'warn', awaiting: 'warn', joined: 'warn', in_progress: 'warn', failed: 'bad', cancelled: 'bad', rejected: 'bad', forfeited: 'bad' }[status] || 'warn';
+    const label = { live: 'In progress', awaiting: 'Awaiting confirmation', pending: 'Under review', joined: 'Joined', rewarded: 'KSh 50 earned' }[status] || pretty(status);
+    return '<span class="chip ' + cls + '">' + esc(label) + '</span>';
+  }
+
+  /* A session stays "upcoming" in the database until someone changes it, so work out
+     what it really is from the clock: not started yet / happening now / ended but not confirmed. */
+  function effStatus(s) {
+    if (s.status !== 'upcoming') return s.status;
+    const start = new Date(s.starts_at).getTime();
+    if (isNaN(start)) return s.status;
+    const end = start + (Number(s.duration_min) || 60) * 60000;
+    const now = Date.now();
+    if (now < start) return 'upcoming';
+    if (now < end) return 'live';
+    return 'awaiting';
   }
   function msg(text, kind) {
     const el = $('wdMsg');
@@ -96,13 +111,20 @@
     user = s.data.session.user;
     sb.auth.onAuthStateChange(function (ev) { if (ev === 'SIGNED_OUT') window.location.replace('login.html'); });
 
+    /* Admins can open the dashboard without a certificate, to preview it. */
+    try {
+      const adm = await sb.rpc('is_admin');
+      isAdmin = adm && adm.data === true;
+    } catch (e) { isAdmin = false; }
+    $('adminLink').hidden = !isAdmin;
+
     const certRes = await sb.from('certificates')
       .select('status')
       .eq('user_id', user.id)
       .eq('status', CONFIG.certIssuedStatus)
       .limit(1);
 
-    if (certRes.error) {
+    if (certRes.error && !isAdmin) {
       gate('We could not check your account. Please try again.', [
         { label: 'Try again', gold: true, onClick: function () { window.location.reload(); } },
         { label: 'Sign out', onClick: signOut }
@@ -110,7 +132,7 @@
       return;
     }
 
-    if (!certRes.data || !certRes.data.length) {
+    if (!isAdmin && (!certRes.data || !certRes.data.length)) {
       gate('Your dashboard opens once your certificate has been issued.', [
         { label: 'Go to certification', gold: true, href: 'certification.html' },
         { label: 'Sign out', onClick: signOut }
@@ -149,6 +171,8 @@
   async function loadAll() {
     const uid = user.id;
     const meta = user.user_metadata || {};
+    /* Newer features: if their database tables are not set up yet, stay quiet instead of showing an error. */
+    const quiet = function (p) { return p.then(function (r) { if (r.error) console.warn('MeloTutor:', r.error.message); return r; }, function (e) { console.warn(e); return { data: null }; }); };
     const q = function (p) { return p.then(function (r) { if (r.error) { console.warn('MeloTutor:', r.error.message); $('dataBanner').textContent = 'Some data could not be loaded. Pull down to refresh and try again.'; $('dataBanner').hidden = false; } return r; }, function (e) { console.warn(e); return { data: null }; }); };
 
     const r = await Promise.all([
@@ -157,7 +181,11 @@
       loadSessions(uid),
       q(sb.from('withdrawals').select('id,amount_kes,method,status,reference,created_at').eq('tutor_id', uid).order('created_at', { ascending: false })),
       q(sb.from('learner_requests').select('id,learner_display_name,country,level,goal,schedule_text,duration_minutes,payout_kes,slots_available').eq('status', 'open').order('posted_at', { ascending: false }).limit(12)),
-      q(sb.from('certificates').select('status,certificate_title,created_at').eq('user_id', uid).order('created_at', { ascending: false }))
+      q(sb.from('certificates').select('status,certificate_title,created_at').eq('user_id', uid).order('created_at', { ascending: false })),
+      quiet(sb.from('tasks').select('id,kind,title,instructions,payout_kes,time_limit_min').eq('is_active', true).order('created_at', { ascending: false })),
+      quiet(sb.from('submissions').select('id,task_id,status,review_note,payout_kes,submitted_at,tasks(title,kind)').eq('user_id', uid).order('started_at', { ascending: false })),
+      quiet(sb.rpc('my_invites')),
+      quiet(sb.rpc('my_referral_code'))
     ]);
 
     const profile = r[0].data || {};
@@ -168,6 +196,10 @@
     D.withdrawals = r[3].data || [];
     D.requests = r[4].data || [];
     D.certs = r[5].data || [];
+    D.tasks = r[6].data || [];
+    D.subs = r[7].data || [];
+    D.invites = r[8].data || [];
+    D.refCode = typeof r[9].data === 'string' ? r[9].data : '';
 
     computeBalance();
   }
@@ -206,6 +238,8 @@
     renderRequests();
     renderSessions();
     renderSessCards();
+    renderTasks();
+    renderInvite();
     renderEarnings(lifetime, withdrawn, processing, pending);
     renderCert();
     renderProfile();
@@ -232,12 +266,12 @@
   }
 
   function renderUpcoming() {
-    const up = D.sessions.filter(function (s) { return s.status === 'upcoming'; })
+    const up = D.sessions.filter(function (s) { const e = effStatus(s); return e === 'upcoming' || e === 'live' || e === 'awaiting'; })
       .sort(function (a, b) { return new Date(a.starts_at) - new Date(b.starts_at); });
     $('ovUpcoming').innerHTML = up.length ? up.slice(0, 3).map(function (s) {
       const d = new Date(s.starts_at);
       return '<div class="row"><div class="date-box"><small>' + esc(d.toLocaleDateString(undefined, { month: 'short' })) + '</small><strong>' + d.getDate() + '</strong></div>' +
-        '<div class="grow"><b>' + esc(s.learner_name) + '</b><span class="m">' + esc(s.topic || '') + ' · ' + d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }) + ' · ' + esc(s.duration_min) + ' min</span></div></div>';
+        '<div class="grow"><b>' + esc(s.learner_name) + '</b><span class="m">' + esc(s.topic || '') + ' · ' + d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }) + ' · ' + esc(s.duration_min) + ' min</span></div>' + chip(effStatus(s)) + '</div>';
     }).join('') : '<div class="empty">No upcoming sessions yet.</div>';
   }
 
@@ -287,7 +321,7 @@
   }
 
   function renderSessCards() {
-    const up = D.sessions.filter(function (s) { return s.status === 'upcoming'; })
+    const up = D.sessions.filter(function (s) { const e = effStatus(s); return e === 'upcoming' || e === 'live'; })
       .sort(function (a, b) { return new Date(a.starts_at) - new Date(b.starts_at); });
 
     $('sessCards').innerHTML = up.length ? up.map(function (s) {
@@ -325,17 +359,58 @@
   }
 
   function renderSessions() {
-    const count = function (s) { return D.sessions.filter(function (x) { return x.status === s; }).length; };
+    const count = function (s) { return D.sessions.filter(function (x) { return effStatus(x) === s; }).length; };
     const hours = D.sessions.filter(function (s) { return s.status === 'completed'; }).reduce(function (t, s) { return t + (Number(s.duration_min) || 0); }, 0) / 60;
-    $('sessStats').innerHTML = [['Total', D.sessions.length], ['Completed', count('completed')], ['Upcoming', count('upcoming')], ['Hours taught', (Math.round(hours * 10) / 10) + ' h']]
+    $('sessStats').innerHTML = [['Total', D.sessions.length], ['Completed', count('completed')], ['Upcoming', count('upcoming')], ['Due now', count('live') + count('awaiting')], ['Hours taught', (Math.round(hours * 10) / 10) + ' h']]
       .map(function (p) { return '<div class="stat"><div class="label">' + p[0] + '</div><strong>' + p[1] + '</strong></div>'; }).join('');
 
-    const list = D.sessions.filter(function (s) { return sessFilter === 'all' || s.status === sessFilter; });
+    const list = D.sessions.filter(function (s) {
+      const e = effStatus(s);
+      return sessFilter === 'all' || e === sessFilter || (sessFilter === 'due' && (e === 'live' || e === 'awaiting'));
+    });
     $('sessTable').innerHTML = '<div class="t-row head"><div>Date</div><div>Learner &amp; topic</div><div>Length</div><div class="r">Earned</div><div class="r">Status</div></div>' +
       (list.length ? list.map(function (s) {
         return '<div class="t-row"><div>' + esc(dateStr(s.starts_at, true)) + '</div><div><b>' + esc(s.learner_name) + '</b><br><span style="color:var(--muted);font-size:12.5px">' + esc(s.topic || '') + '</span>' + transcriptHtml(s) + '</div>' +
           '<div>' + esc(s.duration_min) + ' min</div><div class="r"><b>' + kes(s.status === 'cancelled' ? 0 : s.amount_kes) + '</b></div><div class="r">' + chip(s.status) + '</div></div>';
       }).join('') : '<div class="empty">No sessions to show.</div>');
+  }
+
+  /* ---------- tasks ---------- */
+  const KIND = { translation: 'Translation', questions: 'Questions', marking: 'Marking' };
+  function renderTasks() {
+    const taken = {};
+    D.subs.forEach(function (x) { taken[x.task_id] = x; });
+    $('taskList').innerHTML = D.tasks.length ? D.tasks.map(function (t) {
+      const sub = taken[t.id];
+      const action = sub ? chip(sub.status) : '<a class="btn btn-gold btn-sm" href="task.html?id=' + encodeURIComponent(t.id) + '">Start</a>';
+      return '<div class="row"><div class="grow"><b>' + esc(t.title) + '</b><span class="m">' + esc(KIND[t.kind] || t.kind) + ' · ' + esc(t.time_limit_min) + ' min · ' + (t.payout_kes ? kes(t.payout_kes) : 'No payout') + '</span></div>' + action + '</div>';
+    }).join('') : '<div class="empty">No tasks open right now. Check back soon.</div>';
+
+    $('subList').innerHTML = D.subs.length ? D.subs.map(function (x) {
+      const t = x.tasks || {};
+      const extra = x.status === 'approved' ? ' · ' + kes(x.payout_kes) + ' earned' : '';
+      const note = x.review_note ? '<span class="m">Reviewer: ' + esc(x.review_note) + '</span>' : '';
+      return '<div class="row"><div class="grow"><b>' + esc(t.title || 'Task') + '</b><span class="m">' + esc(KIND[t.kind] || '') + extra + '</span>' + note + '</div>' + chip(x.status) + '</div>';
+    }).join('') : '<div class="empty">You have not submitted anything yet.</div>';
+  }
+
+  /* ---------- invites (optional) ---------- */
+  function inviteUrl() {
+    const base = location.origin + location.pathname.replace(/[^/]*$/, '');
+    return base + 'signup.html?ref=' + encodeURIComponent(D.refCode);
+  }
+  function renderInvite() {
+    const rewarded = D.invites.filter(function (i) { return i.status === 'rewarded'; });
+    const earned = rewarded.reduce(function (t, i) { return t + (Number(i.reward_kes) || 0); }, 0);
+    $('invLink').value = D.refCode ? inviteUrl() : 'Your link is not ready yet.';
+    $('invCopy').disabled = !D.refCode;
+    $('invShare').hidden = !(D.refCode && navigator.share);
+    $('invStats').innerHTML = [['People invited', D.invites.length], ['Earned from invites', kes(earned)], ['Waiting on certificate', D.invites.length - rewarded.length]]
+      .map(function (p) { return '<div class="stat"><div class="label">' + p[0] + '</div><strong>' + p[1] + '</strong></div>'; }).join('');
+    $('invList').innerHTML = D.invites.length ? D.invites.map(function (i) {
+      const sub = i.status === 'rewarded' ? kes(i.reward_kes) + ' added to your earnings' : 'You earn ' + kes(i.reward_kes) + ' when they get their certificate';
+      return '<div class="row"><div class="grow"><b>' + esc(i.first_name) + '</b><span class="m">Joined ' + esc(dateStr(i.joined_at)) + ' · ' + esc(sub) + '</span></div>' + chip(i.status) + '</div>';
+    }).join('') : '<div class="empty">No one has joined with your link yet. Share it whenever you like.</div>';
   }
 
   function renderEarnings(lifetime, withdrawn, processing, pending) {
@@ -405,6 +480,15 @@
   }
   seg('sessFilter', function (f) { sessFilter = f; });
   seg('wdFilter', function (f) { wdFilter = f; });
+  $('invCopy').addEventListener('click', async function () {
+    const el = $('invMsg');
+    try { await navigator.clipboard.writeText($('invLink').value); el.textContent = 'Link copied.'; el.className = 'dmsg ok'; }
+    catch (e) { $('invLink').select(); el.textContent = 'Press and hold the link to copy it.'; el.className = 'dmsg'; }
+  });
+  $('invShare').addEventListener('click', function () {
+    navigator.share({ title: 'MeloTutor', text: 'Become a certified Swahili tutor on MeloTutor.', url: $('invLink').value }).catch(function () {});
+  });
+
   $('signOutBtn').addEventListener('click', signOut);
 
   $('sessCards').addEventListener('click', async function (e) {
