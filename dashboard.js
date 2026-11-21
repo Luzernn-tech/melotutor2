@@ -16,7 +16,8 @@
     processingText: 'within 24 hours',
     feesText: 'none, you receive the full amount',
     sessionMinutes: 60,                 // every session is one hour
-    startWindowMin: 15                  // tutors can start a session this many minutes early
+    startWindowMin: 15,                 // tutors can start a session this many minutes early
+    adminUrl: ''                        // address of your admin panel, e.g. 'https://admin.example.com'. Leave empty to hide the Admin link.
   };
 
   const sb = window.sb;
@@ -29,7 +30,7 @@
 
   let user = null;
   let name = '';
-  let D = { earnings: [], sessions: [], withdrawals: [], requests: [], certs: [], app: null, tasks: [], subs: [], invites: [], refCode: '' };
+  let D = { myRes: [], earnings: [], sessions: [], withdrawals: [], requests: [], certs: [], app: null, tasks: [], subs: [], invites: [], refCode: '' };
   let isAdmin = false;
   let balance = 0;
   let method = 'mpesa';
@@ -55,7 +56,7 @@
     return s.charAt(0).toUpperCase() + s.slice(1);
   }
   function chip(status) {
-    const cls = { paid: 'ok', completed: 'ok', approved: 'ok', rewarded: 'ok', live: 'ok', processing: 'warn', upcoming: 'warn', pending: 'warn', awaiting: 'warn', joined: 'warn', in_progress: 'warn', failed: 'bad', cancelled: 'bad', rejected: 'bad', forfeited: 'bad' }[status] || 'warn';
+    const cls = { paid: 'ok', completed: 'ok', approved: 'ok', rewarded: 'ok', live: 'ok', processing: 'warn', upcoming: 'warn', pending: 'warn', awaiting: 'warn', joined: 'warn', in_progress: 'warn', declined: 'bad', failed: 'bad', cancelled: 'bad', rejected: 'bad', forfeited: 'bad' }[status] || 'warn';
     const label = { live: 'In progress', awaiting: 'Awaiting confirmation', pending: 'Under review', joined: 'Joined', rewarded: 'KSh 50 earned' }[status] || pretty(status);
     return '<span class="chip ' + cls + '">' + esc(label) + '</span>';
   }
@@ -93,7 +94,7 @@
   }
   async function signOut() {
     try { await sb.auth.signOut(); } catch (e) { /* ignore */ }
-    window.location.replace('login.html');
+    window.location.replace('login');
   }
 
   if (!sb) {
@@ -105,18 +106,19 @@
   async function init() {
     const s = await sb.auth.getSession();
     if (!s.data || !s.data.session) {
-      window.location.replace('login.html?next=dashboard.html');
+      window.location.replace('login?next=dashboard');
       return;
     }
     user = s.data.session.user;
-    sb.auth.onAuthStateChange(function (ev) { if (ev === 'SIGNED_OUT') window.location.replace('login.html'); });
+    sb.auth.onAuthStateChange(function (ev) { if (ev === 'SIGNED_OUT') window.location.replace('login'); });
 
     /* Admins can open the dashboard without a certificate, to preview it. */
     try {
       const adm = await sb.rpc('is_admin');
       isAdmin = adm && adm.data === true;
     } catch (e) { isAdmin = false; }
-    $('adminLink').hidden = !isAdmin;
+    /* Only a real admin (checked by the database) AND only if an admin address is set. */
+    if (isAdmin && CONFIG.adminUrl) { $('adminLink').href = CONFIG.adminUrl; $('adminLink').hidden = false; } else { $('adminLink').hidden = true; }
 
     const certRes = await sb.from('certificates')
       .select('status')
@@ -134,7 +136,7 @@
 
     if (!isAdmin && (!certRes.data || !certRes.data.length)) {
       gate('Your dashboard opens once your certificate has been issued.', [
-        { label: 'Go to certification', gold: true, href: 'certification.html' },
+        { label: 'Go to certification', gold: true, href: 'certification' },
         { label: 'Sign out', onClick: signOut }
       ]);
       return;
@@ -176,7 +178,7 @@
     const q = function (p) { return p.then(function (r) { if (r.error) { console.warn('MeloTutor:', r.error.message); $('dataBanner').textContent = 'Some data could not be loaded. Pull down to refresh and try again.'; $('dataBanner').hidden = false; } return r; }, function (e) { console.warn(e); return { data: null }; }); };
 
     const r = await Promise.all([
-      q(sb.from('profiles').select('full_name,username,email').eq('id', uid).maybeSingle()),
+      q(sb.from('profiles').select('full_name,username,email,phone,country,created_at').eq('id', uid).maybeSingle()),
       q(sb.from('tutor_earnings').select('id,amount_kes,status,note,created_at').eq('tutor_id', uid).order('created_at', { ascending: false })),
       loadSessions(uid),
       q(sb.from('withdrawals').select('id,amount_kes,method,status,reference,created_at').eq('tutor_id', uid).order('created_at', { ascending: false })),
@@ -185,11 +187,12 @@
       quiet(sb.from('tasks').select('id,kind,title,instructions,payout_kes,time_limit_min').eq('is_active', true).order('created_at', { ascending: false })),
       quiet(sb.from('submissions').select('id,task_id,status,review_note,payout_kes,submitted_at,tasks(title,kind)').eq('user_id', uid).order('started_at', { ascending: false })),
       quiet(sb.rpc('my_invites')),
-      quiet(sb.rpc('my_referral_code'))
+      quiet(sb.rpc('my_referral_code')),
+      quiet(sb.from('slot_reservations').select('id,learner_code,learner_name,preferred_start,status,created_at').eq('user_id', uid).order('created_at', { ascending: false }).limit(30))
     ]);
 
     const profile = r[0].data || {};
-    name = profile.full_name || meta.full_name || meta.name || user.email || 'Tutor';
+    name = profile.full_name || meta.full_name || meta.name || profile.username || 'Tutor';
     D.profile = profile;
     D.earnings = r[1].data || [];
     D.sessions = r[2].data || [];
@@ -200,6 +203,7 @@
     D.subs = r[7].data || [];
     D.invites = r[8].data || [];
     D.refCode = typeof r[9].data === 'string' ? r[9].data : '';
+    D.myRes = r[10].data || [];
 
     computeBalance();
   }
@@ -243,6 +247,7 @@
     renderEarnings(lifetime, withdrawn, processing, pending);
     renderCert();
     renderProfile();
+    renderMyRes();
   }
 
   function renderBars() {
@@ -382,7 +387,7 @@
     D.subs.forEach(function (x) { taken[x.task_id] = x; });
     $('taskList').innerHTML = D.tasks.length ? D.tasks.map(function (t) {
       const sub = taken[t.id];
-      const action = sub ? chip(sub.status) : '<a class="btn btn-gold btn-sm" href="task.html?id=' + encodeURIComponent(t.id) + '">Start</a>';
+      const action = sub ? chip(sub.status) : '<a class="btn btn-gold btn-sm" href="task?id=' + encodeURIComponent(t.id) + '">Start</a>';
       return '<div class="row"><div class="grow"><b>' + esc(t.title) + '</b><span class="m">' + esc(KIND[t.kind] || t.kind) + ' · ' + esc(t.time_limit_min) + ' min · ' + (t.payout_kes ? kes(t.payout_kes) : 'No payout') + '</span></div>' + action + '</div>';
     }).join('') : '<div class="empty">No tasks open right now. Check back soon.</div>';
 
@@ -397,7 +402,7 @@
   /* ---------- invites (optional) ---------- */
   function inviteUrl() {
     const base = location.origin + location.pathname.replace(/[^/]*$/, '');
-    return base + 'signup.html?ref=' + encodeURIComponent(D.refCode);
+    return base + 'signup?ref=' + encodeURIComponent(D.refCode);
   }
   function renderInvite() {
     const rewarded = D.invites.filter(function (i) { return i.status === 'rewarded'; });
@@ -439,16 +444,120 @@
       }).join('') : '<div class="empty">No withdrawals yet.</div>');
   }
 
+  /* ---------- certificate (made from the registered name; always available) ---------- */
+  function titleCase(s) {
+    return String(s || '').trim().replace(/\s+/g, ' ').toLowerCase().replace(/(^|[\s'-])([a-zÀ-ɏ])/g, function (m, a, b) { return a + b.toUpperCase(); });
+  }
+  function certNumber() { return 'MT-' + String(user.id).replace(/-/g, '').slice(0, 8).toUpperCase(); }
+  function certDate() {
+    const issued = D.certs.filter(function (c) { return c.status === CONFIG.certIssuedStatus; }).map(function (c) { return new Date(c.created_at).getTime(); }).filter(Boolean).sort();
+    const t = issued.length ? issued[0] : new Date((D.profile && D.profile.created_at) || user.created_at || Date.now()).getTime();
+    return new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function drawCertificate() {
+    const cv = $('certCanvas');
+    if (!cv || !cv.getContext) return;
+    const c = cv.getContext('2d');
+    const W = cv.width, H = cv.height;
+    const gold = '#f4d58d', amber = '#e9a23b';
+    const sans = "'Space Grotesk', 'Inter', system-ui, sans-serif";
+
+    const bg = c.createLinearGradient(0, 0, W, H);
+    bg.addColorStop(0, '#0b0f17'); bg.addColorStop(1, '#121a28');
+    c.fillStyle = bg; c.fillRect(0, 0, W, H);
+    let g = c.createRadialGradient(180, 140, 0, 180, 140, 760);
+    g.addColorStop(0, 'rgba(233,162,59,.34)'); g.addColorStop(1, 'rgba(233,162,59,0)');
+    c.fillStyle = g; c.fillRect(0, 0, W, H);
+    g = c.createRadialGradient(W - 140, H - 120, 0, W - 140, H - 120, 700);
+    g.addColorStop(0, 'rgba(47,181,163,.26)'); g.addColorStop(1, 'rgba(47,181,163,0)');
+    c.fillStyle = g; c.fillRect(0, 0, W, H);
+
+    function frame(inset, width, alpha, radius) {
+      c.strokeStyle = 'rgba(244,213,141,' + alpha + ')'; c.lineWidth = width;
+      c.beginPath();
+      if (c.roundRect) c.roundRect(inset, inset, W - inset * 2, H - inset * 2, radius); else c.rect(inset, inset, W - inset * 2, H - inset * 2);
+      c.stroke();
+    }
+    frame(44, 3, 0.9, 36); frame(66, 1.5, 0.45, 26);
+
+    c.textAlign = 'center'; c.textBaseline = 'alphabetic';
+    function text(t, x, y, font, color, spacing) {
+      c.font = font; c.fillStyle = color;
+      if ('letterSpacing' in c) c.letterSpacing = (spacing || 0) + 'px';
+      c.fillText(t, x, y);
+      if ('letterSpacing' in c) c.letterSpacing = '0px';
+    }
+    text('MELOTUTOR', W / 2, 190, '600 30px ' + sans, amber, 10);
+    text('Certificate of Recognition', W / 2, 300, '600 84px ' + sans, gold, 0);
+    text('This certifies that', W / 2, 400, '400 32px ' + sans, '#aab2bf', 1);
+
+    const nm = titleCase(name) || 'Tutor';
+    let size = 130;
+    c.font = '700 ' + size + 'px ' + sans;
+    while (c.measureText(nm).width > W - 340 && size > 40) { size -= 4; c.font = '700 ' + size + 'px ' + sans; }
+    text(nm, W / 2, 560, '700 ' + size + 'px ' + sans, '#ffffff', 0);
+
+    const line = c.createLinearGradient(W / 2 - 420, 0, W / 2 + 420, 0);
+    line.addColorStop(0, 'rgba(244,213,141,0)'); line.addColorStop(.5, 'rgba(244,213,141,1)'); line.addColorStop(1, 'rgba(244,213,141,0)');
+    c.fillStyle = line; c.fillRect(W / 2 - 420, 600, 840, 3);
+
+    text('is a certified Swahili tutor with MeloTutor,', W / 2, 690, '400 36px ' + sans, '#dfe3ea', 0);
+    text('having met the standards to teach Swahili to learners around the world.', W / 2, 744, '400 36px ' + sans, '#dfe3ea', 0);
+
+    /* seal */
+    const sx = W / 2, sy = 905;
+    const sg = c.createLinearGradient(sx - 70, sy - 70, sx + 70, sy + 70);
+    sg.addColorStop(0, '#ffe3a6'); sg.addColorStop(.6, amber); sg.addColorStop(1, '#c9731f');
+    c.fillStyle = sg; c.beginPath(); c.arc(sx, sy, 70, 0, Math.PI * 2); c.fill();
+    c.strokeStyle = 'rgba(255,255,255,.5)'; c.lineWidth = 3; c.beginPath(); c.arc(sx, sy, 58, 0, Math.PI * 2); c.stroke();
+    text('M', sx, sy + 24, '700 70px ' + sans, '#1b1206', 0);
+
+    c.textAlign = 'left';
+    text('CERTIFICATE NO.', 150, 880, '600 22px ' + sans, '#8e97a6', 4);
+    text(certNumber(), 150, 930, '600 40px ' + sans, gold, 2);
+    c.textAlign = 'right';
+    text('DATE ISSUED', W - 150, 880, '600 22px ' + sans, '#8e97a6', 4);
+    text(certDate(), W - 150, 930, '600 40px ' + sans, gold, 0);
+    c.textAlign = 'center';
+    text('melotutor.site', W / 2, 1040, '500 24px ' + sans, '#6f7888', 3);
+  }
+
   function renderCert() {
     $('certBox').innerHTML = D.certs.length ? D.certs.map(function (c) {
       return '<div class="row"><div class="grow"><b>' + esc(c.certificate_title || 'Certificate') + '</b><span class="m">' + esc(dateStr(c.created_at)) + '</span></div>' + chip(c.status) + '</div>';
-    }).join('') : '<div class="empty">No certificate details to show.</div>';
+    }).join('') : '<div class="empty">Certificates you submit for review will be listed here.</div>';
+    drawCertificate();
+    /* draw again once the page fonts are ready, so the name uses the right typeface */
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawCertificate);
+  }
+
+  function maskEmail(e) {
+    const m = String(e || '').match(/^(.)(.*?)(.?)@(.+)$/);
+    return m ? m[1] + '••••' + (m[3] || '') + '@' + m[4] : '—';
   }
 
   function renderProfile() {
     const p = D.profile || {};
-    const rows = [['Name', name], ['Username', p.username ? '@' + p.username : '—'], ['Email', user.email || '—'], ['Specialty', (D.app && D.app.specialty) || '—'], ['Certificate', 'Issued']];
+    const since = p.created_at || user.created_at;
+    const rows = [
+      ['Name', titleCase(name) || '—'],
+      ['Username', p.username ? '@' + p.username : '—'],
+      ['Phone', p.phone || '—'],
+      ['Country', p.country || '—'],
+      ['Email', maskEmail(p.email || user.email)],
+      ['Specialty', (D.app && D.app.specialty) || '—'],
+      ['Member since', since ? dateStr(since) : '—'],
+      ['Status', 'Certified tutor']
+    ];
     $('profBox').innerHTML = rows.map(function (r) { return '<div><span>' + r[0] + '</span><b>' + esc(r[1]) + '</b></div>'; }).join('');
+  }
+
+  /* ---------- reservation requests (what the tutor applied for on the home page) ---------- */
+  function renderMyRes() {
+    $('myRes').innerHTML = D.myRes.length ? D.myRes.map(function (r) {
+      return '<div class="row"><div class="grow"><b>' + esc(r.learner_name || 'Learner') + '</b><span class="m">' + esc(r.learner_code || '') + (r.preferred_start ? ' · Preferred start ' + esc(dateStr(r.preferred_start)) : '') + ' · Sent ' + esc(dateStr(r.created_at)) + '</span></div>' + chip(r.status) + '</div>';
+    }).join('') : '<div class="empty">You have not applied for a learner yet. Reserve one from the learner requests page.</div>';
   }
 
   /* ---------- routing ---------- */
@@ -462,8 +571,9 @@
       const act = document.querySelector('#nav a.active');
       if (act && act.scrollIntoView) act.scrollIntoView({ block: 'nearest', inline: 'center' });
     } catch (e) { /* ignore */ }
-    $('pageTitle').textContent = v === 'overview' ? 'Welcome back, ' + String(name).trim().split(/\s+/)[0] : TITLES[v];
-    $('pageSub').textContent = v === 'overview' ? user.email || '' : '';
+    $('pageTitle').textContent = v === 'overview' ? 'Welcome back, ' + titleCase(String(name).trim().split(/\s+/)[0]) : TITLES[v];
+    const un = D.profile && D.profile.username;
+    $('pageSub').textContent = v === 'overview' && un ? '@' + un : '';
     window.scrollTo(0, 0);
   }
   window.addEventListener('hashchange', function () { if (!$('app').hidden) route(); });
@@ -569,6 +679,34 @@
     await loadAll();
     render();
   });
+
+  /* Phone navigation: the bottom bar shows the main tabs, "More" opens the rest. */
+  (function () {
+    const nav = $('nav'), more = $('navMore'), scrim = $('navScrim');
+    function setOpen(on) {
+      nav.classList.toggle('open', on);
+      more.setAttribute('aria-expanded', on ? 'true' : 'false');
+      scrim.hidden = !on;
+    }
+    more.addEventListener('click', function () { setOpen(!nav.classList.contains('open')); });
+    scrim.addEventListener('click', function () { setOpen(false); });
+    window.addEventListener('hashchange', function () { setOpen(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+  })();
+
+  /* Certificate: download as a picture, or print. */
+  $('certDownload').addEventListener('click', function () {
+    drawCertificate();
+    $('certCanvas').toBlob(function (blob) {
+      if (!blob) return;
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'MeloTutor-Certificate-' + (String(name).trim().replace(/[^\w]+/g, '-') || 'tutor') + '.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+    }, 'image/png');
+  });
+  $('certPrint').addEventListener('click', function () { drawCertificate(); window.print(); });
 
   init();
 })();
