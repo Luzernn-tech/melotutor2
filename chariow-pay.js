@@ -71,7 +71,7 @@
         .eq('status', 'issued')
         .limit(1);
       if (issued.data && issued.data.length) {
-        window.location.replace('dashboard.html');
+        window.location.replace('dashboard');
         return;
       }
 
