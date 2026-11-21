@@ -39,7 +39,7 @@
   function message(text, buttons) {
     $('tMsgText').textContent = text;
     $('tMsgActions').innerHTML = '';
-    (buttons || [{ label: 'Back to tasks', href: 'dashboard.html#tasks', gold: true }]).forEach(function (b) {
+    (buttons || [{ label: 'Back to tasks', href: 'dashboard#tasks', gold: true }]).forEach(function (b) {
       const a = document.createElement('a');
       a.className = 'btn ' + (b.gold ? 'btn-gold' : '');
       a.textContent = b.label;
@@ -58,7 +58,7 @@
 
     const s = await sb.auth.getSession();
     if (!s.data || !s.data.session) {
-      location.replace('login.html?next=' + encodeURIComponent('task.html?id=' + id));
+      location.replace('login?next=' + encodeURIComponent('task?id=' + id));
       return;
     }
 
