@@ -136,7 +136,7 @@
   };
 
   /* =========================================================
-     3. PAYMENT PAGE UI CONTROLLER (payment.html)
+     3. PAYMENT PAGE UI CONTROLLER (payment)
   ========================================================= */
   document.addEventListener('DOMContentLoaded', function () {
     var yearEl = document.getElementById('payYear');
@@ -219,7 +219,7 @@
         }
 
         setTimeout(function () {
-          window.location.href = 'dashboard.html?paid=1';
+          window.location.href = 'dashboard?paid=1';
         }, 3000);
       } catch (err) {
         setStep(0);
