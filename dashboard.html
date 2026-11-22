@@ -39,6 +39,7 @@
       <a href="#tasks" data-view="tasks"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg><span>Tasks</span></a>
       <a href="#sessions" data-view="sessions"><svg viewBox="0 0 24 24"><path d="M6 5h12a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3zM3 10h18M8 3v4M16 3v4"/></svg><span>Sessions</span></a>
       <a href="#earnings" data-view="earnings"><svg viewBox="0 0 24 24"><path d="M3 7h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 7l12-3v3M17 13.5h.01"/></svg><span>Earnings</span></a>
+      <a class="sec" href="#progress" data-view="progress"><svg viewBox="0 0 24 24"><path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/></svg><span>Progress</span></a>
       <a class="sec" href="#invite" data-view="invite"><svg viewBox="0 0 24 24"><path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM4 21c0-3.5 3.6-5.5 8-5.5s8 2 8 5.5M19 4v6M16 7h6"/></svg><span>Invite</span></a>
       <a class="sec" href="#activity" data-view="activity"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg><span>Activity</span></a>
       <a class="sec" href="#certificate" data-view="certificate"><svg viewBox="0 0 24 24"><path d="M12 4a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM9 13.5L8 21l4-2 4 2-1-7.5"/></svg><span>Certificate</span></a>
@@ -80,6 +81,8 @@
         <div class="stat"><div class="label">Sessions completed</div><strong id="sDone">0</strong><small id="sDoneNote">All time</small></div>
         <div class="stat"><div class="label">Pending clearance</div><strong id="sPending">KSh 0</strong><small>Awaiting verification</small></div>
       </div>
+
+      <a class="card prog-strip" id="progStrip" href="#progress" hidden></a>
 
       <div class="grid2">
         <div class="card">
@@ -152,6 +155,18 @@
       </div>
     </section>
 
+    <!-- PROGRESS -->
+    <section class="view" id="v-progress" hidden>
+      <div class="card cta" id="progHero"></div>
+      <div class="stats" id="progStats"></div>
+      <div class="card" id="progNext"></div>
+      <div class="card">
+        <div class="card-head"><h2>All levels</h2></div>
+        <div id="progLadder" class="list"></div>
+        <p class="note">You move up when you reach BOTH the number of sessions and the number of weeks for a level. Each level adds a bonus to every session you complete from then on. Bonuses apply to new session earnings, not to money you already have.</p>
+      </div>
+    </section>
+
     <!-- SESSIONS -->
     <section class="view" id="v-sessions" hidden>
       <div class="stats" id="sessStats"></div>
@@ -192,11 +207,44 @@
       <div class="stats" id="earnStats"></div>
 
       <div class="grid2">
-        <div class="card cta">
+        <div class="card cta" id="wdCard">
           <h2>Request a withdrawal</h2>
           <p class="note" id="wdAvail"></p>
 
-          <form id="wdForm" novalidate>
+          <div class="lbl">Pay me to</div>
+          <div id="acctList" class="acct-list"></div>
+          <button type="button" class="btn btn-sm" id="acctAddBtn">+ Add payout account</button>
+
+          <form id="acctForm" class="acct-form" novalidate hidden>
+            <h3>New payout account</h3>
+            <label for="afCountry">Country</label>
+            <select id="afCountry"><option value="KE">Kenya</option><option value="TZ">Tanzania</option></select>
+            <label for="afProvider">Receive money through</label>
+            <select id="afProvider"></select>
+            <label for="afName">Full name of the person who receives the money</label>
+            <input id="afName" type="text" autocomplete="off" placeholder="First and last name">
+            <div id="afMobile">
+              <label for="afPhone">Phone number that receives the money</label>
+              <input id="afPhone" type="tel" autocomplete="off" placeholder="e.g. 07XX XXX XXX">
+            </div>
+            <div id="afBank" hidden>
+              <label for="afBankName">Bank name</label>
+              <input id="afBankName" type="text" autocomplete="off" placeholder="Bank name">
+              <label for="afBankAcct">Account number</label>
+              <input id="afBankAcct" type="text" inputmode="numeric" autocomplete="off" placeholder="Account number">
+            </div>
+            <label for="afPass">Create a password for this account</label>
+            <input id="afPass" type="password" autocomplete="new-password" placeholder="At least 6 characters">
+            <label for="afPass2">Confirm the password</label>
+            <input id="afPass2" type="password" autocomplete="new-password" placeholder="Type it again">
+            <p class="note">You will enter this password every time you withdraw to this account. Keep it private. MeloTutor staff cannot see it, so if you forget it, contact support.</p>
+            <div class="acct-btns">
+              <button class="btn btn-gold" id="afSave" type="submit">Save account</button>
+              <button class="btn" id="afCancel" type="button">Cancel</button>
+            </div>
+          </form>
+
+          <form id="wdForm" novalidate hidden>
             <label for="wdAmount">Amount (KSh)</label>
             <input id="wdAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="e.g. 10,000">
             <div class="quick">
@@ -204,30 +252,12 @@
               <button type="button" data-q="10000">KSh 10,000</button>
               <button type="button" data-q="all" class="gold">Everything</button>
             </div>
-
-            <label>Pay me via</label>
-            <div class="method" id="wdMethod">
-              <button type="button" class="on" data-m="mpesa">M-Pesa</button>
-              <button type="button" data-m="bank">Bank transfer</button>
-            </div>
-
-            <div id="wdMpesa">
-              <label for="wdPhone">M-Pesa phone number</label>
-              <input id="wdPhone" type="tel" autocomplete="tel" placeholder="e.g. 07XX XXX XXX">
-            </div>
-            <div id="wdBank" hidden>
-              <label for="wdBankName">Bank name</label>
-              <input id="wdBankName" type="text" placeholder="Bank name">
-              <label for="wdAcct">Account number</label>
-              <input id="wdAcct" type="text" inputmode="numeric" placeholder="Account number">
-              <label for="wdAcName">Account holder name</label>
-              <input id="wdAcName" type="text" placeholder="Name on the account">
-            </div>
-
+            <label for="wdPass">Password for this account</label>
+            <input id="wdPass" type="password" autocomplete="off" placeholder="The password you set for this account">
             <button class="btn btn-gold btn-block" id="wdBtn" type="submit">Request withdrawal</button>
-            <div class="dmsg" id="wdMsg" role="status"></div>
-            <p class="note" id="wdPolicy"></p>
           </form>
+          <div class="dmsg" id="wdMsg" role="status"></div>
+          <p class="note" id="wdPolicy"></p>
         </div>
 
         <div class="card">
@@ -236,7 +266,7 @@
             <li><b>Teach a session</b><span>Sessions follow the learner’s brief.</span></li>
             <li><b>MeloTutor verifies it</b><span>Earnings are recorded only after a session is verified.</span></li>
             <li><b>Money clears</b><span>Verified earnings move from pending to available.</span></li>
-            <li><b>You withdraw</b><span>Request a payout to M-Pesa or your bank.</span></li>
+            <li><b>You withdraw</b><span>Pick a saved payout account, enter its password and request your money.</span></li>
           </ol>
           <div class="callout">Payments are made only through the official MeloTutor process. Never send money to an unverified number.</div>
         </div>
