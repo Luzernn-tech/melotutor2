@@ -372,3 +372,6 @@ details.tr pre { background: rgba(6,9,14,.5); }
   .bell-wrap { position: static; }
   .notif { left: 10px; right: 10px; width: auto; top: calc(100% + 8px); }
 }
+
+.pay-note { margin-top: 14px; padding: 12px 14px; border-radius: 16px; border: 1px solid rgba(var(--glow-teal), .4); background: rgba(var(--glow-teal), .1); display: grid; gap: 4px; font-size: 14px; line-height: 1.5; }
+.pay-note b:first-child { color: #8df3df; }
