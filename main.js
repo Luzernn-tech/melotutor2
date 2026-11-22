@@ -503,6 +503,114 @@
 
   const CERTIFICATE_FEE_USD = 1;
 
+  /* Escape text from the database before it goes into the page. */
+  function escHtml(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* =========================================================
+     LIVE LEARNER REQUESTS (from the database)
+     The built-in list below is only a safety net, used if the database
+     cannot be reached (for example before the SQL update has been run).
+  ========================================================= */
+  const builtInLearners = learnersData.slice();
+  let catalogueLoading = true;
+  const LEVEL_NAMES = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced', business: 'Business & NGO' };
+
+  function levelKeyOf(r) {
+    const c = String(r.category || '').toLowerCase();
+    if (LEVEL_NAMES[c]) return c;
+    const l = String(r.level || '').toLowerCase();
+    if (l.indexOf('business') > -1 || l.indexOf('ngo') > -1) return 'business';
+    if (l.indexOf('advanced') > -1) return 'advanced';
+    if (l.indexOf('inter') > -1) return 'intermediate';
+    return 'beginner';
+  }
+
+  function initialsAvatar(name) {
+    const parts = String(name || 'L').trim().split(/\s+/).filter(Boolean);
+    const ini = ((parts[0] || 'L')[0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
+    const hue = Array.from(String(name || '')).reduce(function (h, ch) { return (h * 31 + ch.charCodeAt(0)) % 360; }, 40);
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0" stop-color="hsl(' + hue + ',70%,62%)"/><stop offset="1" stop-color="hsl(' + ((hue + 50) % 360) + ',65%,38%)"/></linearGradient></defs>' +
+      '<rect width="200" height="200" fill="url(#g)"/><text x="100" y="124" font-family="Arial,sans-serif" font-size="78" font-weight="700" fill="#fff" text-anchor="middle">' +
+      ini.replace(/[<>&]/g, '') + '</text></svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+
+  function timeAgoText(iso) {
+    const t = new Date(iso).getTime();
+    if (!t) return 'Recently';
+    const m = Math.max(1, Math.round((Date.now() - t) / 60000));
+    if (m < 60) return m + ' minute' + (m === 1 ? '' : 's') + ' ago';
+    const h = Math.round(m / 60);
+    if (h < 24) return h + ' hour' + (h === 1 ? '' : 's') + ' ago';
+    const d = Math.round(h / 24);
+    return d + ' day' + (d === 1 ? '' : 's') + ' ago';
+  }
+
+  function mapLiveLearner(r) {
+    const id = String(r.id);
+    const key = levelKeyOf(r);
+    const levelName = r.level || LEVEL_NAMES[key];
+    const name = r.learner_display_name || 'Learner';
+    const kes = Number(r.payout_kes) || 0;
+    const checklist = [];
+    if (r.schedule_text) checklist.push('Schedule: ' + r.schedule_text);
+    checklist.push('Session length: ' + (Number(r.duration_minutes) || 60) + ' minutes');
+    checklist.push('Level: ' + levelName);
+    return {
+      id: 'db_' + id,
+      code: '#MT-' + id.replace(/-/g, '').slice(0, 8).toUpperCase(),
+      name: name,
+      country: r.country || 'Worldwide',
+      avatar: initialsAvatar(name),
+      level: key,
+      levelName: levelName,
+      goal: r.goal || 'Swahili lessons.',
+      checklist: checklist,
+      payoutKes: kes,
+      /* worked out from KES with today's rates, so the price is right in USD, KES and TZS */
+      get payoutUsd() { return kes / currencyConfig.KES.rate; },
+      slotsLeft: Number(r.slots_available) || 1,
+      postedDate: timeAgoText(r.posted_at),
+      startDate: r.schedule_text || futureDate(7)
+    };
+  }
+
+  /* true = the list now comes from the database; false = could not reach it */
+  async function loadLiveLearners() {
+    if (!sb) return false;
+    try {
+      const res = await Promise.race([
+        sb.rpc('public_learner_requests'),
+        new Promise(function (_, rej) { setTimeout(function () { rej(new Error('timeout')); }, 7000); })
+      ]);
+      if (!res || res.error || !Array.isArray(res.data)) return false;
+      const rows = res.data
+        .filter(function (r) { return r.slots_available == null || Number(r.slots_available) > 0; })
+        .map(mapLiveLearner);
+      learnersData.splice(0, learnersData.length, ...rows);
+      return true;
+    } catch (e) {
+      console.warn('MeloTutor: live learner list unavailable.', e && e.message);
+      return false;
+    }
+  }
+
+  async function refreshLearners(first) {
+    const ok = await loadLiveLearners();
+    if (!ok && first) learnersData.splice(0, learnersData.length, ...builtInLearners);
+    if (ok || first) {
+      catalogueLoading = false;
+      renderCatalogue();
+      updateShortlistBadge();
+      updateShortlistDrawer();
+    }
+  }
+
   /* DOM Helpers */
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => document.querySelectorAll(s);
@@ -841,7 +949,10 @@
       });
     }
 
-    renderCatalogue();
+    renderCatalogue();                       /* shows "Loading…" until the database answers */
+    refreshLearners(true);
+    setInterval(function () { refreshLearners(false); }, 90000);
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) refreshLearners(false); });
   }
 
   function renderCatalogue() {
@@ -851,6 +962,13 @@
     const resetBtn = $('#resetBtn');
 
     if (!grid) return;
+
+    if (catalogueLoading) {
+      grid.innerHTML = '<div class="card empty" style="grid-column:1/-1">Loading learner requests…</div>';
+      if (resultCount) resultCount.textContent = 'Loading learner requests…';
+      if (emptyBox) emptyBox.hidden = true;
+      return;
+    }
 
     let filtered = learnersData.filter(item => {
       const matchLevel =
@@ -890,7 +1008,12 @@
 
     if (totalMatching === 0) {
       grid.innerHTML = '';
-      if (emptyBox) emptyBox.hidden = false;
+      if (emptyBox) {
+        emptyBox.textContent = learnersData.length === 0
+          ? 'No open learner requests right now. New ones are posted often, so check back soon.'
+          : 'No matching learner requests found. Try adjusting your search or filters.';
+        emptyBox.hidden = false;
+      }
       
       const existingLockWrap = $('#lockWallWrap');
       if (existingLockWrap) existingLockWrap.remove();
@@ -906,11 +1029,11 @@
         <article class="card learner">
           <div class="l-top">
             <div class="av-img">
-              <img src="${item.avatar}" alt="${item.name}" loading="lazy">
+              <img src="${escHtml(item.avatar)}" alt="${escHtml(item.name)}" loading="lazy">
             </div>
             <div class="l-id">
-              <strong>${item.name}</strong>
-              <small>${item.country}</small>
+              <strong>${escHtml(item.name)}</strong>
+              <small>${escHtml(item.country)}</small>
             </div>
             <button type="button" class="save-btn ${isSaved ? 'saved' : ''}"
               data-id="${item.id}"
@@ -920,11 +1043,11 @@
           </div>
 
           <div class="tag-row">
-            <span class="tag">${item.levelName}</span>
-            <span class="code-tag">${item.code}</span>
+            <span class="tag">${escHtml(item.levelName)}</span>
+            <span class="code-tag">${escHtml(item.code)}</span>
           </div>
 
-          <p class="goal">${item.goal}</p>
+          <p class="goal">${escHtml(item.goal)}</p>
 
           <div class="l-pay">
             <div>
@@ -1081,15 +1204,15 @@
       return `
         <div class="d-item">
           <div class="av-img" style="width:38px;height:38px">
-            <img src="${item.avatar}" alt="${item.name}">
+            <img src="${escHtml(item.avatar)}" alt="${escHtml(item.name)}">
           </div>
 
           <div style="flex:1;min-width:0">
             <strong style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
-              ${item.name}
+              ${escHtml(item.name)}
             </strong>
             <small style="color:var(--gold);font-size:11.5px">
-              ${formatPrice(item.payoutUsd)} / hr · ${item.levelName}
+              ${formatPrice(item.payoutUsd)} / hr · ${escHtml(item.levelName)}
             </small>
           </div>
 
@@ -1371,7 +1494,7 @@
 
     $('#mCode').textContent = item.code;
     $('#mAvatar').innerHTML =
-      `<img src="${item.avatar}" alt="${item.name}">`;
+      `<img src="${escHtml(item.avatar)}" alt="${escHtml(item.name)}">`;
 
     $('#mName').textContent = item.name;
     $('#mMeta').textContent =
@@ -1401,7 +1524,7 @@
 
     if (checklistEl) {
       checklistEl.innerHTML = item.checklist
-        .map(c => `<li>${c}</li>`)
+        .map(c => `<li>${escHtml(c)}</li>`)
         .join('');
     }
 
