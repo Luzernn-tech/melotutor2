@@ -264,7 +264,7 @@ details.tr pre { background: rgba(6,9,14,.5); }
   .nav .nav-more { display: flex; order: 2; }
   .nav a.sec { display: none; order: 3; }
   .nav.open a.sec:not([hidden]) { display: flex; }
-  .nav.open { padding: 12px 8px; row-gap: 8px; }
+  .nav.open { padding: 12px 8px; row-gap: 8px; justify-content: center; }
   .nav.open .nav-more { color: #ffe3a6; }
 
   .nav a.active, .nav a:active {
@@ -312,3 +312,38 @@ details.tr pre { background: rgba(6,9,14,.5); }
 }
 
 .card.cta .note { margin-bottom: 14px; }
+
+/* ---------- payout accounts ---------- */
+.lbl { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted, #9aa4b2); margin: 14px 0 8px; }
+.acct-list { display: grid; gap: 10px; margin-bottom: 12px; }
+.acct { border: 1px solid var(--border); border-radius: 18px; background: var(--panel); padding: 4px; transition: border-color .2s, box-shadow .2s; }
+.acct.on { border-color: rgba(var(--glow-amber), .65); box-shadow: 0 0 0 1px rgba(var(--glow-amber), .25), 0 0 22px rgba(var(--glow-amber), .18); }
+.acct-main { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; background: none; border: 0; color: inherit; font: inherit; padding: 10px; cursor: pointer; border-radius: 14px; }
+.acct-ico { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; background: rgba(var(--glow-teal), .18); border: 1px solid rgba(var(--glow-teal), .4); }
+.acct-txt { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.acct-txt b { font-weight: 600; }
+.acct-txt span { font-size: 13px; opacity: .75; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.acct-txt .acct-lock { color: #ffb4a8; opacity: 1; white-space: normal; }
+.acct-tick { opacity: 0; color: #ffe3a6; font-weight: 700; }
+.acct.on .acct-tick { opacity: 1; }
+.acct-tools { display: flex; gap: 14px; padding: 0 12px 8px 62px; }
+.acct-tools button { background: none; border: 0; color: inherit; opacity: .65; font: inherit; font-size: 12px; text-decoration: underline; cursor: pointer; padding: 2px 0; }
+.acct-panel, .acct-form { display: grid; gap: 8px; padding: 12px; }
+.acct-form { border: 1px solid var(--border); border-radius: 18px; background: var(--panel); margin: 12px 0; }
+.acct-form h3 { margin: 0 0 4px; font-size: 16px; }
+.acct-form label, .acct-panel label { font-size: 13px; opacity: .85; }
+.acct-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+#wdForm { display: grid; gap: 8px; margin-top: 8px; }
+#wdForm[hidden], .acct-form[hidden], #afMobile[hidden], #afBank[hidden], .prog-strip[hidden] { display: none; }
+
+/* ---------- progress ---------- */
+.prog-strip { display: block; text-decoration: none; color: inherit; margin-bottom: 14px; }
+.ps-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; }
+.ps-name { font-size: 20px; }
+.ps-note { font-size: 13px; opacity: .75; margin-top: 8px; }
+.pbar { height: 10px; border-radius: 999px; background: rgba(255, 255, 255, .1); overflow: hidden; margin: 6px 0 12px; }
+.pbar i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, rgb(var(--glow-teal)), rgb(var(--glow-amber))); box-shadow: 0 0 14px rgba(var(--glow-amber), .5); transition: width .6s ease; }
+.pl { display: flex; justify-content: space-between; font-size: 14px; margin-top: 8px; }
+.big { font-size: 34px; font-weight: 700; margin: 4px 0 6px; }
+.lv-badge { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; border: 1px solid var(--border); opacity: .6; }
+.lv-badge.on { opacity: 1; background: rgba(var(--glow-amber), .2); border-color: rgba(var(--glow-amber), .6); color: #ffe3a6; }
