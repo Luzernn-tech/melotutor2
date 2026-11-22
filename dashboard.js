@@ -30,7 +30,7 @@
 
   let user = null;
   let name = '';
-  let D = { myRes: [], earnings: [], sessions: [], withdrawals: [], requests: [], certs: [], app: null, tasks: [], subs: [], invites: [], refCode: '', accts: [], acctsErr: false, prog: null };
+  let D = { myRes: [], earnings: [], sessions: [], withdrawals: [], requests: [], certs: [], app: null, tasks: [], subs: [], invites: [], refCode: '', accts: [], acctsErr: false, prog: null, notifs: [] };
   let isAdmin = false;
   let balance = 0;
   let selAcct = null;      /* the payout account picked for a withdrawal */
@@ -191,7 +191,8 @@
       quiet(sb.rpc('my_referral_code')),
       quiet(sb.from('slot_reservations').select('id,learner_code,learner_name,preferred_start,status,created_at').eq('user_id', uid).order('created_at', { ascending: false }).limit(30)),
       quiet(sb.rpc('my_payout_accounts')),
-      quiet(sb.rpc('my_progress'))
+      quiet(sb.rpc('my_progress')),
+      quiet(sb.rpc('my_notifications'))
     ]);
 
     const profile = r[0].data || {};
@@ -210,6 +211,7 @@
     D.accts = Array.isArray(r[11].data) ? r[11].data : [];
     D.acctsErr = !!r[11].error;
     D.prog = r[12].data && r[12].data.level ? r[12].data : null;
+    D.notifs = Array.isArray(r[13].data) ? r[13].data : [];
 
     computeBalance();
   }
@@ -256,6 +258,7 @@
     renderMyRes();
     renderProgress();
     renderAccounts();
+    renderNotifs();
   }
 
   function renderBars() {
@@ -843,6 +846,56 @@
     render();
     msg('Withdrawal requested' + (res.data && res.data.reference ? ' (' + res.data.reference + ')' : '') + '. You can follow it in the history below.', 'ok');
   });
+
+  /* ---------- notifications (bell) ---------- */
+  function renderNotifs() {
+    const unread = D.notifs.filter(function (n) { return !n.read_at; }).length;
+    const dot = $('bellDot');
+    dot.hidden = !unread;
+    dot.textContent = unread > 9 ? '9+' : unread;
+    $('bellBtn').setAttribute('aria-label', unread ? unread + ' new notifications' : 'Notifications');
+    const p = $('notifPanel');
+    p.innerHTML = '<div class="notif-head">Notifications</div>' + (D.notifs.length
+      ? D.notifs.map(function (n) {
+          const ok = /approved/.test(n.kind || ''), no = /declined/.test(n.kind || '');
+          return '<a class="notif-item' + (n.read_at ? '' : ' new') + '" href="' + esc(n.link || '#overview') + '">' +
+            '<span class="notif-ico ' + (ok ? 'ok' : no ? 'no' : '') + '">' + (ok ? '✓' : no ? '!' : 'i') + '</span>' +
+            '<span class="notif-txt"><b>' + esc(n.title) + '</b><span>' + esc(n.body || '') + '</span><small>' + esc(timeAgo(n.created_at)) + '</small></span></a>';
+        }).join('')
+      : '<div class="empty">Nothing new yet. When a session you applied for is approved, you will see it here.</div>');
+  }
+  function timeAgo(iso) {
+    const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+    if (s < 60) return 'just now';
+    if (s < 3600) return Math.floor(s / 60) + ' min ago';
+    if (s < 86400) return Math.floor(s / 3600) + ' h ago';
+    return Math.floor(s / 86400) + ' d ago';
+  }
+  async function refreshNotifs() {
+    try {
+      const r = await sb.rpc('my_notifications');
+      if (Array.isArray(r.data)) { D.notifs = r.data; renderNotifs(); }
+    } catch (e) { /* stay quiet */ }
+  }
+  $('bellBtn').addEventListener('click', async function (e) {
+    e.stopPropagation();
+    const p = $('notifPanel'), open = p.hidden;
+    p.hidden = !open;
+    $('bellBtn').setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open && D.notifs.some(function (n) { return !n.read_at; })) {
+      /* keep the highlight while the panel is open, clear the badge now */
+      $('bellDot').hidden = true;
+      await sb.rpc('mark_notifications_read');
+      D.notifs = D.notifs.map(function (n) { return Object.assign({}, n, { read_at: n.read_at || new Date().toISOString(), _was: !n.read_at }); });
+    }
+  });
+  document.addEventListener('click', function (e) {
+    const p = $('notifPanel');
+    if (!p.hidden && !e.target.closest('.bell-wrap')) { p.hidden = true; $('bellBtn').setAttribute('aria-expanded', 'false'); renderNotifs(); }
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') $('notifPanel').hidden = true; });
+  setInterval(function () { if (!document.hidden && $('notifPanel').hidden) refreshNotifs(); }, 60000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && $('notifPanel').hidden) refreshNotifs(); });
 
   /* ---------- progress levels ---------- */
   function pbar(done, total) {
