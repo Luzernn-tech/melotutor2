@@ -927,7 +927,11 @@
       pbar(ratio, 1) + '<div class="ps-note">' + (nx ? esc(toNext || 'Almost there') + ' to reach ' + esc(nx.name) : 'You are at the top level. Thank you for teaching with MeloTutor.') + '</div>';
 
     /* progress page */
-    $('progHero').innerHTML = '<div class="label">Your level</div><div class="big">' + esc(lv.name) + '</div><p class="note" style="margin:0">' + esc(headline) + '.</p>';
+    const ex = Math.round(1000 * (1 + bonus / 100));
+    const payNote = bonus > 0
+      ? '<div class="pay-note"><b>What this means for your pay</b><span>Every session you complete now earns <b>+' + bonus + '%</b> on top of the session fee. A KSh 1,000 session pays <b>KSh ' + ex.toLocaleString('en-US') + '</b>. This applies to new sessions. Money already in your account does not change.' + (nx ? ' Reach ' + esc(nx.name) + ' and it rises to +' + Number(nx.bonus_pct) + '%.' : '') + '</span></div>'
+      : '<div class="pay-note"><b>What this means for your pay</b><span>You earn the standard session fee for now. As you complete sessions and stay with MeloTutor, each new level adds a bonus to every session you complete' + (nx ? ' (+' + Number(nx.bonus_pct) + '% at ' + esc(nx.name) + ')' : '') + '.</span></div>';
+    $('progHero').innerHTML = '<div class="label">Your level' + (p.granted ? ' · upgraded by MeloTutor' : '') + '</div><div class="big">' + esc(lv.name) + '</div><p class="note" style="margin:0">' + esc(headline) + '.</p>' + payNote;
     $('progStats').innerHTML = [['Sessions completed', p.sessions], ['Weeks with MeloTutor', p.weeks], ['Bonus earned so far', kes(p.bonus_earned)]]
       .map(function (s) { return '<div class="stat"><div class="label">' + s[0] + '</div><strong>' + s[1] + '</strong></div>'; }).join('');
 
