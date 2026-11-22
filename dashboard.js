@@ -22,18 +22,19 @@
 
   const sb = window.sb;
   const $ = (id) => document.getElementById(id);
-  const VIEWS = ['overview', 'requests', 'tasks', 'sessions', 'earnings', 'invite', 'activity', 'certificate', 'profile'];
+  const VIEWS = ['overview', 'requests', 'tasks', 'sessions', 'earnings', 'progress', 'invite', 'activity', 'certificate', 'profile'];
   const TITLES = {
-    overview: 'Overview', requests: 'Learner requests', tasks: 'Tasks', invite: 'Invite friends', sessions: 'Sessions',
+    overview: 'Overview', requests: 'Learner requests', tasks: 'Tasks', progress: 'Your progress', invite: 'Invite friends', sessions: 'Sessions',
     earnings: 'Earnings & withdrawals', activity: 'Activity', certificate: 'Certificate', profile: 'Profile'
   };
 
   let user = null;
   let name = '';
-  let D = { myRes: [], earnings: [], sessions: [], withdrawals: [], requests: [], certs: [], app: null, tasks: [], subs: [], invites: [], refCode: '' };
+  let D = { myRes: [], earnings: [], sessions: [], withdrawals: [], requests: [], certs: [], app: null, tasks: [], subs: [], invites: [], refCode: '', accts: [], acctsErr: false, prog: null };
   let isAdmin = false;
   let balance = 0;
-  let method = 'mpesa';
+  let selAcct = null;      /* the payout account picked for a withdrawal */
+  let acctPanel = null;    /* {id, mode:'rm'|'pw'} while a remove / change-password box is open */
   let sessFilter = 'all';
   let wdFilter = 'all';
 
@@ -188,7 +189,9 @@
       quiet(sb.from('submissions').select('id,task_id,status,review_note,payout_kes,submitted_at,tasks(title,kind)').eq('user_id', uid).order('started_at', { ascending: false })),
       quiet(sb.rpc('my_invites')),
       quiet(sb.rpc('my_referral_code')),
-      quiet(sb.from('slot_reservations').select('id,learner_code,learner_name,preferred_start,status,created_at').eq('user_id', uid).order('created_at', { ascending: false }).limit(30))
+      quiet(sb.from('slot_reservations').select('id,learner_code,learner_name,preferred_start,status,created_at').eq('user_id', uid).order('created_at', { ascending: false }).limit(30)),
+      quiet(sb.rpc('my_payout_accounts')),
+      quiet(sb.rpc('my_progress'))
     ]);
 
     const profile = r[0].data || {};
@@ -204,6 +207,9 @@
     D.invites = r[8].data || [];
     D.refCode = typeof r[9].data === 'string' ? r[9].data : '';
     D.myRes = r[10].data || [];
+    D.accts = Array.isArray(r[11].data) ? r[11].data : [];
+    D.acctsErr = !!r[11].error;
+    D.prog = r[12].data && r[12].data.level ? r[12].data : null;
 
     computeBalance();
   }
@@ -248,6 +254,8 @@
     renderCert();
     renderProfile();
     renderMyRes();
+    renderProgress();
+    renderAccounts();
   }
 
   function renderBars() {
@@ -283,7 +291,7 @@
   function activityItems() {
     const items = [];
     D.sessions.forEach(function (s) { items.push({ t: s.starts_at, title: 'Session ' + s.status + ': ' + (s.topic || s.learner_name), text: s.learner_name }); });
-    D.withdrawals.forEach(function (w) { items.push({ t: w.created_at, title: 'Withdrawal ' + w.status, text: kes(w.amount_kes) + ' via ' + (w.method === 'mpesa' ? 'M-Pesa' : 'bank transfer') }); });
+    D.withdrawals.forEach(function (w) { items.push({ t: w.created_at, title: 'Withdrawal ' + w.status, text: kes(w.amount_kes) + ' via ' + methodLabel(w.method) }); });
     D.earnings.forEach(function (e) { items.push({ t: e.created_at, title: 'Earning ' + (e.status === 'available' ? 'cleared' : 'recorded'), text: kes(e.amount_kes) + (e.note ? ' · ' + e.note : '') }); });
     return items.sort(function (a, b) { return new Date(b.t) - new Date(a.t); });
   }
@@ -431,7 +439,8 @@
       'Minimum withdrawal: ' + kes(CONFIG.minWithdrawal) + '.',
       'Payouts are processed ' + CONFIG.processingText + '.',
       'Fees: ' + CONFIG.feesText + '.',
-      'Get paid by M-Pesa or bank transfer.',
+      'Get paid by M-Pesa, Airtel Money, Mixx by Yas, HaloPesa or bank transfer, in Kenya or Tanzania.',
+      'Each payout account has its own password, which you enter every time you withdraw to it.',
       'You can only withdraw your available balance. Pending earnings clear after MeloTutor verifies the session.'
     ].map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
     $('wdPolicy').textContent = 'Minimum withdrawal: ' + kes(CONFIG.minWithdrawal) + '. Processing time: ' + CONFIG.processingText + '. Fees: ' + CONFIG.feesText + '. You will see the status of every request below.';
@@ -440,7 +449,7 @@
     $('wdTable').innerHTML = '<div class="t-row wd head"><div>Date</div><div>Reference</div><div>Method</div><div class="r">Amount</div><div class="r">Status</div></div>' +
       (list.length ? list.map(function (w) {
         return '<div class="t-row wd"><div>' + esc(dateStr(w.created_at)) + '</div><div class="mono">' + esc(w.reference || String(w.id).slice(0, 8)) + '</div>' +
-          '<div>' + (w.method === 'mpesa' ? 'M-Pesa' : 'Bank transfer') + '</div><div class="r"><b>' + kes(w.amount_kes) + '</b></div><div class="r">' + chip(w.status) + '</div></div>';
+          '<div>' + methodLabel(w.method) + '</div><div class="r"><b>' + kes(w.amount_kes) + '</b></div><div class="r">' + chip(w.status) + '</div></div>';
       }).join('') : '<div class="empty">No withdrawals yet.</div>');
   }
 
@@ -629,15 +638,6 @@
     render();
   });
 
-  $('wdMethod').addEventListener('click', function (e) {
-    const b = e.target.closest('button[data-m]');
-    if (!b) return;
-    method = b.dataset.m;
-    this.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); });
-    $('wdMpesa').hidden = method !== 'mpesa';
-    $('wdBank').hidden = method !== 'bank';
-  });
-
   document.querySelector('.quick').addEventListener('click', function (e) {
     const b = e.target.closest('button[data-q]');
     if (!b) return;
@@ -645,40 +645,253 @@
     $('wdAmount').value = v ? v.toLocaleString('en-US') : '';
   });
 
+  /* ---------- payout accounts (each one has its own password) ---------- */
+  const PROVIDERS = {
+    KE: [['mpesa', 'M-Pesa'], ['airtel', 'Airtel Money'], ['bank', 'Bank transfer']],
+    TZ: [['mpesa', 'M-Pesa (Vodacom)'], ['mixx', 'Mixx by Yas (Tigo Pesa)'], ['airtel', 'Airtel Money'], ['halopesa', 'HaloPesa'], ['bank', 'Bank transfer']]
+  };
+  const COUNTRY = { KE: 'Kenya', TZ: 'Tanzania' };
+
+  function methodLabel(m) { return { mpesa: 'M-Pesa', airtel: 'Airtel Money', mixx: 'Mixx by Yas', halopesa: 'HaloPesa', bank: 'Bank transfer' }[m] || 'Bank transfer'; }
+  function providerLabel(a) {
+    const hit = (PROVIDERS[a.country] || []).filter(function (p) { return p[0] === a.provider; })[0];
+    return hit ? hit[1] : methodLabel(a.provider);
+  }
+  function maskPhone(p) { p = String(p || ''); return p.length > 8 ? p.slice(0, 5) + '••••' + p.slice(-3) : p; }
+
+  function acctCard(a) {
+    const on = a.id === selAcct;
+    const locked = a.locked_until && new Date(a.locked_until) > new Date();
+    const detail = a.provider === 'bank'
+      ? (a.bank_name || 'Bank') + ' · ••••' + String(a.bank_account || '').slice(-4)
+      : maskPhone(a.phone);
+    let panel = '';
+    if (acctPanel && acctPanel.id === a.id) {
+      panel = acctPanel.mode === 'rm'
+        ? '<form class="acct-panel" data-panel="rm" data-id="' + esc(a.id) + '" novalidate><label>Password for this account</label><input type="password" name="p1" autocomplete="off">' +
+          '<div class="acct-btns"><button class="btn btn-danger btn-sm" type="submit">Remove account</button><button class="btn btn-sm" type="button" data-tool="close">Cancel</button></div><div class="dmsg" role="status"></div></form>'
+        : '<form class="acct-panel" data-panel="pw" data-id="' + esc(a.id) + '" novalidate><label>Current password</label><input type="password" name="p1" autocomplete="off">' +
+          '<label>New password (at least 6 characters)</label><input type="password" name="p2" autocomplete="new-password">' +
+          '<div class="acct-btns"><button class="btn btn-gold btn-sm" type="submit">Change password</button><button class="btn btn-sm" type="button" data-tool="close">Cancel</button></div><div class="dmsg" role="status"></div></form>';
+    }
+    return '<div class="acct' + (on ? ' on' : '') + '">' +
+      '<button type="button" class="acct-main" data-pick="' + esc(a.id) + '" role="radio" aria-checked="' + (on ? 'true' : 'false') + '">' +
+      '<span class="acct-ico">' + esc((providerLabel(a)[0] || 'M').toUpperCase()) + '</span>' +
+      '<span class="acct-txt"><b>' + esc(providerLabel(a)) + ' · ' + esc(COUNTRY[a.country] || '') + '</b><span>' + esc(a.account_name) + ' · ' + esc(detail) + '</span>' +
+      (locked ? '<span class="acct-lock">Locked for a few minutes after wrong passwords</span>' : '') + '</span>' +
+      '<span class="acct-tick" aria-hidden="true">✓</span></button>' +
+      '<div class="acct-tools"><button type="button" data-tool="pw" data-id="' + esc(a.id) + '">Change password</button><button type="button" data-tool="rm" data-id="' + esc(a.id) + '">Remove</button></div>' +
+      panel + '</div>';
+  }
+
+  function renderAccounts() {
+    const list = $('acctList');
+    if (D.acctsErr) {
+      list.innerHTML = '<div class="empty">Payout accounts are not available right now. Please try again later.</div>';
+      $('acctAddBtn').hidden = true; $('wdForm').hidden = true;
+      return;
+    }
+    $('acctAddBtn').hidden = false;
+    $('acctAddBtn').disabled = D.accts.length >= 5;
+    $('acctAddBtn').textContent = D.accts.length >= 5 ? 'You have saved 5 accounts' : '+ Add payout account';
+    if (!D.accts.length) {
+      selAcct = null;
+      list.innerHTML = '<div class="empty">Add the mobile money number or bank account where you want to receive your money.</div>';
+    } else {
+      if (!D.accts.some(function (a) { return a.id === selAcct; })) selAcct = D.accts[0].id;
+      list.innerHTML = D.accts.map(acctCard).join('');
+    }
+    $('wdForm').hidden = !selAcct || !$('acctForm').hidden;
+  }
+
+  function fillProviders() {
+    const c = $('afCountry').value;
+    $('afProvider').innerHTML = PROVIDERS[c].map(function (p) { return '<option value="' + p[0] + '">' + esc(p[1]) + '</option>'; }).join('');
+    syncAcctForm();
+  }
+  function syncAcctForm() {
+    const bank = $('afProvider').value === 'bank';
+    $('afMobile').hidden = bank; $('afBank').hidden = !bank;
+    $('afPhone').placeholder = $('afCountry').value === 'TZ' ? 'e.g. 07XX XXX XXX or 06XX XXX XXX' : 'e.g. 07XX XXX XXX';
+  }
+  $('afCountry').addEventListener('change', fillProviders);
+  $('afProvider').addEventListener('change', syncAcctForm);
+  fillProviders();
+
+  $('acctAddBtn').addEventListener('click', function () {
+    msg('');
+    acctPanel = null;
+    $('acctForm').hidden = false;
+    $('wdForm').hidden = true;
+    renderAccounts();
+    $('afName').focus();
+  });
+  $('afCancel').addEventListener('click', function () {
+    $('acctForm').reset(); fillProviders();
+    $('acctForm').hidden = true; msg('');
+    renderAccounts();
+  });
+
+  $('acctForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    msg('');
+    const country = $('afCountry').value, provider = $('afProvider').value;
+    const nm = $('afName').value.trim().replace(/\s+/g, ' ');
+    const pass = $('afPass').value;
+    let phone = '', bankName = '', bankAcct = '';
+
+    if (nm.length < 3 || nm.indexOf(' ') === -1) return msg('Enter the full name of the person who receives the money (at least two names).', 'err');
+    if (provider === 'bank') {
+      bankName = $('afBankName').value.trim(); bankAcct = $('afBankAcct').value.replace(/\s/g, '');
+      if (bankName.length < 2) return msg('Enter the bank name.', 'err');
+      if (!/^\d{6,20}$/.test(bankAcct)) return msg('Enter a valid bank account number (digits only).', 'err');
+    } else {
+      phone = $('afPhone').value.replace(/[\s\-()]/g, '');
+      const ok = country === 'KE' ? /^(\+?254|0)?[17]\d{8}$/.test(phone) : /^(\+?255|0)?[67]\d{8}$/.test(phone);
+      if (!ok) return msg('Enter a valid ' + COUNTRY[country] + ' phone number.', 'err');
+    }
+    if (pass.length < 6) return msg('The password must be at least 6 characters.', 'err');
+    if (pass !== $('afPass2').value) return msg('The two passwords do not match.', 'err');
+
+    const btn = $('afSave');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    const res = await sb.rpc('add_payout_account', {
+      p_country: country, p_provider: provider, p_name: nm, p_phone: phone || null,
+      p_bank_name: bankName || null, p_bank_account: bankAcct || null, p_password: pass
+    });
+    btn.disabled = false; btn.textContent = 'Save account';
+    if (res.error) return msg(res.error.message || 'Could not save the account. Please try again.', 'err');
+
+    $('acctForm').reset(); fillProviders();
+    $('acctForm').hidden = true;
+    selAcct = res.data;
+    await loadAll();
+    render();
+    msg('Account saved. Enter its password whenever you withdraw to it.', 'ok');
+  });
+
+  $('acctList').addEventListener('click', function (e) {
+    const pick = e.target.closest('button[data-pick]');
+    if (pick) { selAcct = pick.dataset.pick; msg(''); renderAccounts(); return; }
+    const tool = e.target.closest('button[data-tool]');
+    if (!tool) return;
+    if (tool.dataset.tool === 'close') acctPanel = null;
+    else acctPanel = { id: tool.dataset.id, mode: tool.dataset.tool };
+    renderAccounts();
+  });
+
+  $('acctList').addEventListener('submit', async function (e) {
+    const f = e.target.closest('form.acct-panel');
+    if (!f) return;
+    e.preventDefault();
+    const out = f.querySelector('.dmsg');
+    const say = function (t, k) { out.textContent = t; out.className = 'dmsg' + (k ? ' ' + k : ''); };
+    const id = f.dataset.id, p1 = f.elements.p1.value;
+    if (!p1) return say('Enter the password for this account.', 'err');
+    const btn = f.querySelector('button[type="submit"]');
+    let res;
+    if (f.dataset.panel === 'pw') {
+      const p2 = f.elements.p2.value;
+      if (p2.length < 6) return say('The new password must be at least 6 characters.', 'err');
+      btn.disabled = true;
+      res = await sb.rpc('change_payout_password', { p_id: id, p_old: p1, p_new: p2 });
+    } else {
+      if (!confirm('Remove this payout account? You can add it again later.')) return;
+      btn.disabled = true;
+      res = await sb.rpc('delete_payout_account', { p_id: id, p_password: p1 });
+    }
+    btn.disabled = false;
+    if (res.error || !res.data || !res.data.ok) {
+      say((res.error && res.error.message) || (res.data && res.data.message) || 'That did not work. Please try again.', 'err');
+      return;
+    }
+    const wasPw = f.dataset.panel === 'pw';
+    acctPanel = null;
+    await loadAll();
+    render();
+    msg(wasPw ? 'Password changed.' : 'Account removed.', 'ok');
+  });
+
   $('wdForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     msg('');
     const amount = parseInt($('wdAmount').value.replace(/[^\d]/g, ''), 10);
-    let dest = '';
+    const pass = $('wdPass').value;
 
+    if (!selAcct) return msg('Pick or add a payout account first.', 'err');
     if (!amount || amount < CONFIG.minWithdrawal) return msg('Minimum withdrawal is ' + kes(CONFIG.minWithdrawal) + '.', 'err');
     if (amount > balance) return msg('That is more than your available balance of ' + kes(balance) + '.', 'err');
-
-    if (method === 'mpesa') {
-      dest = $('wdPhone').value.replace(/[\s-]/g, '');
-      if (!/^(\+?254|0)?[17]\d{8}$/.test(dest)) return msg('Enter a valid Kenyan M-Pesa number.', 'err');
-    } else {
-      const b = $('wdBankName').value.trim(), a = $('wdAcct').value.replace(/\s/g, ''), n = $('wdAcName').value.trim();
-      if (!b || !/^\d{6,20}$/.test(a) || !n) return msg('Enter the bank name, account number and account holder name.', 'err');
-      dest = b + ' | ' + a + ' | ' + n;
-    }
+    if (!pass) return msg('Enter the password for this payout account.', 'err');
 
     const btn = $('wdBtn');
     btn.disabled = true;
     btn.textContent = 'Submitting…';
-    const res = await sb.rpc('request_withdrawal', { p_amount: amount, p_method: method, p_destination: dest });
+    const res = await sb.rpc('request_withdrawal_v2', { p_amount: amount, p_account: selAcct, p_password: pass });
     btn.disabled = false;
     btn.textContent = 'Request withdrawal';
+    $('wdPass').value = '';
 
-    if (res.error) {
-      msg(res.error.message || 'Could not submit the request. Please try again.', 'err');
-      return;
+    const failText = res.error ? (res.error.message || 'Could not submit the request. Please try again.') : (res.data && !res.data.ok ? res.data.message : '');
+    if (failText) {
+      /* refresh so the lock state is right, then show the reason */
+      await loadAll();
+      render();
+      return msg(failText, 'err');
     }
-    msg('Withdrawal requested. You can follow it in the history below.', 'ok');
-    $('wdForm').reset();
+    $('wdAmount').value = '';
     await loadAll();
     render();
+    msg('Withdrawal requested' + (res.data && res.data.reference ? ' (' + res.data.reference + ')' : '') + '. You can follow it in the history below.', 'ok');
   });
+
+  /* ---------- progress levels ---------- */
+  function pbar(done, total) {
+    const pct = total > 0 ? Math.min(100, Math.round(done / total * 100)) : 100;
+    return '<div class="pbar" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100"><i style="width:' + pct + '%"></i></div>';
+  }
+  function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
+
+  function renderProgress() {
+    const p = D.prog;
+    const strip = $('progStrip');
+    if (!p) {
+      strip.hidden = true;
+      $('progHero').innerHTML = '<h2>Your progress</h2><div class="empty">Your level will show here once your account has some activity.</div>';
+      $('progStats').innerHTML = ''; $('progNext').innerHTML = ''; $('progLadder').innerHTML = '';
+      return;
+    }
+    const lv = p.level, nx = p.next;
+    const bonus = Number(lv.bonus_pct) || 0;
+    const sLeft = nx ? Math.max(0, nx.min_sessions - p.sessions) : 0;
+    const wLeft = nx ? Math.max(0, nx.min_weeks - p.weeks) : 0;
+    const headline = bonus > 0 ? '+' + bonus + '% on every session you complete' : (nx ? 'Reach ' + nx.name + ' to earn +' + Number(nx.bonus_pct) + '% on every session' : 'Keep teaching');
+    const toNext = nx ? (sLeft ? plural(sLeft, 'more session') : '') + (sLeft && wLeft ? ' and ' : '') + (wLeft ? plural(wLeft, 'more week') : '') : '';
+
+    /* overview strip */
+    const ratio = nx ? Math.min(nx.min_sessions ? p.sessions / nx.min_sessions : 1, nx.min_weeks ? p.weeks / nx.min_weeks : 1) : 1;
+    strip.hidden = false;
+    strip.innerHTML = '<div class="ps-top"><div><div class="label">Your level</div><b class="ps-name">' + esc(lv.name) + '</b></div><span class="chip ' + (bonus > 0 ? 'ok' : '') + '">' + (bonus > 0 ? '+' + bonus + '% per session' : 'Level ' + esc(lv.level)) + '</span></div>' +
+      pbar(ratio, 1) + '<div class="ps-note">' + (nx ? esc(toNext || 'Almost there') + ' to reach ' + esc(nx.name) : 'You are at the top level. Thank you for teaching with MeloTutor.') + '</div>';
+
+    /* progress page */
+    $('progHero').innerHTML = '<div class="label">Your level</div><div class="big">' + esc(lv.name) + '</div><p class="note" style="margin:0">' + esc(headline) + '.</p>';
+    $('progStats').innerHTML = [['Sessions completed', p.sessions], ['Weeks with MeloTutor', p.weeks], ['Bonus earned so far', kes(p.bonus_earned)]]
+      .map(function (s) { return '<div class="stat"><div class="label">' + s[0] + '</div><strong>' + s[1] + '</strong></div>'; }).join('');
+
+    $('progNext').innerHTML = nx
+      ? '<div class="card-head"><h2>Next level: ' + esc(nx.name) + '</h2><span class="chip ok">+' + Number(nx.bonus_pct) + '% per session</span></div>' +
+        '<div class="pl"><span>Sessions</span><b>' + p.sessions + ' / ' + nx.min_sessions + '</b></div>' + pbar(p.sessions, nx.min_sessions) +
+        '<div class="pl"><span>Weeks with MeloTutor</span><b>' + p.weeks + ' / ' + nx.min_weeks + '</b></div>' + pbar(p.weeks, nx.min_weeks) +
+        '<p class="note">' + (toNext ? 'You need ' + esc(toNext) + '.' : 'You have reached everything for this level. It applies as soon as your next session is completed.') + '</p>'
+      : '<h2>Top level reached</h2><p class="note" style="margin:0">You earn the highest bonus on every session. Keep it up.</p>';
+
+    $('progLadder').innerHTML = (p.ladder || []).map(function (l) {
+      const reached = l.level <= lv.level, current = l.level === lv.level;
+      return '<div class="row"><div class="lv-badge' + (reached ? ' on' : '') + '">' + esc(l.level) + '</div><div class="grow"><b>' + esc(l.name) + '</b><span class="m">' +
+        (l.min_sessions ? plural(l.min_sessions, 'session') + ' and ' + plural(l.min_weeks, 'week') : 'Where everyone starts') + ' · ' + (Number(l.bonus_pct) > 0 ? '+' + Number(l.bonus_pct) + '% on every session' : 'No bonus') + '</span></div>' +
+        '<span class="chip ' + (current ? '' : reached ? 'ok' : 'warn') + '">' + (current ? 'You are here' : reached ? 'Reached' : 'Locked') + '</span></div>';
+    }).join('');
+  }
 
   /* Phone navigation: the bottom bar shows the main tabs, "More" opens the rest. */
   (function () {
