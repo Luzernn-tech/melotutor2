@@ -561,12 +561,15 @@
     if (r.schedule_text) checklist.push('Schedule: ' + r.schedule_text);
     checklist.push('Session length: ' + (Number(r.duration_minutes) || 60) + ' minutes');
     checklist.push('Level: ' + levelName);
+    const avatar = (r.avatar_url && /^https?:\/\//i.test(r.avatar_url))
+      ? r.avatar_url
+      : initialsAvatar(name);
     return {
       id: 'db_' + id,
       code: '#MT-' + id.replace(/-/g, '').slice(0, 8).toUpperCase(),
       name: name,
       country: r.country || 'Worldwide',
-      avatar: initialsAvatar(name),
+      avatar: avatar,
       level: key,
       levelName: levelName,
       goal: r.goal || 'Swahili lessons.',
