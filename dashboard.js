@@ -183,7 +183,7 @@
       q(sb.from('tutor_earnings').select('id,amount_kes,status,note,created_at').eq('tutor_id', uid).order('created_at', { ascending: false })),
       loadSessions(uid),
       q(sb.from('withdrawals').select('id,amount_kes,method,status,reference,created_at').eq('tutor_id', uid).order('created_at', { ascending: false })),
-      q(sb.from('learner_requests').select('id,learner_display_name,country,level,goal,schedule_text,duration_minutes,payout_kes,slots_available').eq('status', 'open').order('posted_at', { ascending: false }).limit(12)),
+      q(sb.from('learner_requests').select('id,learner_display_name,country,level,goal,schedule_text,duration_minutes,payout_kes,slots_available,avatar_url').eq('status', 'open').order('posted_at', { ascending: false }).limit(12)),
       q(sb.from('certificates').select('status,certificate_title,created_at').eq('user_id', uid).order('created_at', { ascending: false })),
       quiet(sb.from('tasks').select('id,kind,title,instructions,payout_kes,time_limit_min').eq('is_active', true).order('created_at', { ascending: false })),
       quiet(sb.from('submissions').select('id,task_id,status,review_note,payout_kes,submitted_at,tasks(title,kind)').eq('user_id', uid).order('started_at', { ascending: false })),
@@ -310,8 +310,17 @@
 
   function renderRequests() {
     $('reqList').innerHTML = D.requests.length ? D.requests.map(function (x) {
-      return '<div class="req"><div><span class="chip">' + esc(x.level || 'Level') + '</span></div>' +
-        '<b>' + esc(x.learner_display_name || 'Learner') + (x.country ? ' · ' + esc(x.country) : '') + '</b>' +
+      const nm = x.learner_display_name || 'Learner';
+      const hasPhoto = x.avatar_url && /^https?:\/\//i.test(x.avatar_url);
+      const av = hasPhoto
+        ? '<img src="' + esc(x.avatar_url) + '" alt="' + esc(nm) + '" loading="lazy" style="width:42px;height:42px;border-radius:50%;object-fit:cover;flex-shrink:0">'
+        : '<div style="width:42px;height:42px;border-radius:50%;background:rgba(244,213,141,.15);color:var(--gold-light);display:grid;place-items:center;font-weight:700;flex-shrink:0">' + esc(nm.charAt(0).toUpperCase()) + '</div>';
+
+      return '<div class="req">' +
+        '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">' + av +
+          '<div style="min-width:0"><span class="chip">' + esc(x.level || 'Level') + '</span>' +
+          '<b style="display:block;margin-top:4px">' + esc(nm) + (x.country ? ' · ' + esc(x.country) : '') + '</b></div>' +
+        '</div>' +
         '<p>' + esc(x.goal || '') + '</p>' +
         '<span class="m" style="color:var(--muted);font-size:12.5px">' + esc(x.schedule_text || '') + (x.duration_minutes ? ' · ' + esc(x.duration_minutes) + ' min' : '') + '</span>' +
         '<b style="color:var(--gold-light)">' + (x.payout_kes ? kes(x.payout_kes) : '') + '</b></div>';
